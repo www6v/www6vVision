@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AIGC on Vision</title>
-    <link>http://localhost:1313/www6vVision/tags/AIGC/</link>
+    <link>https://www6v.github.io/www6vVision/tags/AIGC/</link>
     <description>Recent content in AIGC on Vision</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Fri, 30 Jun 2023 21:12:35 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/www6vVision/tags/AIGC/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www6v.github.io/www6vVision/tags/AIGC/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Agent - UI-assistants</title>
-      <link>http://localhost:1313/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodalApp/</link>
+      <link>https://www6v.github.io/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodalApp/</link>
       <pubDate>Fri, 30 Jun 2023 21:12:35 +0000</pubDate>
-      <guid>http://localhost:1313/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodalApp/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodalApp/</guid>
       <description>参考 # App Agent # 1xx. AppAgent源码分析&amp;amp;思考 https://github.com/mnotgod96/AppAgent https://icoz69.github.io/&#xA;1xx. 【LLM-agent】MOBILE-AGENT: 具有视觉感知能力的自治多模移动设备agent https://github.com/X-PLUG/MobileAgent&#xA;1xx. https://github.com/OpenAdaptAI/OpenAdapt</description>
     </item>
     <item>
       <title>(原理)Agent 多模态</title>
-      <link>http://localhost:1313/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodal/</link>
+      <link>https://www6v.github.io/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodal/</link>
       <pubDate>Tue, 21 Feb 2023 10:10:51 +0000</pubDate>
-      <guid>http://localhost:1313/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodal/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/Vision/Multimodal-Agent/gptAgentMultimodal/</guid>
       <description>目录 # 论文 # 论文地址 《Large Multimodal Agents: A Survey》&#xA;开源地址 Repo git&#xA;Survey # 类型 I：无长期记忆的闭源 LLMs 作为规划器。 # Visual ChatGPT ***&#xA;MM-REACT ***&#xA;ViperGPT&#xA;HuggingGPT ***&#xA;Chameleon ***&#xA;LLaVA-Interactive ***&#xA;SeeAct&#xA;GPT-Driver&#xA;Mobile-Agent&#xA;类型 II：无长期记忆的微调 LLMs 作为规划器。 # LLaVA-Plus&#xA;GPT4Tools&#xA;类型 IV：具有本地长期记忆的规划器。 # JARV IS-1&#xA;AppAgent&#xA;DLAH&#xA;多模态 Agent[1] # 核心组件&#xA;感知组件关注处理多模态信息 规划器负责推理和制定计划 行动组件执行计划 记忆组件则涉及长期和短期记忆 四种类型&#xA;无长期记忆的闭源 LLMs 作为规划器 无长期记忆的微调 LLMs 作为规划器 具有间接长期记忆的规划器 具有本地长期记忆的规划器 多智能体协作&#xA;讨论了 LMAs 如何通过协作框架共同实现共同目标。 多模态 Agent[10] # 范式 # {% asset_img &amp;rsquo;&amp;rsquo; %}</description>
     </item>
   </channel>

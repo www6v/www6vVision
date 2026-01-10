@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head><script src="/www6vVision/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=www6vVision/livereload" data-no-instant defer></script>
+<head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="对比总结[1] # 训练方法 方法 局限性 Text Inversion 使用提供的一组图片训练一个新单词的Embedding ，并将其与词汇表中的已有单词关联起来，这个新单词即为这组图片概念的指代。 训练过程只对应 Embedding，扩散模型没有新知识输入，所以也无法产生新的内容。 Full FineTune 最朴素的方式，使用图片&#43; 标注的数据集，进行迭代训练，数据集标注可以选择BLIP来生成。训练直接对原模型的所有权重进行调整。 容易过拟合，导致生成图片的多样性不够，结果难以控制。模型体积大，不便于传播。 Dreambooth 提供代表某个新概念（instance） 对应的一组图像，并使用罕见字符（identifier） 进行概念Mapping，训练过程充分考虑原有相关主题（class）生成，避免过拟合。训练直接对原模型的所有权重进行调整。 训练过程只针对新概念 （instance），多样性差。如果需要多概念生成，需要多次训练。模型体积大，不便于传播。 LoRA（w Dreambooth） 冻结预训练模型参数，在每个Transformer块插入可训练层，不需要完整调整 UNet 模型的全部参数。训练结果只保留新增的网络层，模型体积小。 训练效果不如Dreambooth 对比总结[2] # 对比总结[3] # 参考 # Stable Diffusion 微调及推理优化 【论文串读】Stable Diffusion模型微调方法串读 V Stable Diffusion——四种模型 LoRA（包括LyCORIS）、Embeddings、Dreambooth、Hypernetwork 实战 # 1xx. Text Inversion V 【这个比较详细】 1xx. lora Dreambooth V 【冻结不训练unet，只训练lora】 【为unet模型添加注意力层，注意力层是要训练的参数】 【大部分代码和Dreambooth差不多】
@@ -8,7 +8,7 @@
 1xx. 手把手教你微调Stable Diffusion * lora on DreamBooth">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/">
   <meta property="og:site_name" content="Vision">
   <meta property="og:title" content="(work|实战) fine-tuning">
   <meta property="og:description" content="对比总结[1] # 训练方法 方法 局限性 Text Inversion 使用提供的一组图片训练一个新单词的Embedding ，并将其与词汇表中的已有单词关联起来，这个新单词即为这组图片概念的指代。 训练过程只对应 Embedding，扩散模型没有新知识输入，所以也无法产生新的内容。 Full FineTune 最朴素的方式，使用图片&#43; 标注的数据集，进行迭代训练，数据集标注可以选择BLIP来生成。训练直接对原模型的所有权重进行调整。 容易过拟合，导致生成图片的多样性不够，结果难以控制。模型体积大，不便于传播。 Dreambooth 提供代表某个新概念（instance） 对应的一组图像，并使用罕见字符（identifier） 进行概念Mapping，训练过程充分考虑原有相关主题（class）生成，避免过拟合。训练直接对原模型的所有权重进行调整。 训练过程只针对新概念 （instance），多样性差。如果需要多概念生成，需要多次训练。模型体积大，不便于传播。 LoRA（w Dreambooth） 冻结预训练模型参数，在每个Transformer块插入可训练层，不需要完整调整 UNet 模型的全部参数。训练结果只保留新增的网络层，模型体积小。 训练效果不如Dreambooth 对比总结[2] # 对比总结[3] # 参考 # Stable Diffusion 微调及推理优化 【论文串读】Stable Diffusion模型微调方法串读 V Stable Diffusion——四种模型 LoRA（包括LyCORIS）、Embeddings、Dreambooth、Hypernetwork 实战 # 1xx. Text Inversion V 【这个比较详细】 1xx. lora Dreambooth V 【冻结不训练unet，只训练lora】 【为unet模型添加注意力层，注意力层是要训练的参数】 【大部分代码和Dreambooth差不多】
@@ -19,14 +19,14 @@
 <title>(work|实战) fine-tuning | Vision</title>
 <link rel="icon" href="/www6vVision/favicon.png" >
 <link rel="manifest" href="/www6vVision/manifest.json">
-<link rel="canonical" href="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
   <script defer src="/www6vVision/en.search.min.a0b500b4851f47f7166863983a738e51166d4a8fd286fff12a38f368b465db62.js" integrity="sha256-oLUAtIUfR/cWaGOYOnOOURZtSo/Shv/xKjjzaLRl22I=" crossorigin="anonymous"></script>
 
   
 
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/index.xml" title="Vision" />
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/index.xml" title="Vision" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book

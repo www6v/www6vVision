@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head><script src="/www6vVision/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=www6vVision/livereload" data-no-instant defer></script>
+<head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content=" 实战 # ControlNet &#43; t2i_adapter diffusers Custom Diffusion diffusers 总结[metaso] # 功能定位 性能与效率 应用场景 总结 ControlNet 主要用于对图像生成过程中的特定部分进行控制 较大且可能需要较多计算资源 适用于需要对图像特定区域进行精细控制的场景 【ControlNet 结构控制， image2image】 T2I-Adapter 专注于将文本提示转换为图像 较小且更高效，适合资源受限的环境 适用于需要从文本描述生成图像的场景 【T2I-Adapter 多种控制, text2image】 IP-Adapter 用于分析图像提示并提取特征，再将其用于图像生成 在图像质量和对齐方面表现优异 适用于需要结合图像和文本提示进行复杂图像生成的场景 【IP-Adapter 风格特征控制, text2image|image2image 】 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/">
   <meta property="og:site_name" content="Vision">
   <meta property="og:title" content="(Work|实战)Controllable">
   <meta property="og:description" content=" 实战 # ControlNet &#43; t2i_adapter diffusers Custom Diffusion diffusers 总结[metaso] # 功能定位 性能与效率 应用场景 总结 ControlNet 主要用于对图像生成过程中的特定部分进行控制 较大且可能需要较多计算资源 适用于需要对图像特定区域进行精细控制的场景 【ControlNet 结构控制， image2image】 T2I-Adapter 专注于将文本提示转换为图像 较小且更高效，适合资源受限的环境 适用于需要从文本描述生成图像的场景 【T2I-Adapter 多种控制, text2image】 IP-Adapter 用于分析图像提示并提取特征，再将其用于图像生成 在图像质量和对齐方面表现优异 适用于需要结合图像和文本提示进行复杂图像生成的场景 【IP-Adapter 风格特征控制, text2image|image2image 】 ">
@@ -15,14 +15,14 @@
 <title>(Work|实战)Controllable | Vision</title>
 <link rel="icon" href="/www6vVision/favicon.png" >
 <link rel="manifest" href="/www6vVision/manifest.json">
-<link rel="canonical" href="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
   <script defer src="/www6vVision/en.search.min.a0b500b4851f47f7166863983a738e51166d4a8fd286fff12a38f368b465db62.js" integrity="sha256-oLUAtIUfR/cWaGOYOnOOURZtSo/Shv/xKjjzaLRl22I=" crossorigin="anonymous"></script>
 
   
 
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/index.xml" title="Vision" />
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionControllableWork/index.xml" title="Vision" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
