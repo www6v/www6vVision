@@ -10,9 +10,9 @@
     <atom:link href="https://www6v.github.io/www6vVision/tags/Vision/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CV 任务</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Vision/gptVisionTask/</link>
+      <link>https://www6v.github.io/www6vVision/docs/Vision/VisionTask/</link>
       <pubDate>Tue, 25 Jul 2023 13:49:28 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Vision/gptVisionTask/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/Vision/VisionTask/</guid>
       <description>&#xA;分类 [1] # image-level # image recognition&#xA;(Retrieval)image-text retrieval&#xA;Caption(image captioning)&#xA;VQA(visual question answering)&#xA;region-level # Object Detection object detection&#xA;DETR -&amp;gt; DINO -&amp;gt; Grounding DINO dense caption&#xA;phrase grounding&#xA;pixel-level # Segmentation generic segmetation referring segmetation 其他 # 对比&#xA;[CNN 更深的网络] [transformer 没有局限] CV任务&#xA;分类（Classification） 检测（Detection） 分割（Segmentation） 跟踪（Tracking） 行为识别（Action Recognition） 参考 # [CVPR Tutorial Talk] Towards General Vision Understanding Interface pdf </description>
     </item>
   </channel>

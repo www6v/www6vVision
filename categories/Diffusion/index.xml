@@ -10,107 +10,107 @@
     <atom:link href="https://www6v.github.io/www6vVision/categories/Diffusion/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>(原理|实战)DreamBooth</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionDreamBooth/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</link>
       <pubDate>Wed, 17 Jul 2024 10:51:11 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionDreamBooth/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</guid>
       <description>Approach[1] # Our method takes as input a few images (typically 3-5 images suffice, based on our experiments) of a subject (e.g., a specific dog) and the corresponding class name (e.g. &amp;ldquo;dog&amp;rdquo;), and returns a fine-tuned/&amp;ldquo;personalized&amp;rsquo;&amp;rsquo; text-to-image model that encodes a unique identifier that refers to the subject. Then, at inference, we can implant the unique identifier in different sentences to synthesize the subjects in difference contexts. 我们的方法将主题（例如，特定的狗）和相应的类名称（例如“狗”）的一些图像（根据我们的实验，通常 3-5 个图像就足够了）作为输入，并返回一个微调/ “个性化”文本到图像模型，编码指向主题的唯一标识符。然后，在推理时，我们可以将唯一标识符植入不同的句子中，以合成不同上下文中的主题。</description>
     </item>
     <item>
       <title>pix2pix-zero</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditPix2pix/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/</link>
       <pubDate>Tue, 16 Apr 2024 16:26:40 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditPix2pix/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/</guid>
       <description>论文 # 论文地址&#xA;Zero-shot Image-to-Image Translation&#xA;开源地址&#xA;pix2pix-zero git&#xA;Project page&#xA;Project page&#xA;官网有个介绍视频 看过不错&#xA;Method[1] # 上图展示了pix2pix-zero方法的概述，这是一个将图片从猫变成狗的图像到图像的翻译例子。首先，使用规范化的DDIM反转来得到一个反转的噪声映射，这是由BLIP图像字幕（caption）网络和CLIP文本嵌入模型自动生成的文本嵌入引导的。然后，使用原始文本嵌入去噪以获得交叉注意力图，作为输入图像结构的参考（顶部行）。接下来，使用编辑后的文本嵌入去噪，通过损失函数确保这些交叉注意力图与参考交叉注意力图相匹配（第二行）。这确保了编辑图像的结构与原始图像相比不会发生剧烈变化。没有交叉注意力引导的去噪示例显示在第三行，导致结构上的大偏差。此可视化强调了在编辑过程中保持图像原始结构的交叉注意力的重要性。&#xA;Discovering edit directions [2] # 参考 # pix2pix-zero：零样本图像到图像转换 【深度学习】【风格迁移】Zero-shot Image-to-Image Translation 实战&#xA;Zero-shot Image-to-Image Translation</description>
     </item>
     <item>
       <title>InstructPix2Pix</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditInstruct/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/</link>
       <pubDate>Tue, 16 Apr 2024 16:25:58 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditInstruct/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/</guid>
       <description>论文 # 论文地址 InstructPix2Pix: Learning to Follow Image Editing Instructions 开源地址 Repo git Project page Project page Method # 这章就讲两件事：1）如何生成数据集（章节3.1）；2）如何基于上一步生成的训练数据，训练一个图像编辑扩散模型（章节3.2）；&#xA;参考 # InstructPix2Pix：用指令给图像做修改&#xA;实战 # 1xx. InstructPix2Pix diffusers 1xx. InstructPix2Pix V Code Repo git</description>
     </item>
     <item>
       <title>Prompt-to-Prompt</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditPrompt/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/</link>
       <pubDate>Tue, 16 Apr 2024 16:25:38 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionEditPrompt/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/</guid>
       <description>论文 # 论文地址 PROMPT-TO-PROMPT IMAGE EDITING WITH CROSS-ATTENTION CONTROL 开源地址 Prompt-to-Prompt git Project page Project page 示意[1] # 应用[1] # **应用方面：**Prompt-to-Prompt 这个方法是原理上的创新，应用方面只适用于“已经生成了一张大致满意的图，我们想对它进行部分修改”。但是对于“手头有一张来历不明的图，我们想对它进行修改”这个任务就很麻烦了，因为很难去倒推这张图对应的prompt是啥。&#xA;所以后续有一项工作叫 InstructPix2Pix，作用是“一张来历不明的图，只要说‘把猫改成狗’，模型就能把画面里的猫改成狗，其他不变。”非常好用，听说已经集成在 Stable Diffusion WebUI 里可以直接用了。&#xA;Method[1] # 上半部分，原版cross-attention，下半部分，本文的cross-attention&#xA;参考 # Prompt-to-prompt：让生成的图像保持一致 diffusion model(十四)： prompt-to-prompt 深度剖析</description>
     </item>
     <item>
       <title>(原理)unCLIP</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionunCLIP/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</link>
       <pubDate>Sun, 27 Aug 2023 10:21:28 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionunCLIP/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</guid>
       <description>unCLIP # (原理)unCLIP</description>
     </item>
     <item>
       <title>(原理|实战)ReferenceNet</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionReferenceNet/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</link>
       <pubDate>Tue, 22 Aug 2023 18:27:16 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionReferenceNet/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</guid>
       <description>ReferenceNet # (原理|实战)ReferenceNet</description>
     </item>
     <item>
       <title>(原理|实战)IP-Adapter</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionIPAdapter/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</link>
       <pubDate>Tue, 22 Aug 2023 18:26:51 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionIPAdapter/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</guid>
       <description>论文[IP-Adapter] # 论文地址 IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models 开源地址 IP-Adapter git enable a pretrained text-to-image diffusion model to generate images with image prompt 有很多notebook的demo Project page Project page IP-Adapter[10] # IP-Adapter is an image prompt adapter that can be plugged into diffusion models to enable image prompting without any changes to the underlying model. Furthermore, this adapter can be reused with other models finetuned from the same base model and it can be combined with other adapters like ControlNet.</description>
     </item>
     <item>
       <title>(原理|实战)T2I-Adapter</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionT2IAdapter/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</link>
       <pubDate>Tue, 22 Aug 2023 18:26:35 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionT2IAdapter/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</guid>
       <description>论文[T2I-Adapter] # 论文地址 T2I-Adapter 开源地址 T2I-Adapter git T2I-Adapter[10] # T2I-Adapter is a lightweight adapter for controlling and providing more accurate structure guidance for text-to-image models. It works by learning an alignment between the internal knowledge of the text-to-image model and an external control signal, such as edge detection or depth estimation.&#xA;T2I-Adapter 是一种轻量级适配器，用于控制文本到图像模型并提供更准确的结构指导。它的工作原理是学习文本到图像模型的内部知识与外部控制信号（如边缘检测或深度估计）之间的对齐。&#xA;The T2I-Adapter design is simple, the condition is passed to four feature extraction blocks and three downsample blocks.</description>
     </item>
     <item>
       <title>(原理|实战)ControlNet</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionControlNet/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</link>
       <pubDate>Tue, 22 Aug 2023 18:26:17 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionControlNet/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</guid>
       <description>论文[ControlNet] # 论文地址 Adding Conditional Control to Text-to-Image Diffusion Models 开源地址 ControlNet git ControlNet[10] # ControlNet is a type of model for controlling image diffusion models by conditioning the model with an additional input image. There are many types of conditioning inputs (canny edge, user sketching, human pose, depth, and more) you can use to control a diffusion model. This is hugely useful because it affords you greater control over image generation, making it easier to generate specific images without experimenting with different text prompts or denoising values as much.</description>
     </item>
     <item>
       <title>(原理)Guidance</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionGuidance/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</link>
       <pubDate>Tue, 01 Aug 2023 19:19:40 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionGuidance/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</guid>
       <description>Guidance # Guidance</description>
     </item>
     <item>
       <title>(原理)SD XL</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionXL/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</link>
       <pubDate>Tue, 01 Aug 2023 19:12:57 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptDiffusionXL/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</guid>
       <description>SDXL # SDXL</description>
     </item>
     <item>
       <title>(Work|实战)Image Editing</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionImageEditWork/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</link>
       <pubDate>Thu, 27 Jul 2023 09:29:58 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionImageEditWork/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</guid>
       <description>总结 # Prompt-to-Prompt&#xA;train-free，察觉到了attention map的妙用&#xA;pix2pix-zero&#xA;察觉到了attention map的妙用&#xA;InstructPix2Pix&#xA;trainable，training数据基于Prompt-to-Prompt&#xA;MGIE&#xA;基于LMM</description>
     </item>
     <item>
       <title>(原理|实战)DiT</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/gptDiffusionDiT/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/</link>
       <pubDate>Fri, 21 Jul 2023 13:59:11 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/gptDiffusionDiT/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/</guid>
       <description>&#xA;论文 # 论文地址&#xA;Scalable Diffusion Models with Transformers&#xA;开源地址 Scalable Diffusion Models with Transformers git&#xA;DiT Repo git&#xA;Arch # code[10] # DiT&#xA;dit git DiTBlock&#xA;dit_block git 参考 # 1xx. AI大讲堂：文生视频谁能敌？专业拆解【DiT模型】 V&#xA;DiT原文: https://arxiv.org/abs/2212.09748&#xA;Code: https://github.com/facebookresearch/DiT&#xA;Huggingface: https://huggingface.co/spaces/wpeebles/DiT&#xA;1xx. 14步手搓sora!Diffusion Transformer, DiT工作原理 V&#xA;实战 # 【Sora重要技术】复现DiT（Diffusion Transformer）模型 V ***&#xA;dits Repo </description>
     </item>
     <item>
       <title>(work|实战) fine-tuning</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</link>
       <pubDate>Thu, 06 Jul 2023 19:24:20 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Controllable/gptDiffusionFineTuning/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</guid>
       <description>对比总结[1] # 训练方法 方法 局限性 Text Inversion 使用提供的一组图片训练一个新单词的Embedding ，并将其与词汇表中的已有单词关联起来，这个新单词即为这组图片概念的指代。 训练过程只对应 Embedding，扩散模型没有新知识输入，所以也无法产生新的内容。 Full FineTune 最朴素的方式，使用图片+ 标注的数据集，进行迭代训练，数据集标注可以选择BLIP来生成。训练直接对原模型的所有权重进行调整。 容易过拟合，导致生成图片的多样性不够，结果难以控制。模型体积大，不便于传播。 Dreambooth 提供代表某个新概念（instance） 对应的一组图像，并使用罕见字符（identifier） 进行概念Mapping，训练过程充分考虑原有相关主题（class）生成，避免过拟合。训练直接对原模型的所有权重进行调整。 训练过程只针对新概念 （instance），多样性差。如果需要多概念生成，需要多次训练。模型体积大，不便于传播。 LoRA（w Dreambooth） 冻结预训练模型参数，在每个Transformer块插入可训练层，不需要完整调整 UNet 模型的全部参数。训练结果只保留新增的网络层，模型体积小。 训练效果不如Dreambooth 对比总结[2] # 对比总结[3] # 参考 # Stable Diffusion 微调及推理优化 【论文串读】Stable Diffusion模型微调方法串读 V Stable Diffusion——四种模型 LoRA（包括LyCORIS）、Embeddings、Dreambooth、Hypernetwork 实战 # 1xx. Text Inversion V 【这个比较详细】 1xx. lora Dreambooth V 【冻结不训练unet，只训练lora】 【为unet模型添加注意力层，注意力层是要训练的参数】 【大部分代码和Dreambooth差不多】&#xA;实战 # 1xx. + concept customization dreambooth lora + textual_inversion diffusers&#xA;1xx. 手把手教你微调Stable Diffusion * lora on DreamBooth</description>
     </item>
     <item>
       <title>(综述)Image Editing</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionImageEdit/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</link>
       <pubDate>Thu, 06 Jul 2023 19:10:10 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/editing/gptDiffusionImageEdit/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</guid>
       <description>目录 # 论文 # 论文地址 《Diffusion Model-Based Image Editing: A Survey》&#xA;开源地址 Repo git&#xA;图像编辑[1] # 大类 # 从图片编辑的任务方面可以被分为3个大类 语义编辑semantic editing 风格编辑stylistic editing 结构编辑structural editing APPROACHES # TRAINING-BASED APPROACHES&#xA;InstructPix2Pix TESTING-TIME FINETUNING APPROACHES&#xA;TRAINING AND FINETUNING FREE APPROACHES&#xA;论文[2] # 论文地址 《A Survey of Multimodal-Guided Image Editing with Text-to-Image Diffusion Models》 复旦、南洋理工&#xA;开源地址 A Survey of Multimodal-Guided Image Editing with Text-to-Image Diffusion Models&#xA;Survey[2] # 参考 # survey # 《Diffusion Model-Based Image Editing: A Survey》 论文阅读：Diffusion Model-Based Image Editing: A Survey 基于扩散模型的图像编辑：首篇综述</description>
     </item>
   </channel>

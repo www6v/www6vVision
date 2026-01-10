@@ -10,80 +10,73 @@
     <atom:link href="https://www6v.github.io/www6vVision/categories/multimodal/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>人像生图</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/gptMultimodalIDCreate/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</link>
       <pubDate>Sat, 03 Aug 2024 14:22:39 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/gptMultimodalIDCreate/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</guid>
       <description>InstantID # InstantID&#xA;PhotoMaker # PhotoMaker&#xA;总结 # 【InstantID : ipAdaptor +controlnet, image Contoll的思路】&#xA;【photomaker: image Edit 的思路】</description>
     </item>
     <item>
       <title>多模态 系列</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodalSeries/</link>
+      <link>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSeries/</link>
       <pubDate>Thu, 04 Apr 2024 09:38:25 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodalSeries/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSeries/</guid>
       <description>目录 # Stage1: 模块独立[2] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;model # CLIP ViLT ALBEF Stage2: 模块共享[2] # model # VLMO BLIP BLIP2 BEiTv3 Stage3: 范式统一[2] # model # Unified-IO Uni-Perceiver PaLi 总结 [1] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;参考 # Overview # 多模态大模型 CLIP, BLIP, BLIP2, LLaVA, miniGPT4, InstructBLIP 系列解读 ***&#xA;[Transformer 101系列] 多模态的大一统之路 ***&#xA;1xx. 多模态论文串讲 *** 多模态论文串讲：ALBEF &amp;amp; VLMo &amp;amp; BLIP &amp;amp; CoCa &amp;amp; Beit V3&#xA;1xx. 图生文多模态大模型开源项目回顾：兼看20240307大模型进展早报</description>
     </item>
     <item>
       <title>DINO</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Vision-Encoder/gptMultimodalDINO/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/</link>
       <pubDate>Sun, 24 Mar 2024 11:18:19 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Vision-Encoder/gptMultimodalDINO/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/</guid>
       <description>DINO # https://github.com/facebookresearch/dino&#xA;参考 # 重塑自监督学习: DINO 网络如何颠覆视觉特征表示的常规方法 有动图&#xA;DINOv2 # 论文 # 论文地址 DINOv2: Learning Robust Visual Features without Supervision&#xA;开源地址 https://github.com/facebookresearch/dinov2&#xA;Project page Project page Project page&#xA;参考 # DINOv2：无需微调，填补 SAM 的空白，支持多个下游任务&#xA;全网最详细的 DINOv2 论文解读来啦！&#xA;深度学习算法应用实战 | DINOv2 图像相似度实战&#xA;视觉大模型DINOv2:自我监督学习的新领域&#xA;DINOv2：无需微调，填补SAM空白&#xA;实战 # DINOv2 on mmpretrain</description>
     </item>
     <item>
       <title>(原理)Stable Diffusion</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptMultimodalDiffusion/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</link>
       <pubDate>Thu, 29 Jun 2023 17:28:21 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Diffusion/gptMultimodalDiffusion/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</guid>
       <description>Stable Diffusion 原理 # (原理)Stable Diffusion</description>
     </item>
     <item>
       <title>(Survey)多模态</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodalSurvey/</link>
+      <link>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSurvey/</link>
       <pubDate>Thu, 16 Mar 2023 12:45:30 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodalSurvey/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSurvey/</guid>
       <description>目录 # 论文 # 论文地址 《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》 .Sep 2023 - microsoft&#xA;开源地址 Computer Vision in the Wild (CVinW)&#xA;overview [0] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;视觉理解 [1] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;{% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;视觉生成 [1] # Human Alignments in Visual Generation [10] # 四种alignment的方式&#xA;spatial controllable T2I generation # 结合位置分布的文字描述（比较麻烦的用户交互，不仅需要文字，而且需要位置），常用于对位置要求比较高的创意设计（海报等）&#xA;直接讲原来clip那种image-level的text description升级为基于区域的text description&#xA;reco gligen 将box描述变为spatial condition&#xA;controlnet 无需fintinue，直接变为inference-guide&#xA;universal guidance for diffusion model text-based editing # 给一张图和对应的修改文字，输出要求的图，常用于ps等产品</description>
     </item>
     <item>
       <title>(图生文)BLIP-2, Flamingo</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalBlip/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Blip/</link>
       <pubDate>Wed, 15 Mar 2023 23:00:59 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalBlip/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Blip/</guid>
       <description>目录 # BLIP-2 # Overview [1] # 用一个Qformer来提取图像特征（等同与Flamingo的perceiver resampler），然后用cross- attention进行多模态交互，此时视觉编码器和LLM都会被冻结，只训练Qformer，而在下游任务微调时，可以再解锁视觉编码器，让它跟Qformer一起训练&#xA;两阶段的训练策略 [1] # BLIP-2设计了两阶段的训练策略，以使视觉编码器能学会提取更关键的信息。&#xA;第一阶段：使用多种预训练任务，如Image-Text Contrastive Learning(ITC)，Image-grounded Text Generation(ITG)，Image-Text Matching(ITM)让Qformer学会如何从视觉编码器中抽取文本相关的特征。 第二阶段，将Qformer插入到LLMs中，用language modeling进行训练。 架构[3] # 两个阶段训练 阶段一 获得高质量的 图文对齐向量表征 通过ITC ITM ITG 三个损失函数获得了很好的图片文本 对齐向量表征能力，仅训练Qformer中很少的参数 【ITM: image-text 是否是匹配的 | image 和text 都能相互看到】 【ITG: image生成text | image 能全看到, text只能逐个的看】 【ITC: image和text的对比学习, 对比学习分类分错了的 送入ITM 负样本 | image和 text 之间是不能看到的】 阶段二 通过向量表征进行文字生成 code [2] # Flamingo[1] # 架构 # 它在Frozen模型的基础上做进一步的改进，不同点主要有两个：一是使用了更大的LLMs，二是冻结视觉编码器，引入perceiver resampler和XAttn-Dense两个适配单元作为可训练的模块。&#xA;perceiver resampler： 类似DETR，通过设计多个Perceiver Resampler来生成64个固定长度的tokens，主要作用在于可以从图像中提取固定长度的特征向量，能够解决图像甚至多帧视频的feature map不一致的问题。【图像和文本对齐】 XAttn-Dense：在每一层LLM上都会增加corss- attention以入到LLM中与视觉向量进行交互，融合多模态信息。【融合】 参考 # blip2 # 基于LLMs的多模态大模型（Flamingo, BLIP-2，KOSMOS-1，ScienceQA）</description>
     </item>
     <item>
       <title>(综述)多模态InstructTuning</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalInstructTuning/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/InstructTuning/</link>
       <pubDate>Wed, 15 Mar 2023 16:09:00 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalInstructTuning/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/InstructTuning/</guid>
       <description>目录 # Datasets for Visual Instruction Tuning[1] # Single-turn # MiniGPT-4 MiniGPT-4 [37] curates an image description dataset that contains 3439 image-text pairs for instruction fine-tuning. MiniGPT-4 randomly selects 5000 images from the Conceptual Caption dataset [38], [39] and prompts its pre-trained VLM model to generate detailed descriptions for each image. The generated descriptions are then** refined and filtered** both manually and by using ChatGPT, resulting in 3439 highquality image-text pairs.</description>
     </item>
     <item>
       <title>(原理|实战)MiniGPT4</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalMinigpt4/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Minigpt4/</link>
       <pubDate>Wed, 15 Mar 2023 15:56:48 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalMinigpt4/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Minigpt4/</guid>
       <description>目录 # INTRODUCTION[1] # MiniGPT-4 增加了一个投影层，将编码的视觉特征与 Vicuna 语言模型对齐，并冻结了所有其他视觉和语言组件&#xA;METHOD[1] # 图 1&#xA;MiniGPT-4 的目标是将来自预训练视觉编码器的视觉信息与先进的大型语言模型（LLM）对齐（Alignment）。具体来说，&#xA;使用 Vicuna作为语言解码器，该解码器基于 LLaMA构建，可以执行各种复杂的语言任务。 视觉感知方：采用与 BLIP-2 相同的视觉编码器，ViT Backbone及其预先训练好的 Q-Former。 语言和视觉模型都是开源的。我们的目标是利用线性投影层弥合视觉编码器与 LLM 之间的差距，图 1 显示了模型概览。 FIRST PRETRAINING STAGE # 第一阶段：在大量对齐的图像-文本对上对模型进行预训练，以获取视觉语言知识。&#xA;Traditional alignment method [2]&#xA;Input: Image Output: Caption Training Objective: Maximize the likelihood of GT captions Training Dataset 组合数据集 [postprocessed by BLIP] Conceptual Caption SBU LAION CURATING A HIGH-QUALITY ALIGNMENT DATASET FOR VISION-LANGUAGE DOMAIN. # Create a dataset with detailed, human-perfered descriptions[2][1] model generates descriptions 在初始阶段，我们使用从第一个预训练阶段得到的模型来生成输入图像的描述。 polishing and filtering by chatgpt 上述自动生成的图片说明包含噪音或不连贯的描述，例如单词或句子重复，句子支离破碎或内容不相关。为了解决这些问题，我们采用了ChatGPT，通过以下提示对描述进行修补 further polishing and filtering by rules &amp;amp; human 完成后处理阶段后，我们会手动验证每张图片说明的正确性，以保证其高质量。 SECOND-STAGE FINETUNING # 第二阶段：使用一个较小但高质量的图像-文本数据集对预训练模型进行微调，并设计了对话模板，以提高生成的可靠性和可用性。 【blip2能识别图像，但是对话能力比较弱，不能说出图像中的细节。在pre-train阶段获取视觉语言知识， 在fine-tuning 阶段获取对话能力】 [2]</description>
     </item>
     <item>
       <title>(原理|实战) LLaVa 演化</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalLlava/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Llava/</link>
       <pubDate>Tue, 14 Mar 2023 23:02:17 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalLlava/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Llava/</guid>
       <description>&#xA;LLaVa 演化 # (原理|实战) LLaVa 演化 LLaVa 实战 # (实战) LLaVa </description>
     </item>
     <item>
       <title>(原理)多模态预训练 概述</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalPretrain/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/Pretrain/</link>
       <pubDate>Sat, 04 Mar 2023 13:23:20 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/gptMultimodalPretrain/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/Pretrain/</guid>
       <description>目录 # Overview # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;多模态预训练 # 数据集 # 大规模无标注 内容杂 噪音多 架构Transformer # 基于transformer encoder-理解任务 单流 - vl-bert UNITER 双流 - ViLBERT， CLIP（双流结构，对比学习）&#xA;基于transformer decoder-生成任务 DALL-E （VQVAE+GPT, Text-to-Image Generation） 现在都用 → SD 扩散模型&#xA;基于encoder+decoder-理解+生成 文本的decoder&#xA;encoder + decoder 串行, 交叉注意力 encoder + decoder 并行 模型 - 自监督学习 # 模态内掩码学习 文本 语音 视觉自身token级别mask&#xA;模态间掩码学习 不同模态信息的相互预测 mask视觉， 输出对应文本&#xA;模态间匹配学习 匹配与否的分类问题 - 正负样本(二分类) 对比学习 - 模态间的图文匹配对&#xA;下游任务 # 多模态下游任务-模型微调 # 模型微调</description>
-    </item>
-    <item>
-      <title>(综述)多模态</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodal/</link>
-      <pubDate>Wed, 18 Jan 2023 09:48:37 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Survey/gptMultimodal/</guid>
-      <description>目录 # 论文[Foundational Models Defining] # 论文地址 《Foundational Models Defining a New Era in Vision: A Survey and Outlook》大学 基础模型分类 [1] # 分类 {% asset_img &amp;rsquo;&amp;rsquo; %} 分类 {% asset_img &amp;rsquo;&amp;rsquo; %} textually prompted models # contrastive CLIP 双塔 generative Flamingo hybrid BLIP conversational GPT-4， miniGPT4, LLaVa 传统上，视觉语言模型主要用于需要同时理解视觉和文本模态的任务。然而，随着CLIP展示出的卓越性能，基于语言监督的模型在显著上升，并成为主流方法。在本节中，我们专注于探索依赖语言作为主要监督来源的方法。这些以文本为提示的模型可以广泛分为三种主要类型：对比、生成和混合方法。&#xA;visually prompted models # Foundational SAM heterogeneous models # 架构 [1] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;论文[MM-LLMs] # 论文地址 《MM-LLMs: Recent Advances in MultiModal Large Language Models》 腾讯</description>
     </item>
   </channel>
 </rss>

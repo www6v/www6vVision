@@ -10,9 +10,9 @@
     <atom:link href="https://www6v.github.io/www6vVision/tags/ViT/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>VQ-VAE</title>
-      <link>https://www6v.github.io/www6vVision/docs/Vision/Vision-Encoder/gptMultimodalVQVAE/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/</link>
       <pubDate>Sun, 24 Mar 2024 12:06:39 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Vision/Vision-Encoder/gptMultimodalVQVAE/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/</guid>
       <description>参考 # 关于 VQ-VAE 直观理解&#xA;[论文简析]VQ-VAE:Neural discrete representation learning[1711.00937] v 看评论中的置顶 有代码&#xA;如何搭建VQ-VAE模型（Pytorch代码） v 看视频介绍 https://github.com/KevinOfCathay/DDPM-demo</description>
     </item>
   </channel>
