@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+
+
+  目录
+  #
+
+
+
+  论文
+  #
+
+
+
+论文地址
+《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》 .Sep 2023   - microsoft
+
+
+开源地址
+Computer Vision in the Wild (CVinW)
+
+
+
+  overview [0]
+  #
+
+{% asset_img  &rsquo;&rsquo; %}
+
+
+  视觉理解 [1]
+  #
+
+{% asset_img  &rsquo;&rsquo; %}
+
+{% asset_img  &rsquo;&rsquo; %}
+
+
+  视觉生成 [1]
+  #
+
+
+  Human Alignments in Visual Generation  [10]
+  #
+
+四种alignment的方式
+
+  spatial controllable T2I generation
+  #
+
+
+
+结合位置分布的文字描述（比较麻烦的用户交互，不仅需要文字，而且需要位置），常用于对位置要求比较高的创意设计（海报等）">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Survey/MultimodalSurvey/">
+  <meta property="og:site_name" content="Vision">
+  <meta property="og:title" content="(Survey)多模态">
+  <meta property="og:description" content="目录 # 论文 # 论文地址 《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》 .Sep 2023 - microsoft
+开源地址 Computer Vision in the Wild (CVinW)
+overview [0] # {% asset_img ’’ %}
+视觉理解 [1] # {% asset_img ’’ %}
+{% asset_img ’’ %}
+视觉生成 [1] # Human Alignments in Visual Generation [10] # 四种alignment的方式
+spatial controllable T2I generation # 结合位置分布的文字描述（比较麻烦的用户交互，不仅需要文字，而且需要位置），常用于对位置要求比较高的创意设计（海报等）">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+<title>(Survey)多模态 | Vision</title>
+<link rel="icon" href="/www6vVision/favicon.png" >
+<link rel="manifest" href="/www6vVision/manifest.json">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Survey/MultimodalSurvey/">
+<link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/www6vVision/fuse.min.js"></script>
+  <script defer src="/www6vVision/en.search.min.35dc7b69226f838ee2c6bce11c31648fa919aee285d66fa4196743de35fead85.js" integrity="sha256-Ndx7aSJvg47ixrzhHDFkj6kZruKF1m&#43;kGWdD3jX&#43;rYU=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/Survey/MultimodalSurvey/index.xml" title="Vision" />
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/www6vVision/"><span>Vision</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a7a6c173855ef5d21d37c3867e9d463f" class="toggle" checked />
+    <label for="section-a7a6c173855ef5d21d37c3867e9d463f" class="flex justify-between">
+      <a role="button" class="">Survey</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSeries/" class="">多模态 系列</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSurvey/" class="active">(Survey)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/Multimodal/" class="">(综述)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c0ab9c3273b3f23a856bb12f640857f1" class="toggle"  />
+    <label for="section-c0ab9c3273b3f23a856bb12f640857f1" class="flex justify-between">
+      <a role="button" class="">视觉理解</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="toggle"  />
+    <label for="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="flex justify-between">
+      <a role="button" class="">Vision Encoder</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/" class="">VQ-VAE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/" class="">DINO</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIP/" class="">(原理)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/" class="">(原理|实战)ViT, ViLT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIPPractice/" class="">(实战)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-59d5a4a57b02830e81317b476374fd6a" class="toggle"  />
+    <label for="section-59d5a4a57b02830e81317b476374fd6a" class="flex justify-between">
+      <a role="button" class="">Connector</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Connector/Connector/" class="">(原理)Connector</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ef6dc6daebcb2103bd104a5d412d6a95" class="toggle"  />
+    <label for="section-ef6dc6daebcb2103bd104a5d412d6a95" class="flex justify-between">
+      <a role="button" class="">Segmentation</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/seg/SAM/" class="">(原理|实战) SAM</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b8e1c1481a25df1c807b33ddfba8040" class="toggle"  />
+    <label for="section-1b8e1c1481a25df1c807b33ddfba8040" class="flex justify-between">
+      <a role="button" class="">生成</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
+    <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
+      <a role="button" class="">Diffusion</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/" class="">(原理)unCLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/" class="">(原理)Guidance</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/" class="">(原理)SD XL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/" class="">(原理)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle"  />
+    <label for="section-1b2aa7832a4d8939e814125e1948a4b3" class="flex justify-between">
+      <a role="button" class="">Controllable</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/" class="">(原理|实战)DreamBooth</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/" class="">(原理|实战)ReferenceNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="">(原理|实战)IP-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/" class="">(原理|实战)T2I-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/" class="">(原理|实战)ControlNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/" class="">(work|实战) fine-tuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControllableWork/" class="">(Work|实战)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/Controllable/" class="">(综述)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="toggle"  />
+    <label for="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="flex justify-between">
+      <a role="button" class="">Editing</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/" class="">pix2pix-zero</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/" class="">InstructPix2Pix</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/" class="">Prompt-to-Prompt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/" class="">(Work|实战)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/" class="">(综述)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/MGIE/" class="">MGIE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b16cccda09102f993e096fdddb9640bb" class="toggle"  />
+    <label for="section-b16cccda09102f993e096fdddb9640bb" class="flex justify-between">
+      <a role="button" class="">人像生图</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/" class="">人像生图</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-411fe86546816a1d5f4b377cb070a200" class="toggle"  />
+    <label for="section-411fe86546816a1d5f4b377cb070a200" class="flex justify-between">
+      <a role="button" class="">DiT</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/" class="">(原理|实战)DiT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-81e1d60f5ba04ea0faae6264fed71d9e" class="toggle"  />
+    <label for="section-81e1d60f5ba04ea0faae6264fed71d9e" class="flex justify-between">
+      <a role="button" class="">端到端训练LLM(LMM)</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7f1ccca088b04efd753bc6be2e898eb6" class="toggle"  />
+    <label for="section-7f1ccca088b04efd753bc6be2e898eb6" class="flex justify-between">
+      <a role="button" class="">Works</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Blip/" class="">BLIP-2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Minigpt4/" class="">(原理|实战)MiniGPT4</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Llava/" class="">(原理|实战) LLaVa 演化</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Flamingo/" class="">Flamingo</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9c1f51056927c3adce2458ac6c1e3ab0" class="toggle"  />
+    <label for="section-9c1f51056927c3adce2458ac6c1e3ab0" class="flex justify-between">
+      <a role="button" class="">Training</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/InstructTuning/" class="">(综述)多模态InstructTuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/Pretrain/" class="">(原理)多模态预训练 概述</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0b05ccaa02a032cff4fb67a07bec622f" class="toggle"  />
+    <label for="section-0b05ccaa02a032cff4fb67a07bec622f" class="flex justify-between">
+      <a role="button" class="">Multimodal Agent</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Multimodal-Agent/MultimodalAgentApp/" class="">Agent - UI-assistants</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Multimodal-Agent/WebAgent/" class="">(原理)Web Agent</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Multimodal-Agent/MultimodalAgent/" class="">(原理)Agent 多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e7495aa0cd5a18585caa15338de39e42" class="toggle"  />
+    <label for="section-e7495aa0cd5a18585caa15338de39e42" class="flex justify-between">
+      <a role="button" class="">Data</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Data/MulitmodalDataset/" class="">(survey)多模态  数据集</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5be05fe4845e45443a3dc5a20cdcae9f" class="toggle"  />
+    <label for="section-5be05fe4845e45443a3dc5a20cdcae9f" class="flex justify-between">
+      <a role="button" class="">Vision</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/VisionTask/" class="">CV 任务</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>(Survey)多模态</h3>
+
+  <label for="toc-control">
+    
+    <img src="/www6vVision/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#目录">目录</a></li>
+      </ul>
+    </li>
+    <li><a href="#论文">论文</a></li>
+    <li><a href="#overview-0">overview [0]</a></li>
+    <li><a href="#视觉理解-1">视觉理解 [1]</a></li>
+    <li><a href="#视觉生成-1">视觉生成 [1]</a>
+      <ul>
+        <li><a href="#human-alignments-in-visual-generation--10">Human Alignments in Visual Generation  [10]</a>
+          <ul>
+            <li><a href="#spatial-controllable-t2i-generation">spatial controllable T2I generation</a></li>
+            <li><a href="#text-based-editing">text-based editing</a></li>
+            <li><a href="#text-promots-following">text promots following</a></li>
+            <li><a href="#concept-customization">concept customization</a></li>
+          </ul>
+        </li>
+        <li><a href="#text-to-image-generation--技术流派4类">Text-to-Image Generation  技术流派（4类）</a></li>
+      </ul>
+    </li>
+    <li><a href="#统一的视觉模型2">统一的视觉模型[2]</a></li>
+    <li><a href="#端到端的方式训练llm2">端到端的方式训练LLM[2]</a></li>
+    <li><a href="#多模态-agent3">多模态 Agent[3]</a></li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#翻译">翻译</a></li>
+            <li><a href="#解读">解读</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p></p>
+<!-- more -->
+<h2 id="目录">
+  目录
+  <a class="anchor" href="#%e7%9b%ae%e5%bd%95">#</a>
+</h2>
+<!-- toc -->
+<h1 id="论文">
+  论文
+  <a class="anchor" href="#%e8%ae%ba%e6%96%87">#</a>
+</h1>
+<ul>
+<li>
+<p>论文地址
+《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》 .Sep 2023   - microsoft</p>
+</li>
+<li>
+<p>开源地址
+<a href="https://github.com/Computer-Vision-in-the-Wild/CVinW_Readings">Computer Vision in the Wild (CVinW)</a></p>
+</li>
+</ul>
+<h1 id="overview-0">
+  overview [0]
+  <a class="anchor" href="#overview-0">#</a>
+</h1>
+<p>{% asset_img  &rsquo;&rsquo; %}</p>
+<p><img src="images/overview.jpeg" alt="overview.jpeg" /></p>
+<h1 id="视觉理解-1">
+  视觉理解 [1]
+  <a class="anchor" href="#%e8%a7%86%e8%a7%89%e7%90%86%e8%a7%a3-1">#</a>
+</h1>
+<p>{% asset_img  &rsquo;&rsquo; %}</p>
+<p><img src="images/understanding.png" alt="understanding.png" /></p>
+<p>{% asset_img  &rsquo;&rsquo; %}</p>
+<p><img src="images/understanding-method.png" alt="understanding-method.png" /></p>
+<h1 id="视觉生成-1">
+  视觉生成 [1]
+  <a class="anchor" href="#%e8%a7%86%e8%a7%89%e7%94%9f%e6%88%90-1">#</a>
+</h1>
+<h2 id="human-alignments-in-visual-generation--10">
+  Human Alignments in Visual Generation  [10]
+  <a class="anchor" href="#human-alignments-in-visual-generation--10">#</a>
+</h2>
+<p>四种alignment的方式</p>
+<h3 id="spatial-controllable-t2i-generation">
+  spatial controllable T2I generation
+  <a class="anchor" href="#spatial-controllable-t2i-generation">#</a>
+</h3>
+<ul>
+<li>
+<p><strong>结合位置分布的文字描述</strong>（比较麻烦的用户交互，不仅需要文字，而且需要位置），常用于<strong>对位置要求比较高的创意设计（海报等）</strong></p>
+<ul>
+<li>
+<p>直接讲原来clip那种image-level的text description升级为基于区域的text description</p>
+<ul>
+<li><strong>reco</strong></li>
+<li>gligen</li>
+</ul>
+</li>
+<li>
+<p>将box描述变为spatial condition</p>
+<ul>
+<li><strong>controlnet</strong></li>
+</ul>
+</li>
+<li>
+<p>无需fintinue，直接变为inference-guide</p>
+<ul>
+<li>universal guidance for diffusion model</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="text-based-editing">
+  text-based editing
+  <a class="anchor" href="#text-based-editing">#</a>
+</h3>
+<ul>
+<li>
+<p><strong>给一张图和对应的修改文字，输出要求的图</strong>，常用于ps等产品</p>
+<ul>
+<li>
+<p>diffusion process manipulations</p>
+<ul>
+<li><strong>promot2promot</strong></li>
+</ul>
+</li>
+<li>
+<p>text instruction editing</p>
+<ul>
+<li><strong>InstructPix2Pix</strong></li>
+</ul>
+</li>
+<li>
+<p>Editing with external pre-trained models</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="text-promots-following">
+  text promots following
+  <a class="anchor" href="#text-promots-following">#</a>
+</h3>
+<ul>
+<li><strong>直接给文字描述，生成对应的图</strong>，这个是<strong>目前常见文生图产品的交互方式</strong>，常用于c端或者b端用户图像内容生成。但其对<strong>更细节的控制存在一定的难度</strong>
+<ul>
+<li>Inference-time manipulation</li>
+<li>StructureDiffusion</li>
+<li><strong>Attend-and-Excite</strong></li>
+<li>Model tuning to follow text prompt</li>
+<li>ddpo</li>
+</ul>
+</li>
+</ul>
+<h3 id="concept-customization">
+  concept customization
+  <a class="anchor" href="#concept-customization">#</a>
+</h3>
+<ul>
+<li>
+<p>给一张图，提取图片中的关键内容，做<strong>各种风格（背景/动作）变换</strong>，更用于<strong>不那么精细的广义产品</strong>，比2的运用范围更加广义</p>
+<ul>
+<li>
+<p>Concept Customization</p>
+<ul>
+<li><strong>Textual Inversion</strong></li>
+<li><strong>[DreamBooth]</strong></li>
+</ul>
+</li>
+<li>
+<p>Multi-concept customization</p>
+<ul>
+<li>Custom Diffusion</li>
+</ul>
+</li>
+<li>
+<p>Customization without test-time finetuning</p>
+<ul>
+<li>SuTI</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>{% asset_img  &rsquo;&rsquo; %}</p>
+<p><img src="images/align.jpg" alt="align.jpg" /></p>
+<p>{% asset_img  &rsquo;&rsquo; %}</p>
+<p><img src="images/generation.png" alt="generation.png" /></p>
+<h2 id="text-to-image-generation--技术流派4类">
+  Text-to-Image Generation  技术流派（4类）
+  <a class="anchor" href="#text-to-image-generation--%e6%8a%80%e6%9c%af%e6%b5%81%e6%b4%be4%e7%b1%bb">#</a>
+</h2>
+<ul>
+<li>Generative adversarial networks (GAN)</li>
+<li>Variational autoencoder (VAE)</li>
+<li>Discrete image token prediction</li>
+<li><strong>Diffusion model</strong></li>
+</ul>
+<h1 id="统一的视觉模型2">
+  统一的视觉模型[2]
+  <a class="anchor" href="#%e7%bb%9f%e4%b8%80%e7%9a%84%e8%a7%86%e8%a7%89%e6%a8%a1%e5%9e%8b2">#</a>
+</h1>
+<h1 id="端到端的方式训练llm2">
+  端到端的方式训练LLM[2]
+  <a class="anchor" href="#%e7%ab%af%e5%88%b0%e7%ab%af%e7%9a%84%e6%96%b9%e5%bc%8f%e8%ae%ad%e7%bb%83llm2">#</a>
+</h1>
+<h1 id="多模态-agent3">
+  多模态 Agent[3]
+  <a class="anchor" href="#%e5%a4%9a%e6%a8%a1%e6%80%81-agent3">#</a>
+</h1>
+<h1 id="参考">
+  参考
+  <a class="anchor" href="#%e5%8f%82%e8%80%83">#</a>
+</h1>
+<h3 id="翻译">
+  翻译
+  <a class="anchor" href="#%e7%bf%bb%e8%af%91">#</a>
+</h3>
+<p>《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》</p>
+<ol start="0">
+<li>
+<p><a href="https://blog.csdn.net/qq_41185868/article/details/133594461">AGI之MFM：《Multimodal Foundation Models: From Specialists to General-Purpose Assistants多模态基础模型：从专家到通用助</a> 翻译</p>
+</li>
+<li>
+<p><a href="https://yunyaniu.blog.csdn.net/article/details/133594554">AGI之MFM：《多模态基础模型：从专家到通用助手》翻译与解读之视觉理解、视觉生成</a></p>
+</li>
+<li>
+<p><a href="https://yunyaniu.blog.csdn.net/article/details/133594624">AGI之MFM：《多模态基础模型：从专家到通用助手》翻译与解读之统一的视觉模型、加持LLMs的大型多模态模型</a></p>
+</li>
+<li>
+<p><a href="https://yunyaniu.blog.csdn.net/article/details/133606408">AGI之MFM：《多模态基础模型：从专家到通用助手》翻译与解读之与LLM协同工作的多模态智能体、结论和研究趋势</a></p>
+</li>
+</ol>
+<h3 id="解读">
+  解读
+  <a class="anchor" href="#%e8%a7%a3%e8%af%bb">#</a>
+</h3>
+<ol start="10">
+<li><a href="https://zhuanlan.zhihu.com/p/669757416">大模型系列04 -文本图像生成</a></li>
+</ol>
+<p>1xx.   <a href="https://blog.csdn.net/qq_41200212/article/details/134663233">Multimodal Foundation Models: From Specialists to General-Purpose Assistants</a></p>
+<p>1xx.  对应第二章节
+<a href="https://datarelease.blob.core.windows.net/tutorial/vision_foundation_models_2023/slides/Zhengyuan_Tutorial_T2I2023.pdf">《Alignments in Text-to-Image Generation》</a>
+<a href="https://www.bilibili.com/video/BV14P411v7Un/">[CVPR2023 Tutorial Talk] Alignments in Text-to-Image Generation</a> V</p>
+<p>1xx. 对应第三章节
+<a href="https://datarelease.blob.core.windows.net/tutorial/vision_foundation_models_2023/slides/Jianwei_CVPR2023_Tutorial.pdf">《From Specialist to Generalist:
+Towards General Vision Understanding Interface》</a>
+<a href="https://www.bilibili.com/video/BV1ds4y1k7pj/?vd_source=f6e8c1128f9f264c5ab8d9411a644036">[CVPR Tutorial Talk] Towards General Vision Understanding Interface</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#目录">目录</a></li>
+      </ul>
+    </li>
+    <li><a href="#论文">论文</a></li>
+    <li><a href="#overview-0">overview [0]</a></li>
+    <li><a href="#视觉理解-1">视觉理解 [1]</a></li>
+    <li><a href="#视觉生成-1">视觉生成 [1]</a>
+      <ul>
+        <li><a href="#human-alignments-in-visual-generation--10">Human Alignments in Visual Generation  [10]</a>
+          <ul>
+            <li><a href="#spatial-controllable-t2i-generation">spatial controllable T2I generation</a></li>
+            <li><a href="#text-based-editing">text-based editing</a></li>
+            <li><a href="#text-promots-following">text promots following</a></li>
+            <li><a href="#concept-customization">concept customization</a></li>
+          </ul>
+        </li>
+        <li><a href="#text-to-image-generation--技术流派4类">Text-to-Image Generation  技术流派（4类）</a></li>
+      </ul>
+    </li>
+    <li><a href="#统一的视觉模型2">统一的视觉模型[2]</a></li>
+    <li><a href="#端到端的方式训练llm2">端到端的方式训练LLM[2]</a></li>
+    <li><a href="#多模态-agent3">多模态 Agent[3]</a></li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#翻译">翻译</a></li>
+            <li><a href="#解读">解读</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ViT on Vision</title>
+    <link>https://www6v.github.io/www6vVision/tags/ViT/</link>
+    <description>Recent content in ViT on Vision</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 24 Mar 2024 12:06:39 +0000</lastBuildDate>
+    <atom:link href="https://www6v.github.io/www6vVision/tags/ViT/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VQ-VAE</title>
+      <link>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/</link>
+      <pubDate>Sun, 24 Mar 2024 12:06:39 +0000</pubDate>
+      <guid>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;&#xA;&lt;!-- more --&gt;&#xA;&lt;h1 id=&#34;参考&#34;&gt;&#xA;  参考&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#%e5%8f%82%e8%80%83&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/647399156&#34;&gt;关于 VQ-VAE 直观理解&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV1bb4y1i7j6/?vd_source=f6e8c1128f9f264c5ab8d9411a644036&#34;&gt;[论文简析]VQ-VAE:Neural discrete representation learning[1711.00937]&lt;/a&gt; v&#xA;看评论中的置顶 有代码&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://www.bilibili.com/video/BV1yN4y1k794/&#34;&gt;如何搭建VQ-VAE模型（Pytorch代码）&lt;/a&gt; v&#xA;看视频介绍 &lt;a href=&#34;https://github.com/KevinOfCathay/DDPM-demo&#34;&gt;https://github.com/KevinOfCathay/DDPM-demo&lt;/a&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>
