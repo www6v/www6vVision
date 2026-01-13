@@ -19,9 +19,6 @@
     <loc>https://www6v.github.io/www6vVision/docs/</loc>
     <lastmod>2024-08-03T14:22:39+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/</loc>
-    <lastmod>2024-07-17T10:51:11+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/</loc>
     <lastmod>2024-03-24T12:06:39+00:00</lastmod>
   </url><url>
@@ -29,6 +26,8 @@
     <lastmod>2023-03-15T23:00:59+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/</loc>
     <lastmod>2024-08-03T14:22:39+00:00</lastmod>
@@ -83,14 +82,11 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</loc>
     <lastmod>2024-08-03T14:22:39+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</loc>
-    <lastmod>2024-07-17T10:51:11+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/categories/Diffusion/</loc>
-    <lastmod>2024-07-17T10:51:11+00:00</lastmod>
+    <lastmod>2024-04-16T16:26:40+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/tags/Diffusion/</loc>
-    <lastmod>2024-07-17T10:51:11+00:00</lastmod>
+    <lastmod>2024-04-16T16:26:40+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/</loc>
     <lastmod>2024-04-16T16:26:40+00:00</lastmod>
@@ -116,18 +112,6 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/</loc>
     <lastmod>2024-03-24T11:18:19+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</loc>
-    <lastmod>2023-08-22T18:27:16+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</loc>
-    <lastmod>2023-08-22T18:26:51+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</loc>
-    <lastmod>2023-08-22T18:26:35+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</loc>
-    <lastmod>2023-08-22T18:26:17+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</loc>
     <lastmod>2023-07-27T09:29:58+00:00</lastmod>
   </url><url>
@@ -139,9 +123,6 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/tags/Vision/</loc>
     <lastmod>2023-07-25T13:49:28+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</loc>
-    <lastmod>2023-07-06T19:24:20+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</loc>
     <lastmod>2023-07-06T19:10:10+00:00</lastmod>
@@ -191,6 +172,8 @@
     <loc>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgent/</loc>
     <lastmod>2023-02-21T10:10:51+00:00</lastmod>
   </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</loc>
+  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControllableWork/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIP/</loc>
@@ -198,6 +181,16 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Connector/Connector/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/seg/SAM/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/</loc>
   </url><url>
