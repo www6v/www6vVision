@@ -6,15 +6,8 @@
     <description>Recent content in Multimodal on Vision</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Aug 2024 14:22:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Apr 2024 09:38:25 +0000</lastBuildDate>
     <atom:link href="https://www6v.github.io/www6vVision/tags/multimodal/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>人像生图</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</link>
-      <pubDate>Sat, 03 Aug 2024 14:22:39 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;&#xA;&lt;!-- more --&gt;&#xA;&lt;h1 id=&#34;instantid&#34;&gt;&#xA;  InstantID&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#instantid&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://candied-skunk-1ca.notion.site/InstantID-0b96b4a8d12340a1900995ca7f33ef05?pvs=4&#34;&gt;InstantID&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;photomaker&#34;&gt;&#xA;  PhotoMaker&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#photomaker&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://candied-skunk-1ca.notion.site/PhotoMaker-f4b3e96a9ed046838b7255e026bd1abf?pvs=4&#34;&gt;PhotoMaker&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;总结&#34;&gt;&#xA;  总结&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#%e6%80%bb%e7%bb%93&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;【InstantID : ipAdaptor +controlnet,  image Contoll的思路】&lt;br&gt;&#xA;【photomaker: image  Edit 的思路】&lt;/p&gt;</description>
-    </item>
     <item>
       <title>多模态 系列</title>
       <link>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSeries/</link>
