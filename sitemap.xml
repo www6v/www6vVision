@@ -5,8 +5,9 @@
     <loc>https://www6v.github.io/www6vVision/docs/Survey/</loc>
     <lastmod>2024-04-04T09:38:25+00:00</lastmod>
   </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</loc>
+  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/</loc>
-    <lastmod>2023-08-27T10:21:28+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/</loc>
     <lastmod>2024-03-24T12:06:39+00:00</lastmod>
@@ -27,6 +28,8 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/</loc>
     <lastmod>2023-03-15T23:00:59+00:00</lastmod>
   </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/</loc>
+  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/</loc>
     <lastmod>2024-08-03T14:22:39+00:00</lastmod>
   </url><url>
@@ -36,20 +39,25 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/</loc>
     <lastmod>2023-03-15T16:09:00+00:00</lastmod>
   </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</loc>
+  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/</loc>
     <lastmod>2024-08-03T14:22:39+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/</loc>
     <lastmod>2023-03-15T23:00:59+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/</loc>
-    <lastmod>2023-07-21T13:59:11+00:00</lastmod>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/</loc>
     <lastmod>2023-06-30T21:12:35+00:00</lastmod>
   </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</loc>
+  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/Data/</loc>
     <lastmod>2023-04-01T15:09:17+00:00</lastmod>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/Vision/</loc>
     <lastmod>2023-07-25T13:49:28+00:00</lastmod>
@@ -108,9 +116,6 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/</loc>
     <lastmod>2024-03-24T11:18:19+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</loc>
-    <lastmod>2023-08-27T10:21:28+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</loc>
     <lastmod>2023-08-22T18:27:16+00:00</lastmod>
   </url><url>
@@ -123,12 +128,6 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</loc>
     <lastmod>2023-08-22T18:26:17+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</loc>
-    <lastmod>2023-08-01T19:19:40+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</loc>
-    <lastmod>2023-08-01T19:12:57+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</loc>
     <lastmod>2023-07-27T09:29:58+00:00</lastmod>
   </url><url>
@@ -140,9 +139,6 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/tags/Vision/</loc>
     <lastmod>2023-07-25T13:49:28+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/</loc>
-    <lastmod>2023-07-21T13:59:11+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</loc>
     <lastmod>2023-07-06T19:24:20+00:00</lastmod>
@@ -158,9 +154,6 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/tags/AIGC/</loc>
     <lastmod>2023-06-30T21:12:35+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</loc>
-    <lastmod>2023-06-29T17:28:21+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/Data/MulitmodalDataset/</loc>
     <lastmod>2023-04-01T15:09:17+00:00</lastmod>
@@ -209,8 +202,6 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIPPractice/</loc>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/Controllable/</loc>
   </url><url>

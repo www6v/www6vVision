@@ -3,22 +3,81 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="
+  论文
+  #
+
+
+
+论文地址
+Scalable Diffusion Models with Transformers
+
+
+开源地址
+Scalable Diffusion Models with Transformers git
+DiT Repo  git
+
+
+
+  Arch
+  #
+
+
+
+  code[10]
+  #
+
+
+DiT
+dit git
+DiTBlock
+dit_block git
+
+
+  参考
+  #
+
+1xx. AI大讲堂：文生视频谁能敌？专业拆解【DiT模型】 V
+DiT原文: https://arxiv.org/abs/2212.09748
+Code: https://github.com/facebookresearch/DiT
+Huggingface: https://huggingface.co/spaces/wpeebles/DiT
+1xx. 14步手搓sora!Diffusion Transformer, DiT工作原理  V
+
+  实战
+  #
+
+
+【Sora重要技术】复现DiT（Diffusion Transformer）模型 V ***
+dits Repo
+">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/">
   <meta property="og:site_name" content="Vision">
-  <meta property="og:title" content="DiT">
+  <meta property="og:title" content="(原理|实战)DiT">
+  <meta property="og:description" content="论文 # 论文地址
+Scalable Diffusion Models with Transformers
+开源地址 Scalable Diffusion Models with Transformers git
+DiT Repo git
+Arch # code[10] # DiT
+dit git DiTBlock
+dit_block git 参考 # 1xx. AI大讲堂：文生视频谁能敌？专业拆解【DiT模型】 V
+DiT原文: https://arxiv.org/abs/2212.09748
+Code: https://github.com/facebookresearch/DiT
+Huggingface: https://huggingface.co/spaces/wpeebles/DiT
+1xx. 14步手搓sora!Diffusion Transformer, DiT工作原理 V
+实战 # 【Sora重要技术】复现DiT（Diffusion Transformer）模型 V ***
+dits Repo">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="website">
-<title>DiT | Vision</title>
+<title>(原理|实战)DiT | Vision</title>
 <link rel="icon" href="/www6vVision/favicon.png" >
 <link rel="manifest" href="/www6vVision/manifest.json">
-<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
-  <script defer src="/www6vVision/en.search.min.35dc7b69226f838ee2c6bce11c31648fa919aee285d66fa4196743de35fead85.js" integrity="sha256-Ndx7aSJvg47ixrzhHDFkj6kZruKF1m&#43;kGWdD3jX&#43;rYU=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/index.xml" title="Vision" />
+  <script defer src="/www6vVision/en.search.min.9cd7b43e0eb113e71b71ec3e111e242ab4c20488f3d0f060a30b905c8c06eb85.js" integrity="sha256-nNe0Pg6xE&#43;cbcew&#43;ER4kKrTCBIjz0PBgowuQXIwG64U=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/index.xml" title="Vision" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -371,7 +430,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle" checked />
     <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
       <a role="button" class="">Diffusion</a>
     </label>
@@ -387,7 +446,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/" class="">(原理)unCLIP</a>
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/" class="">(原理)Stable Diffusion</a>
   
 
           
@@ -405,7 +464,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/" class="">(原理)Guidance</a>
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
   
 
           
@@ -441,7 +500,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/" class="">(原理)Stable Diffusion</a>
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/" class="">(原理)Guidance</a>
   
 
           
@@ -459,7 +518,25 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/" class="">(原理)unCLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/" class="active">(原理|实战)DiT</a>
   
 
           
@@ -793,45 +870,6 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/" class="">人像生图</a>
-  
-
-          
-  <ul>
-    
-  </ul>
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <input type="checkbox" id="section-411fe86546816a1d5f4b377cb070a200" class="toggle" checked />
-    <label for="section-411fe86546816a1d5f4b377cb070a200" class="flex justify-between">
-      <a role="button" class="active">DiT</a>
-    </label>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/" class="">(原理|实战)DiT</a>
   
 
           
@@ -1211,7 +1249,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>DiT</h3>
+  <h3>(原理|实战)DiT</h3>
 
   <label for="toc-control">
     
@@ -1225,7 +1263,22 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#论文">论文</a></li>
+    <li><a href="#arch">Arch</a></li>
+    <li><a href="#code10">code[10]</a></li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#实战">实战</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 
 
 
@@ -1236,7 +1289,54 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"></article>
+  <article class="markdown book-article"><h1 id="论文">
+  论文
+  <a class="anchor" href="#%e8%ae%ba%e6%96%87">#</a>
+</h1>
+<ul>
+<li>
+<p>论文地址<br>
+<a href="https://arxiv.org/abs/2212.09748">Scalable Diffusion Models with Transformers</a></p>
+</li>
+<li>
+<p>开源地址
+<a href="https://www.wpeebles.com/DiT">Scalable Diffusion Models with Transformers</a> git<br>
+<a href="https://github.com/facebookresearch/DiT">DiT Repo</a>  git</p>
+</li>
+</ul>
+<h1 id="arch">
+  Arch
+  <a class="anchor" href="#arch">#</a>
+</h1>
+<p><img src="https://www.wpeebles.com/images/DiT/block.png" alt="DiT" /></p>
+<h1 id="code10">
+  code[10]
+  <a class="anchor" href="#code10">#</a>
+</h1>
+<ul>
+<li>DiT<br>
+<a href="https://github.com/www6v/mnist-dits/blob/main/dit.py">dit</a> git</li>
+<li>DiTBlock<br>
+<a href="https://github.com/www6v/mnist-dits/blob/main/dit_block.py">dit_block</a> git</li>
+</ul>
+<h1 id="参考">
+  参考
+  <a class="anchor" href="#%e5%8f%82%e8%80%83">#</a>
+</h1>
+<p>1xx. <a href="https://www.bilibili.com/video/BV12E421T7Zi/">AI大讲堂：文生视频谁能敌？专业拆解【DiT模型】</a> V<br>
+DiT原文: <a href="https://arxiv.org/abs/2212.09748">https://arxiv.org/abs/2212.09748</a><br>
+Code: <a href="https://github.com/facebookresearch/DiT">https://github.com/facebookresearch/DiT</a><br>
+Huggingface: <a href="https://huggingface.co/spaces/wpeebles/DiT">https://huggingface.co/spaces/wpeebles/DiT</a></p>
+<p>1xx. <a href="https://www.bilibili.com/video/BV12J4m1379T/">14步手搓sora!Diffusion Transformer, DiT工作原理</a>  V</p>
+<h3 id="实战">
+  实战
+  <a class="anchor" href="#%e5%ae%9e%e6%88%98">#</a>
+</h3>
+<ol start="10">
+<li><a href="https://www.bilibili.com/video/BV13K421h79z/">【Sora重要技术】复现DiT（Diffusion Transformer）模型</a> V ***<br>
+<a href="https://github.com/owenliang/mnist-dits">dits Repo</a></li>
+</ol>
+</article>
  
       
 
@@ -1261,6 +1361,10 @@ https://github.com/alex-shpak/hugo-book
 
       
   
+  <div class="book-comments">
+
+</div>
+  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -1271,7 +1375,22 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#论文">论文</a></li>
+    <li><a href="#arch">Arch</a></li>
+    <li><a href="#code10">code[10]</a></li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#实战">实战</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 
 
  
