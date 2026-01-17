@@ -6,43 +6,8 @@
     <description>Recent content in AIGC on Vision</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 03 Aug 2024 14:22:39 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Apr 2024 09:38:25 +0000</lastBuildDate>
     <atom:link href="https://www6v.github.io/www6vVision/categories/AIGC/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>人像生图</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</link>
-      <pubDate>Sat, 03 Aug 2024 14:22:39 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/</guid>
-      <description>InstantID # InstantID&#xA;PhotoMaker # PhotoMaker&#xA;总结 # 【InstantID : ipAdaptor +controlnet, image Contoll的思路】&#xA;【photomaker: image Edit 的思路】</description>
-    </item>
-    <item>
-      <title>(原理|实战)DreamBooth</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</link>
-      <pubDate>Wed, 17 Jul 2024 10:51:11 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/</guid>
-      <description>Approach[1] # Our method takes as input a few images (typically 3-5 images suffice, based on our experiments) of a subject (e.g., a specific dog) and the corresponding class name (e.g. &amp;ldquo;dog&amp;rdquo;), and returns a fine-tuned/&amp;ldquo;personalized&amp;rsquo;&amp;rsquo; text-to-image model that encodes a unique identifier that refers to the subject. Then, at inference, we can implant the unique identifier in different sentences to synthesize the subjects in difference contexts. 我们的方法将主题（例如，特定的狗）和相应的类名称（例如“狗”）的一些图像（根据我们的实验，通常 3-5 个图像就足够了）作为输入，并返回一个微调/ “个性化”文本到图像模型，编码指向主题的唯一标识符。然后，在推理时，我们可以将唯一标识符植入不同的句子中，以合成不同上下文中的主题。</description>
-    </item>
-    <item>
-      <title>pix2pix-zero</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/</link>
-      <pubDate>Tue, 16 Apr 2024 16:26:40 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/</guid>
-      <description>论文 # 论文地址&#xA;Zero-shot Image-to-Image Translation&#xA;开源地址&#xA;pix2pix-zero git&#xA;Project page&#xA;Project page&#xA;官网有个介绍视频 看过不错&#xA;Method[1] # 上图展示了pix2pix-zero方法的概述，这是一个将图片从猫变成狗的图像到图像的翻译例子。首先，使用规范化的DDIM反转来得到一个反转的噪声映射，这是由BLIP图像字幕（caption）网络和CLIP文本嵌入模型自动生成的文本嵌入引导的。然后，使用原始文本嵌入去噪以获得交叉注意力图，作为输入图像结构的参考（顶部行）。接下来，使用编辑后的文本嵌入去噪，通过损失函数确保这些交叉注意力图与参考交叉注意力图相匹配（第二行）。这确保了编辑图像的结构与原始图像相比不会发生剧烈变化。没有交叉注意力引导的去噪示例显示在第三行，导致结构上的大偏差。此可视化强调了在编辑过程中保持图像原始结构的交叉注意力的重要性。&#xA;Discovering edit directions [2] # 参考 # pix2pix-zero：零样本图像到图像转换 【深度学习】【风格迁移】Zero-shot Image-to-Image Translation 实战&#xA;Zero-shot Image-to-Image Translation</description>
-    </item>
-    <item>
-      <title>InstructPix2Pix</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/</link>
-      <pubDate>Tue, 16 Apr 2024 16:25:58 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/</guid>
-      <description>论文 # 论文地址 InstructPix2Pix: Learning to Follow Image Editing Instructions 开源地址 Repo git Project page Project page Method # 这章就讲两件事：1）如何生成数据集（章节3.1）；2）如何基于上一步生成的训练数据，训练一个图像编辑扩散模型（章节3.2）；&#xA;参考 # InstructPix2Pix：用指令给图像做修改&#xA;实战 # 1xx. InstructPix2Pix diffusers 1xx. InstructPix2Pix V Code Repo git</description>
-    </item>
-    <item>
-      <title>Prompt-to-Prompt</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/</link>
-      <pubDate>Tue, 16 Apr 2024 16:25:38 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/</guid>
-      <description>论文 # 论文地址 PROMPT-TO-PROMPT IMAGE EDITING WITH CROSS-ATTENTION CONTROL 开源地址 Prompt-to-Prompt git Project page Project page 示意[1] # 应用[1] # **应用方面：**Prompt-to-Prompt 这个方法是原理上的创新，应用方面只适用于“已经生成了一张大致满意的图，我们想对它进行部分修改”。但是对于“手头有一张来历不明的图，我们想对它进行修改”这个任务就很麻烦了，因为很难去倒推这张图对应的prompt是啥。&#xA;所以后续有一项工作叫 InstructPix2Pix，作用是“一张来历不明的图，只要说‘把猫改成狗’，模型就能把画面里的猫改成狗，其他不变。”非常好用，听说已经集成在 Stable Diffusion WebUI 里可以直接用了。&#xA;Method[1] # 上半部分，原版cross-attention，下半部分，本文的cross-attention&#xA;参考 # Prompt-to-prompt：让生成的图像保持一致 diffusion model(十四)： prompt-to-prompt 深度剖析</description>
-    </item>
     <item>
       <title>多模态 系列</title>
       <link>https://www6v.github.io/www6vVision/docs/Survey/MultimodalSeries/</link>
@@ -65,62 +30,6 @@
       <description>DINO # https://github.com/facebookresearch/dino&#xA;参考 # 重塑自监督学习: DINO 网络如何颠覆视觉特征表示的常规方法 有动图&#xA;DINOv2 # 论文 # 论文地址 DINOv2: Learning Robust Visual Features without Supervision&#xA;开源地址 https://github.com/facebookresearch/dinov2&#xA;Project page Project page Project page&#xA;参考 # DINOv2：无需微调，填补 SAM 的空白，支持多个下游任务&#xA;全网最详细的 DINOv2 论文解读来啦！&#xA;深度学习算法应用实战 | DINOv2 图像相似度实战&#xA;视觉大模型DINOv2:自我监督学习的新领域&#xA;DINOv2：无需微调，填补SAM空白&#xA;实战 # DINOv2 on mmpretrain</description>
     </item>
     <item>
-      <title>(原理)unCLIP</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</link>
-      <pubDate>Sun, 27 Aug 2023 10:21:28 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/unCLIP/</guid>
-      <description>unCLIP # (原理)unCLIP</description>
-    </item>
-    <item>
-      <title>(原理|实战)ReferenceNet</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</link>
-      <pubDate>Tue, 22 Aug 2023 18:27:16 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/</guid>
-      <description>ReferenceNet # (原理|实战)ReferenceNet</description>
-    </item>
-    <item>
-      <title>(原理|实战)IP-Adapter</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</link>
-      <pubDate>Tue, 22 Aug 2023 18:26:51 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/</guid>
-      <description>论文[IP-Adapter] # 论文地址 IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models 开源地址 IP-Adapter git enable a pretrained text-to-image diffusion model to generate images with image prompt 有很多notebook的demo Project page Project page IP-Adapter[10] # IP-Adapter is an image prompt adapter that can be plugged into diffusion models to enable image prompting without any changes to the underlying model. Furthermore, this adapter can be reused with other models finetuned from the same base model and it can be combined with other adapters like ControlNet.</description>
-    </item>
-    <item>
-      <title>(原理|实战)T2I-Adapter</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</link>
-      <pubDate>Tue, 22 Aug 2023 18:26:35 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/</guid>
-      <description>论文[T2I-Adapter] # 论文地址 T2I-Adapter 开源地址 T2I-Adapter git T2I-Adapter[10] # T2I-Adapter is a lightweight adapter for controlling and providing more accurate structure guidance for text-to-image models. It works by learning an alignment between the internal knowledge of the text-to-image model and an external control signal, such as edge detection or depth estimation.&#xA;T2I-Adapter 是一种轻量级适配器，用于控制文本到图像模型并提供更准确的结构指导。它的工作原理是学习文本到图像模型的内部知识与外部控制信号（如边缘检测或深度估计）之间的对齐。&#xA;The T2I-Adapter design is simple, the condition is passed to four feature extraction blocks and three downsample blocks.</description>
-    </item>
-    <item>
-      <title>(原理|实战)ControlNet</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</link>
-      <pubDate>Tue, 22 Aug 2023 18:26:17 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/</guid>
-      <description>论文[ControlNet] # 论文地址 Adding Conditional Control to Text-to-Image Diffusion Models 开源地址 ControlNet git ControlNet[10] # ControlNet is a type of model for controlling image diffusion models by conditioning the model with an additional input image. There are many types of conditioning inputs (canny edge, user sketching, human pose, depth, and more) you can use to control a diffusion model. This is hugely useful because it affords you greater control over image generation, making it easier to generate specific images without experimenting with different text prompts or denoising values as much.</description>
-    </item>
-    <item>
-      <title>(原理)Guidance</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</link>
-      <pubDate>Tue, 01 Aug 2023 19:19:40 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</guid>
-      <description>Guidance # Guidance</description>
-    </item>
-    <item>
-      <title>(原理)SD XL</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</link>
-      <pubDate>Tue, 01 Aug 2023 19:12:57 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/</guid>
-      <description>SDXL # SDXL</description>
-    </item>
-    <item>
-      <title>(Work|实战)Image Editing</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</link>
-      <pubDate>Thu, 27 Jul 2023 09:29:58 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/</guid>
-      <description>总结 # Prompt-to-Prompt&#xA;train-free，察觉到了attention map的妙用&#xA;pix2pix-zero&#xA;察觉到了attention map的妙用&#xA;InstructPix2Pix&#xA;trainable，training数据基于Prompt-to-Prompt&#xA;MGIE&#xA;基于LMM</description>
-    </item>
-    <item>
       <title>CV 任务</title>
       <link>https://www6v.github.io/www6vVision/docs/Vision/VisionTask/</link>
       <pubDate>Tue, 25 Jul 2023 13:49:28 +0000</pubDate>
@@ -128,39 +37,11 @@
       <description>&#xA;分类 [1] # image-level # image recognition&#xA;(Retrieval)image-text retrieval&#xA;Caption(image captioning)&#xA;VQA(visual question answering)&#xA;region-level # Object Detection object detection&#xA;DETR -&amp;gt; DINO -&amp;gt; Grounding DINO dense caption&#xA;phrase grounding&#xA;pixel-level # Segmentation generic segmetation referring segmetation 其他 # 对比&#xA;[CNN 更深的网络] [transformer 没有局限] CV任务&#xA;分类（Classification） 检测（Detection） 分割（Segmentation） 跟踪（Tracking） 行为识别（Action Recognition） 参考 # [CVPR Tutorial Talk] Towards General Vision Understanding Interface pdf </description>
     </item>
     <item>
-      <title>(原理|实战)DiT</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/</link>
-      <pubDate>Fri, 21 Jul 2023 13:59:11 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/DiT/DiT/</guid>
-      <description>&#xA;论文 # 论文地址&#xA;Scalable Diffusion Models with Transformers&#xA;开源地址 Scalable Diffusion Models with Transformers git&#xA;DiT Repo git&#xA;Arch # code[10] # DiT&#xA;dit git DiTBlock&#xA;dit_block git 参考 # 1xx. AI大讲堂：文生视频谁能敌？专业拆解【DiT模型】 V&#xA;DiT原文: https://arxiv.org/abs/2212.09748&#xA;Code: https://github.com/facebookresearch/DiT&#xA;Huggingface: https://huggingface.co/spaces/wpeebles/DiT&#xA;1xx. 14步手搓sora!Diffusion Transformer, DiT工作原理 V&#xA;实战 # 【Sora重要技术】复现DiT（Diffusion Transformer）模型 V ***&#xA;dits Repo </description>
-    </item>
-    <item>
-      <title>(work|实战) fine-tuning</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</link>
-      <pubDate>Thu, 06 Jul 2023 19:24:20 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/</guid>
-      <description>对比总结[1] # 训练方法 方法 局限性 Text Inversion 使用提供的一组图片训练一个新单词的Embedding ，并将其与词汇表中的已有单词关联起来，这个新单词即为这组图片概念的指代。 训练过程只对应 Embedding，扩散模型没有新知识输入，所以也无法产生新的内容。 Full FineTune 最朴素的方式，使用图片+ 标注的数据集，进行迭代训练，数据集标注可以选择BLIP来生成。训练直接对原模型的所有权重进行调整。 容易过拟合，导致生成图片的多样性不够，结果难以控制。模型体积大，不便于传播。 Dreambooth 提供代表某个新概念（instance） 对应的一组图像，并使用罕见字符（identifier） 进行概念Mapping，训练过程充分考虑原有相关主题（class）生成，避免过拟合。训练直接对原模型的所有权重进行调整。 训练过程只针对新概念 （instance），多样性差。如果需要多概念生成，需要多次训练。模型体积大，不便于传播。 LoRA（w Dreambooth） 冻结预训练模型参数，在每个Transformer块插入可训练层，不需要完整调整 UNet 模型的全部参数。训练结果只保留新增的网络层，模型体积小。 训练效果不如Dreambooth 对比总结[2] # 对比总结[3] # 参考 # Stable Diffusion 微调及推理优化 【论文串读】Stable Diffusion模型微调方法串读 V Stable Diffusion——四种模型 LoRA（包括LyCORIS）、Embeddings、Dreambooth、Hypernetwork 实战 # 1xx. Text Inversion V 【这个比较详细】 1xx. lora Dreambooth V 【冻结不训练unet，只训练lora】 【为unet模型添加注意力层，注意力层是要训练的参数】 【大部分代码和Dreambooth差不多】&#xA;实战 # 1xx. + concept customization dreambooth lora + textual_inversion diffusers&#xA;1xx. 手把手教你微调Stable Diffusion * lora on DreamBooth</description>
-    </item>
-    <item>
-      <title>(综述)Image Editing</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</link>
-      <pubDate>Thu, 06 Jul 2023 19:10:10 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</guid>
-      <description>目录 # 论文 # 论文地址 《Diffusion Model-Based Image Editing: A Survey》&#xA;开源地址 Repo git&#xA;图像编辑[1] # 大类 # 从图片编辑的任务方面可以被分为3个大类 语义编辑semantic editing 风格编辑stylistic editing 结构编辑structural editing APPROACHES # TRAINING-BASED APPROACHES&#xA;InstructPix2Pix TESTING-TIME FINETUNING APPROACHES&#xA;TRAINING AND FINETUNING FREE APPROACHES&#xA;论文[2] # 论文地址 《A Survey of Multimodal-Guided Image Editing with Text-to-Image Diffusion Models》 复旦、南洋理工&#xA;开源地址 A Survey of Multimodal-Guided Image Editing with Text-to-Image Diffusion Models&#xA;Survey[2] # 参考 # survey # 《Diffusion Model-Based Image Editing: A Survey》 论文阅读：Diffusion Model-Based Image Editing: A Survey 基于扩散模型的图像编辑：首篇综述</description>
-    </item>
-    <item>
       <title>Agent - UI-assistants</title>
-      <link>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgentApp/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/</link>
       <pubDate>Fri, 30 Jun 2023 21:12:35 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgentApp/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/</guid>
       <description>参考 # App Agent # 1xx. AppAgent源码分析&amp;amp;思考 https://github.com/mnotgod96/AppAgent https://icoz69.github.io/&#xA;1xx. 【LLM-agent】MOBILE-AGENT: 具有视觉感知能力的自治多模移动设备agent https://github.com/X-PLUG/MobileAgent&#xA;1xx. https://github.com/OpenAdaptAI/OpenAdapt</description>
-    </item>
-    <item>
-      <title>(原理)Stable Diffusion</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</link>
-      <pubDate>Thu, 29 Jun 2023 17:28:21 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</guid>
-      <description>Stable Diffusion 原理 # (原理)Stable Diffusion</description>
     </item>
     <item>
       <title>(survey)多模态  数据集</title>
@@ -177,52 +58,52 @@
       <description>目录 # 论文 # 论文地址 《Multimodal Foundation Models:From Specialists to General-Purpose Assistants》 .Sep 2023 - microsoft&#xA;开源地址 Computer Vision in the Wild (CVinW)&#xA;overview [0] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;视觉理解 [1] # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;{% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;视觉生成 [1] # Human Alignments in Visual Generation [10] # 四种alignment的方式&#xA;spatial controllable T2I generation # 结合位置分布的文字描述（比较麻烦的用户交互，不仅需要文字，而且需要位置），常用于对位置要求比较高的创意设计（海报等）&#xA;直接讲原来clip那种image-level的text description升级为基于区域的text description&#xA;reco gligen 将box描述变为spatial condition&#xA;controlnet 无需fintinue，直接变为inference-guide&#xA;universal guidance for diffusion model text-based editing # 给一张图和对应的修改文字，输出要求的图，常用于ps等产品</description>
     </item>
     <item>
-      <title>(图生文)BLIP-2, Flamingo</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Blip/</link>
+      <title>BLIP-2</title>
+      <link>https://www6v.github.io/www6vVision/docs/MLLM/VL/Blip/</link>
       <pubDate>Wed, 15 Mar 2023 23:00:59 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Blip/</guid>
-      <description>目录 # BLIP-2 # Overview [1] # 用一个Qformer来提取图像特征（等同与Flamingo的perceiver resampler），然后用cross- attention进行多模态交互，此时视觉编码器和LLM都会被冻结，只训练Qformer，而在下游任务微调时，可以再解锁视觉编码器，让它跟Qformer一起训练&#xA;两阶段的训练策略 [1] # BLIP-2设计了两阶段的训练策略，以使视觉编码器能学会提取更关键的信息。&#xA;第一阶段：使用多种预训练任务，如Image-Text Contrastive Learning(ITC)，Image-grounded Text Generation(ITG)，Image-Text Matching(ITM)让Qformer学会如何从视觉编码器中抽取文本相关的特征。 第二阶段，将Qformer插入到LLMs中，用language modeling进行训练。 架构[3] # 两个阶段训练 阶段一 获得高质量的 图文对齐向量表征 通过ITC ITM ITG 三个损失函数获得了很好的图片文本 对齐向量表征能力，仅训练Qformer中很少的参数 【ITM: image-text 是否是匹配的 | image 和text 都能相互看到】 【ITG: image生成text | image 能全看到, text只能逐个的看】 【ITC: image和text的对比学习, 对比学习分类分错了的 送入ITM 负样本 | image和 text 之间是不能看到的】 阶段二 通过向量表征进行文字生成 code [2] # Flamingo[1] # 架构 # 它在Frozen模型的基础上做进一步的改进，不同点主要有两个：一是使用了更大的LLMs，二是冻结视觉编码器，引入perceiver resampler和XAttn-Dense两个适配单元作为可训练的模块。&#xA;perceiver resampler： 类似DETR，通过设计多个Perceiver Resampler来生成64个固定长度的tokens，主要作用在于可以从图像中提取固定长度的特征向量，能够解决图像甚至多帧视频的feature map不一致的问题。【图像和文本对齐】 XAttn-Dense：在每一层LLM上都会增加corss- attention以入到LLM中与视觉向量进行交互，融合多模态信息。【融合】 参考 # blip2 # 基于LLMs的多模态大模型（Flamingo, BLIP-2，KOSMOS-1，ScienceQA）</description>
+      <guid>https://www6v.github.io/www6vVision/docs/MLLM/VL/Blip/</guid>
+      <description>BLIP-2 # Overview [1] # 用一个Qformer来提取图像特征（等同与Flamingo的perceiver resampler），然后用cross- attention进行多模态交互，此时视觉编码器和LLM都会被冻结，只训练Qformer，而在下游任务微调时，可以再解锁视觉编码器，让它跟Qformer一起训练&#xA;两阶段的训练策略 [1] # BLIP-2设计了两阶段的训练策略，以使视觉编码器能学会提取更关键的信息。&#xA;第一阶段：使用多种预训练任务，如Image-Text Contrastive Learning(ITC)，Image-grounded Text Generation(ITG)，Image-Text Matching(ITM)让Qformer学会如何从视觉编码器中抽取文本相关的特征。 第二阶段，将Qformer插入到LLMs中，用language modeling进行训练。 架构[3] # 两个阶段训练 阶段一 获得高质量的 图文对齐向量表征 通过ITC ITM ITG 三个损失函数获得了很好的图片文本 对齐向量表征能力，仅训练Qformer中很少的参数 【ITM: image-text 是否是匹配的 | image 和text 都能相互看到】 【ITG: image生成text | image 能全看到, text只能逐个的看】 【ITC: image和text的对比学习, 对比学习分类分错了的 送入ITM 负样本 | image和 text 之间是不能看到的】 阶段二 通过向量表征进行文字生成 code [2] # 参考 # blip2 # 基于LLMs的多模态大模型（Flamingo, BLIP-2，KOSMOS-1，ScienceQA）&#xA;blip2 git blip2_instructed_generation git 运行过</description>
     </item>
     <item>
       <title>(综述)多模态InstructTuning</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/InstructTuning/</link>
+      <link>https://www6v.github.io/www6vVision/docs/MLLM/Training/InstructTuning/</link>
       <pubDate>Wed, 15 Mar 2023 16:09:00 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/InstructTuning/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/MLLM/Training/InstructTuning/</guid>
       <description>目录 # Datasets for Visual Instruction Tuning[1] # Single-turn # MiniGPT-4 MiniGPT-4 [37] curates an image description dataset that contains 3439 image-text pairs for instruction fine-tuning. MiniGPT-4 randomly selects 5000 images from the Conceptual Caption dataset [38], [39] and prompts its pre-trained VLM model to generate detailed descriptions for each image. The generated descriptions are then** refined and filtered** both manually and by using ChatGPT, resulting in 3439 highquality image-text pairs.</description>
     </item>
     <item>
       <title>(原理|实战)MiniGPT4</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Minigpt4/</link>
+      <link>https://www6v.github.io/www6vVision/docs/MLLM/VL/Minigpt4/</link>
       <pubDate>Wed, 15 Mar 2023 15:56:48 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Minigpt4/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/MLLM/VL/Minigpt4/</guid>
       <description>目录 # INTRODUCTION[1] # MiniGPT-4 增加了一个投影层，将编码的视觉特征与 Vicuna 语言模型对齐，并冻结了所有其他视觉和语言组件&#xA;METHOD[1] # 图 1&#xA;MiniGPT-4 的目标是将来自预训练视觉编码器的视觉信息与先进的大型语言模型（LLM）对齐（Alignment）。具体来说，&#xA;使用 Vicuna作为语言解码器，该解码器基于 LLaMA构建，可以执行各种复杂的语言任务。 视觉感知方：采用与 BLIP-2 相同的视觉编码器，ViT Backbone及其预先训练好的 Q-Former。 语言和视觉模型都是开源的。我们的目标是利用线性投影层弥合视觉编码器与 LLM 之间的差距，图 1 显示了模型概览。 FIRST PRETRAINING STAGE # 第一阶段：在大量对齐的图像-文本对上对模型进行预训练，以获取视觉语言知识。&#xA;Traditional alignment method [2]&#xA;Input: Image Output: Caption Training Objective: Maximize the likelihood of GT captions Training Dataset 组合数据集 [postprocessed by BLIP] Conceptual Caption SBU LAION CURATING A HIGH-QUALITY ALIGNMENT DATASET FOR VISION-LANGUAGE DOMAIN. # Create a dataset with detailed, human-perfered descriptions[2][1] model generates descriptions 在初始阶段，我们使用从第一个预训练阶段得到的模型来生成输入图像的描述。 polishing and filtering by chatgpt 上述自动生成的图片说明包含噪音或不连贯的描述，例如单词或句子重复，句子支离破碎或内容不相关。为了解决这些问题，我们采用了ChatGPT，通过以下提示对描述进行修补 further polishing and filtering by rules &amp;amp; human 完成后处理阶段后，我们会手动验证每张图片说明的正确性，以保证其高质量。 SECOND-STAGE FINETUNING # 第二阶段：使用一个较小但高质量的图像-文本数据集对预训练模型进行微调，并设计了对话模板，以提高生成的可靠性和可用性。 【blip2能识别图像，但是对话能力比较弱，不能说出图像中的细节。在pre-train阶段获取视觉语言知识， 在fine-tuning 阶段获取对话能力】 [2]</description>
     </item>
     <item>
       <title>(原理|实战) LLaVa 演化</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Llava/</link>
+      <link>https://www6v.github.io/www6vVision/docs/MLLM/VL/Llava/</link>
       <pubDate>Tue, 14 Mar 2023 23:02:17 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/Llava/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/MLLM/VL/Llava/</guid>
       <description>&#xA;LLaVa 演化 # (原理|实战) LLaVa 演化 LLaVa 实战 # (实战) LLaVa </description>
     </item>
     <item>
       <title>(原理)Web Agent</title>
-      <link>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/WebAgent/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/WebAgent/</link>
       <pubDate>Sun, 05 Mar 2023 10:30:03 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/WebAgent/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/WebAgent/</guid>
       <description>web scenarios [1] # 在网络场景中，代表用户执行特定任务被称为Web导航问题[390]。代理程序解释用户指令，将其分解为多个基本操作，并与计算机进行交互。这通常涉及到填写表单、在线购物和发送电子邮件等网络任务。代理程序需要具备理解复杂网络场景中的指令的能力，适应变化（如嘈杂的文本和动态HTML网页），并推广成功的操作[391]。通过这种方式，代理程序可以在处理未知任务时实现可访问性和自动化[435]，最终使人类免于与计算机用户界面的重复交互。&#xA;通过强化学习训练的代理程序可以有效地模仿人类行为，使用预定义的操作，如键入、搜索、导航到下一页等。它们在基本任务（如在线购物[392]和搜索引擎检索[90]）中表现良好，这些任务已经得到广泛探索。然而，没有语言模型能力的代理程序可能难以适应现实世界互联网中更真实和复杂的场景。在动态、内容丰富的网页上，如在线论坛或在线业务管理[391]，代理程序常常面临性能方面的挑战。&#xA;为了实现代理程序与更真实的网页之间的成功交互，一些研究人员[393；394]开始利用语言模型的强大HTML读取和理解能力。通过设计提示，他们试图使代理程序理解整个HTML源代码，并预测更合理的下一步操作。Mind2Web[389]结合了为HTML进行微调的多个语言模型，使它们能够在现实世界的场景中总结冗长的HTML代码[388]并提取有价值的信息。此外，WebGum[390]通过使用包含HTML截屏的多模态语料库，赋予代理程序视觉感知能力。它同时进行了语言模型和视觉编码器的微调，加深了代理程序对网页的全面理解。&#xA;Performing specific tasks on behalf of users in a web scenario is known as the web navigation problem [390]. Agents interpret user instructions, break them down into multiple basic operations, and interact with computers. This often includes web tasks such as filling out forms, online shopping, and sending emails. Agents need to possess the ability to understand instructions within complex web scenarios, adapt to changes (such as noisy text and dynamic HTML web pages), and generalize successful operations [391].</description>
     </item>
     <item>
       <title>(原理)多模态预训练 概述</title>
-      <link>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/Pretrain/</link>
+      <link>https://www6v.github.io/www6vVision/docs/MLLM/Training/Pretrain/</link>
       <pubDate>Sat, 04 Mar 2023 13:23:20 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Training/Pretrain/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/MLLM/Training/Pretrain/</guid>
       <description>目录 # Overview # {% asset_img &amp;rsquo;&amp;rsquo; %}&#xA;多模态预训练 # 数据集 # 大规模无标注 内容杂 噪音多 架构Transformer # 基于transformer encoder-理解任务 单流 - vl-bert UNITER 双流 - ViLBERT， CLIP（双流结构，对比学习）&#xA;基于transformer decoder-生成任务 DALL-E （VQVAE+GPT, Text-to-Image Generation） 现在都用 → SD 扩散模型&#xA;基于encoder+decoder-理解+生成 文本的decoder&#xA;encoder + decoder 串行, 交叉注意力 encoder + decoder 并行 模型 - 自监督学习 # 模态内掩码学习 文本 语音 视觉自身token级别mask&#xA;模态间掩码学习 不同模态信息的相互预测 mask视觉， 输出对应文本&#xA;模态间匹配学习 匹配与否的分类问题 - 正负样本(二分类) 对比学习 - 模态间的图文匹配对&#xA;下游任务 # 多模态下游任务-模型微调 # 模型微调</description>
     </item>
     <item>
       <title>(原理)Agent 多模态</title>
-      <link>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgent/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/</link>
       <pubDate>Tue, 21 Feb 2023 10:10:51 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgent/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/</guid>
       <description>目录 # 论文 # 论文地址 《Large Multimodal Agents: A Survey》&#xA;开源地址 Repo git&#xA;Survey # 类型 I：无长期记忆的闭源 LLMs 作为规划器。 # Visual ChatGPT ***&#xA;MM-REACT ***&#xA;ViperGPT&#xA;HuggingGPT ***&#xA;Chameleon ***&#xA;LLaVA-Interactive ***&#xA;SeeAct&#xA;GPT-Driver&#xA;Mobile-Agent&#xA;类型 II：无长期记忆的微调 LLMs 作为规划器。 # LLaVA-Plus&#xA;GPT4Tools&#xA;类型 IV：具有本地长期记忆的规划器。 # JARV IS-1&#xA;AppAgent&#xA;DLAH&#xA;多模态 Agent[1] # 核心组件&#xA;感知组件关注处理多模态信息 规划器负责推理和制定计划 行动组件执行计划 记忆组件则涉及长期和短期记忆 四种类型&#xA;无长期记忆的闭源 LLMs 作为规划器 无长期记忆的微调 LLMs 作为规划器 具有间接长期记忆的规划器 具有本地长期记忆的规划器 多智能体协作&#xA;讨论了 LMAs 如何通过协作框架共同实现共同目标。 多模态 Agent[10] # 范式 # {% asset_img &amp;rsquo;&amp;rsquo; %}</description>
     </item>
   </channel>

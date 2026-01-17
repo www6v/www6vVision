@@ -10,16 +10,16 @@
     <atom:link href="https://www6v.github.io/www6vVision/tags/AIGC/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Agent - UI-assistants</title>
-      <link>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgentApp/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/</link>
       <pubDate>Fri, 30 Jun 2023 21:12:35 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgentApp/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/</guid>
       <description>参考 # App Agent # 1xx. AppAgent源码分析&amp;amp;思考 https://github.com/mnotgod96/AppAgent https://icoz69.github.io/&#xA;1xx. 【LLM-agent】MOBILE-AGENT: 具有视觉感知能力的自治多模移动设备agent https://github.com/X-PLUG/MobileAgent&#xA;1xx. https://github.com/OpenAdaptAI/OpenAdapt</description>
     </item>
     <item>
       <title>(原理)Agent 多模态</title>
-      <link>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgent/</link>
+      <link>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/</link>
       <pubDate>Tue, 21 Feb 2023 10:10:51 +0000</pubDate>
-      <guid>https://www6v.github.io/www6vVision/docs/Multimodal-Agent/MultimodalAgent/</guid>
+      <guid>https://www6v.github.io/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/</guid>
       <description>目录 # 论文 # 论文地址 《Large Multimodal Agents: A Survey》&#xA;开源地址 Repo git&#xA;Survey # 类型 I：无长期记忆的闭源 LLMs 作为规划器。 # Visual ChatGPT ***&#xA;MM-REACT ***&#xA;ViperGPT&#xA;HuggingGPT ***&#xA;Chameleon ***&#xA;LLaVA-Interactive ***&#xA;SeeAct&#xA;GPT-Driver&#xA;Mobile-Agent&#xA;类型 II：无长期记忆的微调 LLMs 作为规划器。 # LLaVA-Plus&#xA;GPT4Tools&#xA;类型 IV：具有本地长期记忆的规划器。 # JARV IS-1&#xA;AppAgent&#xA;DLAH&#xA;多模态 Agent[1] # 核心组件&#xA;感知组件关注处理多模态信息 规划器负责推理和制定计划 行动组件执行计划 记忆组件则涉及长期和短期记忆 四种类型&#xA;无长期记忆的闭源 LLMs 作为规划器 无长期记忆的微调 LLMs 作为规划器 具有间接长期记忆的规划器 具有本地长期记忆的规划器 多智能体协作&#xA;讨论了 LMAs 如何通过协作框架共同实现共同目标。 多模态 Agent[10] # 范式 # {% asset_img &amp;rsquo;&amp;rsquo; %}</description>
     </item>
   </channel>
