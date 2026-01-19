@@ -9,9 +9,13 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion%E6%BC%94%E8%BF%9B/</loc>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/</loc>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%8E%9F%E7%90%86/</loc>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/</loc>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%AE%9E%E7%8E%B0/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/</loc>
     <lastmod>2024-03-24T12:06:39+00:00</lastmod>
@@ -29,7 +33,9 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/Works/</loc>
     <lastmod>2023-03-15T23:00:59+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/</loc>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/</loc>
   </url><url>
@@ -45,7 +51,7 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%AB%AF%E5%88%B0%E7%AB%AF%E8%AE%AD%E7%BB%83LLMLMM/</loc>
     <lastmod>2023-03-15T23:00:59+00:00</lastmod>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/</loc>
+    <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Guidance/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/</loc>
   </url><url>

@@ -4,26 +4,95 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="
-  Stable Diffusion 原理
+  API-based
   #
 
-(原理)Stable Diffusion">
+
+  diffusion-models-class [官方课程]
+  #
+
+
+Unit 1: An Introduction to Diffusion Models
+Unit 2: Fine-Tuning, Guidance and Conditioning
+Unit 3: Stable Diffusion
+Unit 4: Going Further with Diffusion Models
+
+
+  diffusers 重点pipeline [10]
+  #
+
+
+controlnet 【controllable】
+dreambooth 【fine tuning】
+instruct_pix2pix 【image edit】
+
+
+  UI-based
+  #
+
+
+  stable-diffusion-webui
+  #
+
+
+
+stable-diffusion-webui-colab[11]
+没试过，colab要充值
+
+
+stable-diffusion-webui   on   阿里serverless [12]
+
+
+
+
+  comfyui
+  #
+
+
+
+ComfyUI  on  阿里serverless[13]
+
+
+
+
+  参考
+  #
+
+
+  API-based
+  #
+
+
+Repo diffusers git
+
+
+  UI-based
+  #
+
+
+
+可白嫖且很香—轻轻松松在colab上部署Stable Diffusion大模型！ V
+stable-diffusion-webui-colab Repo git
+Install the WebUI Colab to Google Drive  git 运行这3个脚本">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/">
   <meta property="og:site_name" content="Vision">
-  <meta property="og:title" content="(原理)Stable Diffusion">
-  <meta property="og:description" content="Stable Diffusion 原理 # (原理)Stable Diffusion">
+  <meta property="og:title" content="(实战)Stable Diffusion">
+  <meta property="og:description" content="API-based # diffusion-models-class [官方课程] # Unit 1: An Introduction to Diffusion Models Unit 2: Fine-Tuning, Guidance and Conditioning Unit 3: Stable Diffusion Unit 4: Going Further with Diffusion Models diffusers 重点pipeline [10] # controlnet 【controllable】 dreambooth 【fine tuning】 instruct_pix2pix 【image edit】 UI-based # stable-diffusion-webui # stable-diffusion-webui-colab[11] 没试过，colab要充值
+stable-diffusion-webui on 阿里serverless [12]
+comfyui # ComfyUI on 阿里serverless[13]
+参考 # API-based # Repo diffusers git UI-based # 可白嫖且很香—轻轻松松在colab上部署Stable Diffusion大模型！ V stable-diffusion-webui-colab Repo git Install the WebUI Colab to Google Drive git 运行这3个脚本">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="website">
-<title>(原理)Stable Diffusion | Vision</title>
+<title>(实战)Stable Diffusion | Vision</title>
 <link rel="icon" href="/www6vVision/favicon.png" >
 <link rel="manifest" href="/www6vVision/manifest.json">
-<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
-  <script defer src="/www6vVision/en.search.min.7f85a4df66583a9f1f9684b1804cb5a7a489564506627d0df7beb114e5850328.js" integrity="sha256-f4Wk32ZYOp8floSxgEy1p6SJVkUGYn0N976xFOWFAyg=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/index.xml" title="Vision" />
+  <script defer src="/www6vVision/en.search.min.ff9b4c2f7f926a07c5d21cc67952a829bff6b0f16090636a92cee14e187cd123.js" integrity="sha256-/5tML3&#43;SagfF0hzGeVKoKb/2sPFgkGNqks7hThh80SM=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/index.xml" title="Vision" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -376,7 +445,118 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle" checked />
+    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle" checked />
+    <label for="section-ddf62cc5d84e3e1ded920e808499a142" class="flex justify-between">
+      <a role="button" class="">Diffusion 基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%8E%9F%E7%90%86/" class="">(原理)Diffusion 原理 *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion/" class="">(原理)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%AE%9E%E7%8E%B0/" class="">(实现)Stable Diffusion *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/" class="active">(实战)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Guidance/" class="">(原理)Guidance</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
     <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
       <a role="button" class="">Diffusion</a>
     </label>
@@ -428,61 +608,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion/" class="active">(原理)Stable Diffusion</a>
-  
-
-          
-  <ul>
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
-  
-
-          
-  <ul>
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/" class="">(原理)SD XL</a>
-  
-
-          
-  <ul>
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Guidance/" class="">(原理)Guidance</a>
   
 
           
@@ -1231,7 +1357,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>(原理)Stable Diffusion</h3>
+  <h3>(实战)Stable Diffusion</h3>
 
   <label for="toc-control">
     
@@ -1247,7 +1373,36 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#stable-diffusion-原理">Stable Diffusion 原理</a></li>
+    <li><a href="#api-based">API-based</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#diffusion-models-class-官方课程">diffusion-models-class [官方课程]</a></li>
+            <li><a href="#diffusers-重点pipeline-10">diffusers 重点pipeline [10]</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ui-based">UI-based</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#stable-diffusion-webui">stable-diffusion-webui</a></li>
+            <li><a href="#comfyui">comfyui</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#api-based-1">API-based</a></li>
+            <li><a href="#ui-based-1">UI-based</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -1260,11 +1415,88 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h1 id="stable-diffusion-原理">
-  Stable Diffusion 原理
-  <a class="anchor" href="#stable-diffusion-%e5%8e%9f%e7%90%86">#</a>
+  <article class="markdown book-article"><h1 id="api-based">
+  API-based
+  <a class="anchor" href="#api-based">#</a>
 </h1>
-<p><a href="https://candied-skunk-1ca.notion.site/Diffusion-8cdcc8079d7d42c2a193ae6baf06246e?pvs=4">(原理)Stable Diffusion</a></p>
+<h3 id="diffusion-models-class-官方课程">
+  diffusion-models-class [官方课程]
+  <a class="anchor" href="#diffusion-models-class-%e5%ae%98%e6%96%b9%e8%af%be%e7%a8%8b">#</a>
+</h3>
+<ul>
+<li><a href="https://candied-skunk-1ca.notion.site/Unit-1-An-Introduction-to-Diffusion-Models-f0ee4c8bc4914ef8961b48241064b2b7?pvs=4">Unit 1: An Introduction to Diffusion Models</a></li>
+<li><a href="https://candied-skunk-1ca.notion.site/Unit-2-Fine-Tuning-Guidance-and-Conditioning-27180b80a58e4bd2860019c4237a8532?pvs=4">Unit 2: Fine-Tuning, Guidance and Conditioning</a></li>
+<li><a href="https://candied-skunk-1ca.notion.site/Unit-3-Stable-Diffusion-a8770ac5b0214c2f9cfce878812b5bf8?pvs=4">Unit 3: Stable Diffusion</a></li>
+<li><a href="https://candied-skunk-1ca.notion.site/Unit-4-Going-Further-with-Diffusion-Models-e997fe47d4e64069bba59ac81b7a4718?pvs=4">Unit 4: Going Further with Diffusion Models</a></li>
+</ul>
+<h3 id="diffusers-重点pipeline-10">
+  diffusers 重点pipeline [10]
+  <a class="anchor" href="#diffusers-%e9%87%8d%e7%82%b9pipeline-10">#</a>
+</h3>
+<ul>
+<li>controlnet 【controllable】</li>
+<li>dreambooth 【fine tuning】</li>
+<li>instruct_pix2pix 【image edit】</li>
+</ul>
+<h1 id="ui-based">
+  UI-based
+  <a class="anchor" href="#ui-based">#</a>
+</h1>
+<h3 id="stable-diffusion-webui">
+  stable-diffusion-webui
+  <a class="anchor" href="#stable-diffusion-webui">#</a>
+</h3>
+<ul>
+<li>
+<p>stable-diffusion-webui-colab[11]
+没试过，colab要充值</p>
+</li>
+<li>
+<p>stable-diffusion-webui   on   阿里serverless [12]</p>
+<p><img src="images/webui.jpg" alt="webui.jpg" /></p>
+</li>
+</ul>
+<h3 id="comfyui">
+  comfyui
+  <a class="anchor" href="#comfyui">#</a>
+</h3>
+<ul>
+<li>
+<p>ComfyUI  on  阿里serverless[13]</p>
+<p><img src="images/comfyUI.jpg" alt="comfyUI.jpg" /></p>
+</li>
+</ul>
+<h1 id="参考">
+  参考
+  <a class="anchor" href="#%e5%8f%82%e8%80%83">#</a>
+</h1>
+<h3 id="api-based-1">
+  API-based
+  <a class="anchor" href="#api-based-1">#</a>
+</h3>
+<ol start="10">
+<li><a href="https://github.com/huggingface/diffusers/tree/main/examples">Repo diffusers</a> git</li>
+</ol>
+<h3 id="ui-based-1">
+  UI-based
+  <a class="anchor" href="#ui-based-1">#</a>
+</h3>
+<ol start="11">
+<li>
+<p><a href="https://www.bilibili.com/video/BV1QS421A7zF/">可白嫖且很香—轻轻松松在colab上部署Stable Diffusion大模型！</a> V
+<a href="https://github.com/camenduru/stable-diffusion-webui-colab">stable-diffusion-webui-colab Repo</a> git
+<a href="https://github.com/camenduru/stable-diffusion-webui-colab/tree/drive">Install the WebUI Colab to Google Drive </a> git 运行这3个脚本</p>
+</li>
+<li>
+<p><a href="https://www.bilibili.com/video/BV19u411x7Bk/">超详细云端部署Stable Diffusion教程！</a> V
+【用FC的应用模版部署】【3个月免费的serverless+NAS】</p>
+</li>
+<li>
+<p><a href="https://alidocs.dingtalk.com/i/p/x9JOGOjr65om4QLAy0mVPNbMnOEE8z89">函数计算 ComfyUI 使用文档</a><br>
+用 ComfyUI 自制“粘土滤镜
+【用FC的应用模版部署】【3个月免费的serverless+NAS】</p>
+</li>
+</ol>
 </article>
  
       
@@ -1306,7 +1538,36 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#stable-diffusion-原理">Stable Diffusion 原理</a></li>
+    <li><a href="#api-based">API-based</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#diffusion-models-class-官方课程">diffusion-models-class [官方课程]</a></li>
+            <li><a href="#diffusers-重点pipeline-10">diffusers 重点pipeline [10]</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ui-based">UI-based</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#stable-diffusion-webui">stable-diffusion-webui</a></li>
+            <li><a href="#comfyui">comfyui</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#api-based-1">API-based</a></li>
+            <li><a href="#ui-based-1">UI-based</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
