@@ -3,48 +3,22 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="
-  论文[IP-Adapter]
-  #
-
-
-论文地址
-IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models
-开源地址
-IP-Adapter git
-enable a pretrained text-to-image diffusion model to generate images with image prompt
-有很多notebook的demo
-Project page
-Project page
-
-
-  IP-Adapter[10]
-  #
-
-IP-Adapter is an image prompt adapter that can be plugged into diffusion models to
-enable image prompting without any changes to the underlying model.
-Furthermore, this adapter can be reused with other models finetuned from
-the same base model and it can be combined with other adapters like ControlNet. The key idea behind IP-Adapter is the decoupled cross-attention
-mechanism which adds a separate cross-attention layer just for image
-features instead of using the same cross-attention layer for both text
-and image features. This allows the model to learn more image-specific
-features.">
+<meta name="description" content="">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/">
   <meta property="og:site_name" content="Vision">
-  <meta property="og:title" content="(原理|实战)IP-Adapter">
-  <meta property="og:description" content="论文[IP-Adapter] # 论文地址 IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models 开源地址 IP-Adapter git enable a pretrained text-to-image diffusion model to generate images with image prompt 有很多notebook的demo Project page Project page IP-Adapter[10] # IP-Adapter is an image prompt adapter that can be plugged into diffusion models to enable image prompting without any changes to the underlying model. Furthermore, this adapter can be reused with other models finetuned from the same base model and it can be combined with other adapters like ControlNet. The key idea behind IP-Adapter is the decoupled cross-attention mechanism which adds a separate cross-attention layer just for image features instead of using the same cross-attention layer for both text and image features. This allows the model to learn more image-specific features.">
+  <meta property="og:title" content="(原理)Flow Matching">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="website">
-<title>(原理|实战)IP-Adapter | Vision</title>
+<title>(原理)Flow Matching | Vision</title>
 <link rel="icon" href="/www6vVision/favicon.png" >
 <link rel="manifest" href="/www6vVision/manifest.json">
-<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
   <script defer src="/www6vVision/en.search.min.c5d4ef266bb653b25b72c4cd16fe811d9ab34bfe5d43da20a159bc6e635d8d98.js" integrity="sha256-xdTvJmu2U7JbcsTNFv6BHZqzS/5dQ9ogoVm8bmNdjZg=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/index.xml" title="Vision" />
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/index.xml" title="Vision" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -397,7 +371,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle"  />
+    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle" checked />
     <label for="section-ddf62cc5d84e3e1ded920e808499a142" class="flex justify-between">
       <a role="button" class="">Diffusion 基础</a>
     </label>
@@ -655,7 +629,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle" checked />
+    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle"  />
     <label for="section-1b2aa7832a4d8939e814125e1948a4b3" class="flex justify-between">
       <a role="button" class="">Controllable</a>
     </label>
@@ -743,7 +717,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="active">(原理|实战)IP-Adapter</a>
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="">(原理|实战)IP-Adapter</a>
   
 
           
@@ -1420,7 +1394,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>(原理|实战)IP-Adapter</h3>
+  <h3>(原理)Flow Matching</h3>
 
   <label for="toc-control">
     
@@ -1434,22 +1408,7 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#论文ip-adapter">论文[IP-Adapter]</a></li>
-    <li><a href="#ip-adapter10">IP-Adapter[10]</a></li>
-    <li><a href="#method2">Method[2]</a></li>
-    <li><a href="#参考">参考</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#实战">实战</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
 
@@ -1460,58 +1419,7 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><h1 id="论文ip-adapter">
-  论文[IP-Adapter]
-  <a class="anchor" href="#%e8%ae%ba%e6%96%87ip-adapter">#</a>
-</h1>
-<ul>
-<li>论文地址
-<a href="https://arxiv.org/pdf/2308.06721">IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models</a></li>
-<li>开源地址
-<a href="https://github.com/tencent-ailab/IP-Adapter">IP-Adapter</a> git
-enable a pretrained text-to-image diffusion model to generate images <strong>with image prompt</strong>
-有很多notebook的demo</li>
-<li>Project page
-<a href="https://ip-adapter.github.io/">Project page</a></li>
-</ul>
-<h1 id="ip-adapter10">
-  IP-Adapter[10]
-  <a class="anchor" href="#ip-adapter10">#</a>
-</h1>
-<p><a href="https://hf.co/papers/2308.06721">IP-Adapter</a> is an image prompt adapter that can be plugged into diffusion models to
-enable image prompting without any changes to the underlying model.
-Furthermore, this adapter can be reused with other models finetuned from
-the same base model and it can be combined with other adapters like <a href="https://huggingface.co/docs/diffusers/main/en/using-diffusers/controlnet">ControlNet</a>. The key idea behind IP-Adapter is the <em>decoupled cross-attention</em>
-mechanism which adds a separate cross-attention layer just for image
-features instead of using the same cross-attention layer for both text
-and image features. This allows the model to learn more image-specific
-features.</p>
-<p><a href="https://hf.co/papers/2308.06721">IP-Adapter</a> 是一种图像提示适配器，可以插入扩散模型以启用图像提示，而无需对底层模型进行任何更改。此外，该适配器<strong>可以与从同一基本模型微调的其他模型重复使用</strong>，并且<strong>可以与其他适配器（如 <a href="https://huggingface.co/docs/diffusers/main/en/using-diffusers/controlnet">ControlNet</a>）结合使用</strong>。IP-Adapter背后的关键思想是<strong><em>解耦的交叉注意力</em>机制</strong>，该机制仅为图像特征添加了一个单独的交叉注意力层，而不是对文本和图像特征使用相同的交叉注意力层。这使模型能够学习<strong>更多特定于图像的特征</strong>。</p>
-<h1 id="method2">
-  Method[2]
-  <a class="anchor" href="#method2">#</a>
-</h1>
-<p><img src="images/1723388369532.png" alt="1723388369532.png" /></p>
-<p><strong>解耦注意力机制[1]</strong></p>
-<p>IPAdapter提出的<strong>解耦注意力机制decoupled cross attention</strong>是指将<strong>图像提示（image prompt）也看作是text</strong>，按照上面的公式原理计算image prompt和查询特征  的cross attention，最后将text prompt计算的cross attention和image prompt计算的cross attention相加。</p>
-<h1 id="参考">
-  参考
-  <a class="anchor" href="#%e5%8f%82%e8%80%83">#</a>
-</h1>
-<ol>
-<li><a href="https://zhuanlan.zhihu.com/p/693224841">IPAdapter原理和代码解析</a></li>
-<li><a href="https://www.bilibili.com/video/BV1Zz421Q7wx/">【腾讯】IP-Adapter论文解读，拿捏图生图，人脸更不在话下。</a>   v</li>
-</ol>
-<h3 id="实战">
-  实战
-  <a class="anchor" href="#%e5%ae%9e%e6%88%98">#</a>
-</h3>
-<ol start="10">
-<li><a href="https://huggingface.co/docs/diffusers/main/en/using-diffusers/ip_adapter">IP-Adapter</a>  diffusers</li>
-</ol>
-<p>1xx. <a href="https://colab.research.google.com/drive/1srusRhcCYMasZ5pdO5nWHFhfLqB1sRhM">ip-adaptor on colab with diffusers</a> 运行过没异常</p>
-<p>1xx. <a href="https://www.bilibili.com/video/BV1tz421S7gs/">IPAdapter 多个图像风格混合到一张图像上 comfyUI工作流</a>  v 有代码</p>
-</article>
+  <article class="markdown book-article"></article>
  
       
 
@@ -1536,10 +1444,6 @@ features.</p>
 
       
   
-  <div class="book-comments">
-
-</div>
-  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -1550,22 +1454,7 @@ features.</p>
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#论文ip-adapter">论文[IP-Adapter]</a></li>
-    <li><a href="#ip-adapter10">IP-Adapter[10]</a></li>
-    <li><a href="#method2">Method[2]</a></li>
-    <li><a href="#参考">参考</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#实战">实战</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
  
