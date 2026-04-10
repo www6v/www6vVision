@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DETR on Vision</title>
+    <link>https://www6v.github.io/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/</link>
+    <description>Recent content in DETR on Vision</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="https://www6v.github.io/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

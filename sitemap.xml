@@ -93,10 +93,9 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Flux/</loc>
   </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/Vision/</loc>
-    <lastmod>2023-07-25T13:49:28+00:00</lastmod>
-  </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Qwen-Image/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/Vision/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/categories/AIGC/</loc>
     <lastmod>2024-04-04T09:38:25+00:00</lastmod>
@@ -130,15 +129,6 @@
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/</loc>
     <lastmod>2024-03-24T11:18:19+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/docs/Vision/VisionTask/</loc>
-    <lastmod>2023-07-25T13:49:28+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/categories/Vision/</loc>
-    <lastmod>2023-07-25T13:49:28+00:00</lastmod>
-  </url><url>
-    <loc>https://www6v.github.io/www6vVision/tags/Vision/</loc>
-    <lastmod>2023-07-25T13:49:28+00:00</lastmod>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/categories/Agent/</loc>
     <lastmod>2023-06-30T21:12:35+00:00</lastmod>
@@ -222,6 +212,10 @@
     <loc>https://www6v.github.io/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/Survey/Multimodal/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/Vision/VisionTask/</loc>
+  </url><url>
+    <loc>https://www6v.github.io/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/</loc>
   </url><url>
     <loc>https://www6v.github.io/www6vVision/docs/VLM/VL/Flamingo/</loc>
   </url><url>
