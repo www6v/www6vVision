@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  ASR 端到端延迟优化方案
+  #
+
+
+对标：云知声流式 ASR 实践 | 适用场景：实时对话 / 会议转写 / 智能客服
+
+
+  一、延迟瓶颈拆解
+  #
+
+典型 ASR 流水线：
+音频采集 → VAD → 前端特征提取 → 声学模型推理 → 解码器(CTC/Transducer) → 语言模型 → NLU → 响应
+各环节典型延迟占比（语音转写场景）：
+
+  
+      
+          环节
+          延迟占比
+          优化优先级
+      
+  
+  
+      
+          声学模型推理
+          30-40%
+          ⭐⭐⭐⭐⭐
+      
+      
+          解码器搜索
+          20-25%
+          ⭐⭐⭐⭐⭐
+      
+      
+          网络传输 &amp; 调度
+          10-20%
+          ⭐⭐⭐⭐
+      
+      
+          音频采集 &amp; 分帧
+          10-15%
+          ⭐⭐⭐
+      
+      
+          语言模型 / LM
+          10-15%
+          ⭐⭐⭐⭐
+      
+      
+          VAD 判断
+          5-10%
+          ⭐⭐
+      
+  
+
+
+
+  二、核心优化策略
+  #
+
+
+  2.1 流式架构 &#43; Chunk-Level 推理
+  #
+
+最关键的一步：把非流式转流式。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Sound/ASR/ASR-Opt1/">
+  <meta property="og:site_name" content="Vision">
+  <meta property="og:title" content="Vision">
+  <meta property="og:description" content="ASR 端到端延迟优化方案 # 对标：云知声流式 ASR 实践 | 适用场景：实时对话 / 会议转写 / 智能客服
+一、延迟瓶颈拆解 # 典型 ASR 流水线：
+音频采集 → VAD → 前端特征提取 → 声学模型推理 → 解码器(CTC/Transducer) → 语言模型 → NLU → 响应 各环节典型延迟占比（语音转写场景）：
+环节 延迟占比 优化优先级 声学模型推理 30-40% ⭐⭐⭐⭐⭐ 解码器搜索 20-25% ⭐⭐⭐⭐⭐ 网络传输 &amp; 调度 10-20% ⭐⭐⭐⭐ 音频采集 &amp; 分帧 10-15% ⭐⭐⭐ 语言模型 / LM 10-15% ⭐⭐⭐⭐ VAD 判断 5-10% ⭐⭐ 二、核心优化策略 # 2.1 流式架构 &#43; Chunk-Level 推理 # 最关键的一步：把非流式转流式。">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+<title>Asr Opt1 | Vision</title>
+<link rel="icon" href="/www6vVision/favicon.png" >
+<link rel="manifest" href="/www6vVision/manifest.json">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/ASR/ASR-Opt1/">
+<link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/www6vVision/fuse.min.js"></script>
+  <script defer src="/www6vVision/en.search.min.2150e02a95cc7d92653e9f3b7aae73288d9a026612a3dd45ab1a73f4cd9e7806.js" integrity="sha256-IVDgKpXMfZJlPp87eq5zKI2aAmYSo91Fqxpz9M2eeAY=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/Sound/ASR/ASR-Opt1/index.xml" title="Vision" />
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/www6vVision/"><span>Vision</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a7a6c173855ef5d21d37c3867e9d463f" class="toggle"  />
+    <label for="section-a7a6c173855ef5d21d37c3867e9d463f" class="flex justify-between">
+      <a role="button" class="">Survey</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSeries/" class="">多模态 系列</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSurvey/" class="">(Survey)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/Multimodal/" class="">(综述)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5c35f6e3b187337d603071c5e7e9b238" class="toggle" checked />
+    <label for="section-5c35f6e3b187337d603071c5e7e9b238" class="flex justify-between">
+      <a role="button" class="">Sound</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="toggle" checked />
+    <label for="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="flex justify-between">
+      <a role="button" class="">ASR</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt/" class="">Asr Opt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt1/" class="active">Asr Opt1</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-af964bbd7b41fee7b2fd656e42b249cc" class="toggle"  />
+    <label for="section-af964bbd7b41fee7b2fd656e42b249cc" class="flex justify-between">
+      <a role="button" class="">文档智能</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/MinerU/" class="">MinerU</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/DocumentAI/" class="">文档智能</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/Table/" class="">表格</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c0ab9c3273b3f23a856bb12f640857f1" class="toggle"  />
+    <label for="section-c0ab9c3273b3f23a856bb12f640857f1" class="flex justify-between">
+      <a role="button" class="">视觉理解</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="toggle"  />
+    <label for="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="flex justify-between">
+      <a role="button" class="">Vision Encoder</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/" class="">VQ-VAE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/" class="">DINO</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIP/" class="">(原理)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/" class="">(原理|实战)ViT, ViLT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIPPractice/" class="">(实战)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-59d5a4a57b02830e81317b476374fd6a" class="toggle"  />
+    <label for="section-59d5a4a57b02830e81317b476374fd6a" class="flex justify-between">
+      <a role="button" class="">Connector</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Connector/Connector/" class="">(原理)Connector</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ef6dc6daebcb2103bd104a5d412d6a95" class="toggle"  />
+    <label for="section-ef6dc6daebcb2103bd104a5d412d6a95" class="flex justify-between">
+      <a role="button" class="">Segmentation</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/seg/SAM/" class="">(原理|实战) SAM</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b8e1c1481a25df1c807b33ddfba8040" class="toggle"  />
+    <label for="section-1b8e1c1481a25df1c807b33ddfba8040" class="flex justify-between">
+      <a role="button" class="">生成</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle"  />
+    <label for="section-ddf62cc5d84e3e1ded920e808499a142" class="flex justify-between">
+      <a role="button" class="">Diffusion 基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%8E%9F%E7%90%86/" class="">(原理)Diffusion 原理 *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/" class="">(原理)Flow Matching</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion/" class="">(原理)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%AE%9E%E7%8E%B0/" class="">(实现)Stable Diffusion *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Guidance/" class="">(原理)Guidance</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
+    <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
+      <a role="button" class="">Diffusion</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2vsImagen/" class="">(NT)DALLE-2 vs Imagen</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion-%E6%80%BB%E7%BB%93/" class="">(原理) Diffusion 总结</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion%E6%BC%94%E8%BF%9B/" class="">(原理) Diffusion 演进</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/" class="">(原理)SD XL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2/" class="">(原理)DALLE-2[unCLIP]</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/" class="">(原理|实战)DiT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Flux/" class="">(原理|实现)Flux</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Qwen-Image/" class="">(原理|实现)Qwen-Image</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle"  />
+    <label for="section-1b2aa7832a4d8939e814125e1948a4b3" class="flex justify-between">
+      <a role="button" class="">Controllable</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/" class="">(work|实战) fine-tuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControllableWork/" class="">(Work|实战)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/" class="">(原理|实战)ControlNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/" class="">(原理|实战)DreamBooth</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="">(原理|实战)IP-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/" class="">(原理|实战)ReferenceNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/" class="">(原理|实战)T2I-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/Controllable/" class="">(综述)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="toggle"  />
+    <label for="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="flex justify-between">
+      <a role="button" class="">Editing</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/" class="">(Work|实战)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/" class="">(综述)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/" class="">InstructPix2Pix</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/MGIE/" class="">MGIE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/" class="">pix2pix-zero</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/" class="">Prompt-to-Prompt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b16cccda09102f993e096fdddb9640bb" class="toggle"  />
+    <label for="section-b16cccda09102f993e096fdddb9640bb" class="flex justify-between">
+      <a role="button" class="">人像生图</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/" class="">人像生图</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="toggle"  />
+    <label for="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="flex justify-between">
+      <a role="button" class="">VLM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-45b5b2398f34a3f194922660e20d3d8a" class="toggle"  />
+    <label for="section-45b5b2398f34a3f194922660e20d3d8a" class="flex justify-between">
+      <a role="button" class="">VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ccc420269771dda9ad4d1d0a53b878ee" class="toggle"  />
+    <label for="section-ccc420269771dda9ad4d1d0a53b878ee" class="flex justify-between">
+      <a role="button" class="">Qwen-VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3_A1/" class="">(A1)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL1/" class="">(NT)Qwen-VL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL2/" class="">(NT)Qwen-VL2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3/" class="">(NT)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Blip/" class="">BLIP-2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Minigpt4/" class="">(原理|实战)MiniGPT4</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Llava/" class="">(原理|实战) LLaVa 演化</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Flamingo/" class="">Flamingo</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="toggle"  />
+    <label for="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="flex justify-between">
+      <a role="button" class="">Training</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/InstructTuning/" class="">(综述)多模态InstructTuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/Pretrain/" class="">(原理)多模态预训练 概述</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f8725fcac148ea06984d5b57d39133f6" class="toggle"  />
+    <label for="section-f8725fcac148ea06984d5b57d39133f6" class="flex justify-between">
+      <a role="button" class="">多模态 Agent</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/" class="">Agent - UI-assistants</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/WebAgent/" class="">(原理)Web Agent</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/" class="">(原理)Agent 多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e7495aa0cd5a18585caa15338de39e42" class="toggle"  />
+    <label for="section-e7495aa0cd5a18585caa15338de39e42" class="flex justify-between">
+      <a role="button" class="">Data</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Data/MulitmodalDataset/" class="">(survey)多模态  数据集</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5be05fe4845e45443a3dc5a20cdcae9f" class="toggle"  />
+    <label for="section-5be05fe4845e45443a3dc5a20cdcae9f" class="flex justify-between">
+      <a role="button" class="">Vision</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/VisionTask/" class="">CV 任务</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/" class="">DETR</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Asr Opt1</h3>
+
+  <label for="toc-control">
+    
+    <img src="/www6vVision/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#asr-端到端延迟优化方案">ASR 端到端延迟优化方案</a>
+      <ul>
+        <li><a href="#一延迟瓶颈拆解">一、延迟瓶颈拆解</a></li>
+        <li><a href="#二核心优化策略">二、核心优化策略</a>
+          <ul>
+            <li><a href="#21-流式架构--chunk-level-推理">2.1 流式架构 + Chunk-Level 推理</a></li>
+            <li><a href="#22-声学模型推理优化">2.2 声学模型推理优化</a></li>
+            <li><a href="#23-解码器优化">2.3 解码器优化</a></li>
+            <li><a href="#24-vad-与端点检测">2.4 VAD 与端点检测</a></li>
+            <li><a href="#25-网络与系统层优化">2.5 网络与系统层优化</a></li>
+          </ul>
+        </li>
+        <li><a href="#三流式-asr-架构参考">三、流式 ASR 架构参考</a></li>
+        <li><a href="#四典型延迟指标">四、典型延迟指标</a></li>
+        <li><a href="#五快准狠三原则">五、快准狠三原则</a>
+          <ul>
+            <li><a href="#混合策略">混合策略</a></li>
+          </ul>
+        </li>
+        <li><a href="#六不同场景优化侧重">六、不同场景优化侧重</a></li>
+        <li><a href="#附关键参考">附：关键参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="asr-端到端延迟优化方案">
+  ASR 端到端延迟优化方案
+  <a class="anchor" href="#asr-%e7%ab%af%e5%88%b0%e7%ab%af%e5%bb%b6%e8%bf%9f%e4%bc%98%e5%8c%96%e6%96%b9%e6%a1%88">#</a>
+</h1>
+<blockquote>
+<p><strong>对标</strong>：云知声流式 ASR 实践 | <strong>适用场景</strong>：实时对话 / 会议转写 / 智能客服</p></blockquote>
+<hr>
+<h2 id="一延迟瓶颈拆解">
+  一、延迟瓶颈拆解
+  <a class="anchor" href="#%e4%b8%80%e5%bb%b6%e8%bf%9f%e7%93%b6%e9%a2%88%e6%8b%86%e8%a7%a3">#</a>
+</h2>
+<p>典型 ASR 流水线：</p>
+<pre tabindex="0"><code>音频采集 → VAD → 前端特征提取 → 声学模型推理 → 解码器(CTC/Transducer) → 语言模型 → NLU → 响应
+</code></pre><p>各环节典型延迟占比（语音转写场景）：</p>
+<table>
+  <thead>
+      <tr>
+          <th>环节</th>
+          <th>延迟占比</th>
+          <th>优化优先级</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>声学模型推理</td>
+          <td>30-40%</td>
+          <td>⭐⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+          <td>解码器搜索</td>
+          <td>20-25%</td>
+          <td>⭐⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+          <td>网络传输 &amp; 调度</td>
+          <td>10-20%</td>
+          <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+          <td>音频采集 &amp; 分帧</td>
+          <td>10-15%</td>
+          <td>⭐⭐⭐</td>
+      </tr>
+      <tr>
+          <td>语言模型 / LM</td>
+          <td>10-15%</td>
+          <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+          <td>VAD 判断</td>
+          <td>5-10%</td>
+          <td>⭐⭐</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="二核心优化策略">
+  二、核心优化策略
+  <a class="anchor" href="#%e4%ba%8c%e6%a0%b8%e5%bf%83%e4%bc%98%e5%8c%96%e7%ad%96%e7%95%a5">#</a>
+</h2>
+<h3 id="21-流式架构--chunk-level-推理">
+  2.1 流式架构 + Chunk-Level 推理
+  <a class="anchor" href="#21-%e6%b5%81%e5%bc%8f%e6%9e%b6%e6%9e%84--chunk-level-%e6%8e%a8%e7%90%86">#</a>
+</h3>
+<p><strong>最关键的一步</strong>：把非流式转流式。</p>
+<ul>
+<li><strong>Chunk 切分</strong>：按 80ms-160ms 切分音频帧，而非等完整音频再处理</li>
+<li><strong>增量输出</strong>：每处理一个 chunk 就输出部分结果，用户感知延迟从「等整句」降到「实时出字」</li>
+<li><strong>典型方案</strong>：
+<ul>
+<li><strong>Chunk-level Conformer / Branchformer</strong>：局部注意力窗口限制在 chunk 内，全局上下文用有限缓存</li>
+<li><strong>Streaming Transducer</strong>：RNN-T / Conformer-T 天然支持流式，延迟低于 CTC</li>
+<li><strong>Blockwise / Windowed Attention</strong>：限制注意力范围，推理复杂度从 O(N²) 降到 O(N·W)</li>
+</ul>
+</li>
+</ul>
+<p><strong>效果</strong>：端到端延迟从 2-3s 降到 200-400ms</p>
+<h3 id="22-声学模型推理优化">
+  2.2 声学模型推理优化
+  <a class="anchor" href="#22-%e5%a3%b0%e5%ad%a6%e6%a8%a1%e5%9e%8b%e6%8e%a8%e7%90%86%e4%bc%98%e5%8c%96">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>策略</th>
+          <th>方法</th>
+          <th>效果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>模型蒸馏</strong></td>
+          <td>Teacher(Conformer-large) → Student(Conformer-tiny)</td>
+          <td>推理快 3-5x，精度损失 1-2% CER</td>
+      </tr>
+      <tr>
+          <td><strong>量化</strong></td>
+          <td>FP16 / INT8 量化（TensorRT / ONNX Runtime）</td>
+          <td>推理快 2-3x，GPU 显存减半</td>
+      </tr>
+      <tr>
+          <td><strong>TensorRT 推理加速</strong></td>
+          <td>Kernel 融合 + 算子调优</td>
+          <td>推理快 1.5-2x</td>
+      </tr>
+      <tr>
+          <td><strong>早退机制（Early Exit）</strong></td>
+          <td>声学模型 confidence 足够时提前输出</td>
+          <td>简单句延迟降 30-50%</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="23-解码器优化">
+  2.3 解码器优化
+  <a class="anchor" href="#23-%e8%a7%a3%e7%a0%81%e5%99%a8%e4%bc%98%e5%8c%96">#</a>
+</h3>
+<p>解码器是延迟大头，优化手段最多：</p>
+<ul>
+<li><strong>CTC Prefix Beam Search</strong>：比 Full Beam Search 快，用 prefix pruning 减少搜索空间</li>
+<li><strong>RNN-T 贪心解码</strong>：对延迟敏感场景，greedy beam size=1 即可，精度损失可接受</li>
+<li><strong>Modified Batch Decoding (MBD)</strong>：并发解码多个 chunk，而非串行</li>
+<li><strong>FastEmit / Contextualized RNN-T</strong>：降低发射延迟（emission delay），让模型更早输出 token</li>
+<li><strong>LM 融合</strong>：用 shallow fusion 替代 full LM 推理，LM 只在 beam 候选上打分</li>
+</ul>
+<h3 id="24-vad-与端点检测">
+  2.4 VAD 与端点检测
+  <a class="anchor" href="#24-vad-%e4%b8%8e%e7%ab%af%e7%82%b9%e6%a3%80%e6%b5%8b">#</a>
+</h3>
+<ul>
+<li><strong>低延迟 VAD</strong>：用 Silero VAD 或轻量级模型，按 32ms 帧判断，而非 256ms</li>
+<li><strong>预测性端点检测</strong>：不等说话人完全停顿，基于语义完整性（如句号/问号/感叹号）提前截断</li>
+<li><strong>双通道策略</strong>：一个快速 VAD 做实时截断 + 一个精确 VAD 做最终校正</li>
+</ul>
+<h3 id="25-网络与系统层优化">
+  2.5 网络与系统层优化
+  <a class="anchor" href="#25-%e7%bd%91%e7%bb%9c%e4%b8%8e%e7%b3%bb%e7%bb%9f%e5%b1%82%e4%bc%98%e5%8c%96">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>层</th>
+          <th>优化手段</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>协议</strong></td>
+          <td>gRPC streaming / WebSocket 替代 HTTP 轮询</td>
+      </tr>
+      <tr>
+          <td><strong>音频传输</strong></td>
+          <td>Opus 编码（低延迟 20ms 帧）替代 PCM 原始传输</td>
+      </tr>
+      <tr>
+          <td><strong>连接复用</strong></td>
+          <td>长连接 + 连接池，避免 TLS 握手延迟（~50-200ms）</td>
+      </tr>
+      <tr>
+          <td><strong>边缘部署</strong></td>
+          <td>ASR 模型部署到离用户最近的边缘节点，RTT 从 50ms 降到 5ms</td>
+      </tr>
+      <tr>
+          <td><strong>批处理调度</strong></td>
+          <td>动态 batching（TensorRT ISM / Triton），吞吐量提升 3-5x 但不增加单次延迟</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="三流式-asr-架构参考">
+  三、流式 ASR 架构参考
+  <a class="anchor" href="#%e4%b8%89%e6%b5%81%e5%bc%8f-asr-%e6%9e%b6%e6%9e%84%e5%8f%82%e8%80%83">#</a>
+</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+    A[音频流 Opus 20ms帧] --&gt; B[VAD 轻量模型]
+    B --&gt; C{是否有效语音?}
+    C --&gt;|是| D[Chunk 80ms 切分]
+    C --&gt;|否| E[丢弃/缓存]
+    D --&gt; F[特征提取 FBank]
+    F --&gt; G[流式 Conformer-T&lt;br/&gt;局部注意力+有限缓存]
+    G --&gt; H[贪心/小Beam解码&lt;br/&gt;CTC/RNN-T]
+    H --&gt; I[早退机制&lt;br/&gt;Confidence &gt; 阈值即输出]
+    I --&gt; J[增量结果&lt;br/&gt;gRPC Streaming]
+    J --&gt; K[客户端实时上屏]
+    
+    style G fill:#4a90d9
+    style I fill:#50c878
+    style J fill:#ff6b6b
+</code></pre><p><strong>图表说明</strong>：从音频采集到实时上屏的完整流式链路。核心优化点在流式模型（Conformer-T）、早退机制和增量输出。</p>
+<hr>
+<h2 id="四典型延迟指标">
+  四、典型延迟指标
+  <a class="anchor" href="#%e5%9b%9b%e5%85%b8%e5%9e%8b%e5%bb%b6%e8%bf%9f%e6%8c%87%e6%a0%87">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>优化前</th>
+          <th>优化后</th>
+          <th>主要手段</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>离线转写（整句）</td>
+          <td>2-3s</td>
+          <td>-</td>
+          <td>基准</td>
+      </tr>
+      <tr>
+          <td>流式转写</td>
+          <td>800ms-1.5s</td>
+          <td>200-400ms</td>
+          <td>Chunk + RNN-T + 贪心解码</td>
+      </tr>
+      <tr>
+          <td>实时对话 ASR</td>
+          <td>500ms-1s</td>
+          <td><strong>80-150ms</strong></td>
+          <td>早退 + 边缘部署 + Opus</td>
+      </tr>
+      <tr>
+          <td>端侧 ASR（手机）</td>
+          <td>300-500ms</td>
+          <td>100-200ms</td>
+          <td>INT8 量化 + NPU</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="五快准狠三原则">
+  五、快准狠三原则
+  <a class="anchor" href="#%e4%ba%94%e5%bf%ab%e5%87%86%e7%8b%a0%e4%b8%89%e5%8e%9f%e5%88%99">#</a>
+</h2>
+<p>参考云知声 ASR 实践：</p>
+<ul>
+<li><strong>快</strong>：首帧输出 &lt; 200ms（VAD + Chunk + 流式模型）</li>
+<li><strong>准</strong>：CER &lt; 5%（流式模型需比离线模型额外优化）</li>
+<li><strong>狠</strong>：资源利用率（动态 batching + TensorRT）</li>
+</ul>
+<h3 id="混合策略">
+  混合策略
+  <a class="anchor" href="#%e6%b7%b7%e5%90%88%e7%ad%96%e7%95%a5">#</a>
+</h3>
+<p>先用流式模型实时出字 + 后台用离线模型做一次修正：</p>
+<ol>
+<li>用户说话时，流式模型实时上屏（&lt; 200ms 延迟）</li>
+<li>用户说完后，后台离线模型用更大 beam size 和 LM 重新解码</li>
+<li>几秒后将更准确的离线结果替换流式结果</li>
+<li>用户既感受到低延迟，又获得高准确率</li>
+</ol>
+<hr>
+<h2 id="六不同场景优化侧重">
+  六、不同场景优化侧重
+  <a class="anchor" href="#%e5%85%ad%e4%b8%8d%e5%90%8c%e5%9c%ba%e6%99%af%e4%bc%98%e5%8c%96%e4%be%a7%e9%87%8d">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>首要目标</th>
+          <th>核心优化手段</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>实时对话</strong></td>
+          <td>延迟 &lt; 150ms</td>
+          <td>早退 + Opus + 边缘部署 + 贪心解码</td>
+      </tr>
+      <tr>
+          <td><strong>会议转写</strong></td>
+          <td>准确率 &gt; 95%</td>
+          <td>Chunk + RNN-T + 离线修正</td>
+      </tr>
+      <tr>
+          <td><strong>智能客服</strong></td>
+          <td>延迟 &lt; 300ms + NLU 联动</td>
+          <td>流式 ASR + 并行 NLU 推断</td>
+      </tr>
+      <tr>
+          <td><strong>端侧离线</strong></td>
+          <td>功耗 + 延迟 &lt; 200ms</td>
+          <td>INT8 量化 + NPU + 小模型</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="附关键参考">
+  附：关键参考
+  <a class="anchor" href="#%e9%99%84%e5%85%b3%e9%94%ae%e5%8f%82%e8%80%83">#</a>
+</h2>
+<ul>
+<li><strong>Conformer</strong>: Gulati et al., &ldquo;Conformer: Convolution-augmented Transformer for Speech Recognition&rdquo;, Interspeech 2020</li>
+<li><strong>RNN-T</strong>: Graves, &ldquo;Sequence Transduction with Recurrent Neural Networks&rdquo;, ICML 2012 Workshop</li>
+<li><strong>Streaming Transducer</strong>: Zhang et al., &ldquo;Streaming End-to-End Speech Recognition With Transducers&rdquo;, Interspeech 2020</li>
+<li><strong>FastEmit</strong>: Yu et al., &ldquo;FastEmit: Low-latency Streaming ASR with Sequence-level Emission Delay&rdquo;, ICASSP 2021</li>
+<li><strong>Silero VAD</strong>: <a href="https://github.com/snakers4/silero-vad">https://github.com/snakers4/silero-vad</a></li>
+<li><strong>TensorRT</strong>: <a href="https://docs.nvidia.com/deeplearning/tensorrt/">https://docs.nvidia.com/deeplearning/tensorrt/</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#asr-端到端延迟优化方案">ASR 端到端延迟优化方案</a>
+      <ul>
+        <li><a href="#一延迟瓶颈拆解">一、延迟瓶颈拆解</a></li>
+        <li><a href="#二核心优化策略">二、核心优化策略</a>
+          <ul>
+            <li><a href="#21-流式架构--chunk-level-推理">2.1 流式架构 + Chunk-Level 推理</a></li>
+            <li><a href="#22-声学模型推理优化">2.2 声学模型推理优化</a></li>
+            <li><a href="#23-解码器优化">2.3 解码器优化</a></li>
+            <li><a href="#24-vad-与端点检测">2.4 VAD 与端点检测</a></li>
+            <li><a href="#25-网络与系统层优化">2.5 网络与系统层优化</a></li>
+          </ul>
+        </li>
+        <li><a href="#三流式-asr-架构参考">三、流式 ASR 架构参考</a></li>
+        <li><a href="#四典型延迟指标">四、典型延迟指标</a></li>
+        <li><a href="#五快准狠三原则">五、快准狠三原则</a>
+          <ul>
+            <li><a href="#混合策略">混合策略</a></li>
+          </ul>
+        </li>
+        <li><a href="#六不同场景优化侧重">六、不同场景优化侧重</a></li>
+        <li><a href="#附关键参考">附：关键参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
