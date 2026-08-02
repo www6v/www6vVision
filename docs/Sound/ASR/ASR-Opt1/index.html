@@ -85,7 +85,7 @@
 <link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/ASR/ASR-Opt1/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
-  <script defer src="/www6vVision/en.search.min.94e20ed9429a2c569cbb53f864cd1f76dbc0c4cc03bf5f13bee875426adb8d33.js" integrity="sha256-lOIO2UKaLFacu1P4ZM0fdtvAxMwDv18Tvuh1QmrbjTM=" crossorigin="anonymous"></script>
+  <script defer src="/www6vVision/en.search.min.b1c47ff3bbe7c92a0aeed244ccfd999d60e1398f22f37b959061e1790e579248.js" integrity="sha256-scR/87vnySoK7tJEzP2ZnWDhOY8i83uVkGHheQ5Xkkg=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://www6v.github.io/www6vVision/docs/Sound/ASR/ASR-Opt1/index.xml" title="Vision" />
 <!--
 Made with Book Theme
@@ -2004,13 +2004,27 @@ https://github.com/alex-shpak/hugo-book
   三、流式 ASR 架构参考
   <a class="anchor" href="#%e4%b8%89%e6%b5%81%e5%bc%8f-asr-%e6%9e%b6%e6%9e%84%e5%8f%82%e8%80%83">#</a>
 </h2>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+
+
+<script src="/www6vVision/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+<pre class="mermaid">graph LR
     A[音频流 Opus 20ms帧] --&gt; B[VAD 轻量模型]
     B --&gt; C{是否有效语音?}
     C --&gt;|是| D[Chunk 80ms 切分]
     C --&gt;|否| E[丢弃/缓存]
     D --&gt; F[特征提取 FBank]
-    F --&gt; G[流式 Conformer-T&lt;br/&gt;局部注意力+有限缓存]
+    F --&gt; G[流式 Conformer-T&lt;br/&gt;局部注意力&#43;有限缓存]
     G --&gt; H[贪心/小Beam解码&lt;br/&gt;CTC/RNN-T]
     H --&gt; I[早退机制&lt;br/&gt;Confidence &gt; 阈值即输出]
     I --&gt; J[增量结果&lt;br/&gt;gRPC Streaming]
@@ -2018,8 +2032,8 @@ https://github.com/alex-shpak/hugo-book
     
     style G fill:#4a90d9
     style I fill:#50c878
-    style J fill:#ff6b6b
-</code></pre><p><strong>图表说明</strong>：从音频采集到实时上屏的完整流式链路。核心优化点在流式模型（Conformer-T）、早退机制和增量输出。</p>
+    style J fill:#ff6b6b</pre>
+<p><strong>图表说明</strong>：从音频采集到实时上屏的完整流式链路。核心优化点在流式模型（Conformer-T）、早退机制和增量输出。</p>
 <hr>
 <h2 id="四典型延迟指标">
   四、典型延迟指标

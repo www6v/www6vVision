@@ -85,7 +85,7 @@ Boomplay — 非洲最大音乐流媒体平台之一，千万级MAU AHA Games �
 <link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/sound-pilot/sound-pilot2/transsion-ella-voice-assistant-article/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
-  <script defer src="/www6vVision/en.search.min.94e20ed9429a2c569cbb53f864cd1f76dbc0c4cc03bf5f13bee875426adb8d33.js" integrity="sha256-lOIO2UKaLFacu1P4ZM0fdtvAxMwDv18Tvuh1QmrbjTM=" crossorigin="anonymous"></script>
+  <script defer src="/www6vVision/en.search.min.b1c47ff3bbe7c92a0aeed244ccfd999d60e1398f22f37b959061e1790e579248.js" integrity="sha256-scR/87vnySoK7tJEzP2ZnWDhOY8i83uVkGHheQ5Xkkg=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -1956,7 +1956,21 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <blockquote>
 <p>🖼 <strong>配图 1：传音集团品牌矩阵与市场分布图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+
+<script src="/www6vVision/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+<pre class="mermaid">graph TB
     subgraph 传音控股 Transsion
         TECNO[TECNO&lt;br/&gt;中高端]
         itel[itel&lt;br/&gt;入门级]
@@ -2001,8 +2015,8 @@ https://github.com/alex-shpak/hugo-book
     style Ella fill:#FF6B6B
     style Qwen fill:#4ECDC4
     style DS fill:#4ECDC4
-    style AIKey fill:#FFEAA7
-</code></pre><h3 id="12-ella语音助手从离线助手到端侧agent的演进">
+    style AIKey fill:#FFEAA7</pre>
+<h3 id="12-ella语音助手从离线助手到端侧agent的演进">
   1.2 Ella语音助手：从离线助手到端侧Agent的演进
   <a class="anchor" href="#12-ella%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8b%e4%bb%8e%e7%a6%bb%e7%ba%bf%e5%8a%a9%e6%89%8b%e5%88%b0%e7%ab%af%e4%be%a7agent%e7%9a%84%e6%bc%94%e8%bf%9b">#</a>
 </h3>
@@ -2052,13 +2066,14 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <blockquote>
 <p>🖼 <strong>配图 2：Ella语音助手演进时间轴</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">timeline
+
+<pre class="mermaid">timeline
     title Ella语音助手演进路线
     2020-2022 : 1.0 离线指令阶段
               : 端侧规则引擎
               : 基础语音控制
               : 3语言支持
-    2023-2024 : 2.0 离线+云端混合
+    2023-2024 : 2.0 离线&#43;云端混合
               : 小语种ASR突破
               : Infinix接入DeepSeek-R1
               : 离线翻译落地
@@ -2067,11 +2082,11 @@ https://github.com/alex-shpak/hugo-book
          : AI物理按键
          : WMT2025四冠
          : 港股IPO募资AI
-    2026+ : 下一代Agent框架
+    2026&#43; : 下一代Agent框架
           : 端到端语音大模型
           : AI眼镜语音交互
-          : 100+语言覆盖
-</code></pre><h3 id="13-传音ai战略核心信息">
+          : 100&#43;语言覆盖</pre>
+<h3 id="13-传音ai战略核心信息">
   1.3 传音AI战略核心信息
   <a class="anchor" href="#13-%e4%bc%a0%e9%9f%b3ai%e6%88%98%e7%95%a5%e6%a0%b8%e5%bf%83%e4%bf%a1%e6%81%af">#</a>
 </h3>
@@ -2166,20 +2181,21 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 3：Ella语音助手四层架构全景图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph Layer1[用户交互层]
         AIKey[AI物理按键&lt;br/&gt;短按/长按/双击]
-        Voice[语音输入&lt;br/&gt;50+语言]
+        Voice[语音输入&lt;br/&gt;50&#43;语言]
         Touch[屏幕触摸&lt;br/&gt;一键问屏]
         Glasses[AI眼镜语音&lt;br/&gt;MWC 2026]
     end
     
     subgraph Layer2[感知层 Perception]
-        KWS[多语种KWS&lt;br/&gt;50+语言唤醒]
+        KWS[多语种KWS&lt;br/&gt;50&#43;语言唤醒]
         VAD[VAD语音活动检测]
         ASR[多语种ASR&lt;br/&gt;Paraformer/自研]
         NLU[语义理解&lt;br/&gt;意图识别]
-        MultiModal[多模态融合&lt;br/&gt;语音+屏幕+传感器]
+        MultiModal[多模态融合&lt;br/&gt;语音&#43;屏幕&#43;传感器]
     end
     
     subgraph Layer3[认知层 Cognition]
@@ -2242,8 +2258,8 @@ https://github.com/alex-shpak/hugo-book
     style Layer3 fill:#A29BFE
     style Layer4 fill:#FD79A8
     style Layer5 fill:#55EFC4
-    style External fill:#DFE6E9
-</code></pre><h3 id="23-端云协同架构传音定制版">
+    style External fill:#DFE6E9</pre>
+<h3 id="23-端云协同架构传音定制版">
   2.3 端云协同架构（传音定制版）
   <a class="anchor" href="#23-%e7%ab%af%e4%ba%91%e5%8d%8f%e5%90%8c%e6%9e%b6%e6%9e%84%e4%bc%a0%e9%9f%b3%e5%ae%9a%e5%88%b6%e7%89%88">#</a>
 </h3>
@@ -2284,10 +2300,11 @@ https://github.com/alex-shpak/hugo-book
 </table>
 <blockquote>
 <p>🖼 <strong>配图 4：传音端云协同架构图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     User[用户&lt;br/&gt;语音/按键输入] --&gt; Perceive[感知层&lt;br/&gt;KWS → VAD → ASR → NLU]
     
-    Perceive --&gt; Router{端云路由器&lt;br/&gt;网络状态 + 任务复杂度}
+    Perceive --&gt; Router{端云路由器&lt;br/&gt;网络状态 &#43; 任务复杂度}
     
     Router --&gt;|断网| LocalOnly[纯端侧处理]
     Router --&gt;|弱网| LocalFirst[端侧优先&lt;br/&gt;云端增强]
@@ -2295,14 +2312,14 @@ https://github.com/alex-shpak/hugo-book
     
     LocalOnly --&gt; LocalLLM[端侧LLM&lt;br/&gt;通义千问3B/DeepSeek蒸馏]
     LocalLLM --&gt; LocalFC[端侧Function Calling]
-    LocalFC --&gt; LocalExec[端侧执行&lt;br/&gt;OS API + 生态服务]
+    LocalFC --&gt; LocalExec[端侧执行&lt;br/&gt;OS API &#43; 生态服务]
     
     LocalFirst --&gt; LocalLLM
     LocalFirst --&gt; LightCloud[云端轻量API&lt;br/&gt;搜索增强/知识补充]
     LightCloud --&gt; LocalExec
     
     FullCloud --&gt; CloudLLM[云端大模型&lt;br/&gt;Google Cloud / 通义千问云端版]
-    CloudLLM --&gt; CloudExec[云端执行 + 端侧回调]
+    CloudLLM --&gt; CloudExec[云端执行 &#43; 端侧回调]
     
     LocalExec --&gt; Feedback[TTS多语种语音输出]
     CloudExec --&gt; Feedback
@@ -2311,8 +2328,8 @@ https://github.com/alex-shpak/hugo-book
     style LocalOnly fill:#55EFC4
     style LocalFirst fill:#FFEAA7
     style FullCloud fill:#74B9FF
-    style Router fill:#FF6B6B
-</code></pre><h3 id="24-架构权衡四维约束分析传音场景">
+    style Router fill:#FF6B6B</pre>
+<h3 id="24-架构权衡四维约束分析传音场景">
   2.4 架构权衡：四维约束分析（传音场景）
   <a class="anchor" href="#24-%e6%9e%b6%e6%9e%84%e6%9d%83%e8%a1%a1%e5%9b%9b%e7%bb%b4%e7%ba%a6%e6%9d%9f%e5%88%86%e6%9e%90%e4%bc%a0%e9%9f%b3%e5%9c%ba%e6%99%af">#</a>
 </h3>
@@ -2468,10 +2485,11 @@ https://github.com/alex-shpak/hugo-book
 </table>
 <blockquote>
 <p>🖼 <strong>配图 5：感知层数据流时序图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+
+<pre class="mermaid">sequenceDiagram
     participant User as 用户
     participant DSP as DSP/NPU&lt;br/&gt;低功耗常驻
-    participant KWS as KWS引擎&lt;br/&gt;50+语言
+    participant KWS as KWS引擎&lt;br/&gt;50&#43;语言
     participant VAD as VAD检测
     participant ASR as ASR引擎&lt;br/&gt;多语种
     participant NLU as NLU&lt;br/&gt;意图理解
@@ -2480,22 +2498,22 @@ https://github.com/alex-shpak/hugo-book
     User-&gt;&gt;DSP: 语音输入
     DSP-&gt;&gt;DSP: 音频采集(16kHz/24bit)
     DSP-&gt;&gt;KWS: 音频流输入
-    KWS-&gt;&gt;KWS: 50+语言唤醒词匹配
-    KWS--&gt;&gt;User: 唤醒成功(震动+音效)
+    KWS-&gt;&gt;KWS: 50&#43;语言唤醒词匹配
+    KWS--&gt;&gt;User: 唤醒成功(震动&#43;音效)
     
     KWS-&gt;&gt;VAD: 激活语音活动检测
     VAD-&gt;&gt;VAD: 检测语音起始/结束
     VAD-&gt;&gt;ASR: 有效语音段输入
     
     ASR-&gt;&gt;ASR: 多语种语音识别&lt;br/&gt;(语言自动检测)
-    ASR-&gt;&gt;NLU: 识别文本 + 置信度
+    ASR-&gt;&gt;NLU: 识别文本 &#43; 置信度
     NLU-&gt;&gt;LLM: 意图理解结果
     
     LLM-&gt;&gt;LLM: 认知层处理...
     
     Note over DSP,KWS: KWS常驻功耗: ≤1.2%电池/天
-    Note over ASR,LLM: ASR延迟: ~100ms&lt;br/&gt;NLU延迟: ~50ms
-</code></pre><h3 id="32-多语种asr语音识别">
+    Note over ASR,LLM: ASR延迟: ~100ms&lt;br/&gt;NLU延迟: ~50ms</pre>
+<h3 id="32-多语种asr语音识别">
   3.2 多语种ASR语音识别
   <a class="anchor" href="#32-%e5%a4%9a%e8%af%ad%e7%a7%8dasr%e8%af%ad%e9%9f%b3%e8%af%86%e5%88%ab">#</a>
 </h3>
@@ -2549,7 +2567,8 @@ https://github.com/alex-shpak/hugo-book
     └── 其他/未知 → Whisper-tiny兜底
 </code></pre><blockquote>
 <p>🖼 <strong>配图 6：多语种ASR路由决策图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+
+<pre class="mermaid">graph TD
     A[输入音频] --&gt; B[LID轻量模型&lt;br/&gt;语言检测]
     B --&gt;|中文| C[Paraformer-large]
     B --&gt;|英语| C
@@ -2560,7 +2579,7 @@ https://github.com/alex-shpak/hugo-book
     B --&gt;|其他语言| E[Whisper-tiny兜底]
     B --&gt;|未知语言| E
     
-    C --&gt; F[输出文本 + 置信度]
+    C --&gt; F[输出文本 &#43; 置信度]
     D --&gt; F
     E --&gt; F
     
@@ -2575,8 +2594,8 @@ https://github.com/alex-shpak/hugo-book
     style D fill:#4ECDC4
     style E fill:#FFEAA7
     style H fill:#95E1D3
-    style I fill:#FF6B6B
-</code></pre><h3 id="33-多模态感知融合">
+    style I fill:#FF6B6B</pre>
+<h3 id="33-多模态感知融合">
   3.3 多模态感知融合
   <a class="anchor" href="#33-%e5%a4%9a%e6%a8%a1%e6%80%81%e6%84%9f%e7%9f%a5%e8%9e%8d%e5%90%88">#</a>
 </h3>
@@ -2717,7 +2736,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 7：Ella 1+N 架构设计图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph 1[1 基础大模型]
         Base[通义千问3B / DeepSeek蒸馏版&lt;br/&gt;端侧推理引擎]
     end
@@ -2750,8 +2770,8 @@ https://github.com/alex-shpak/hugo-book
     style PhoneOp fill:#95E1D3
     style Music fill:#95E1D3
     style Image fill:#95E1D3
-    style Game fill:#95E1D3
-</code></pre><p><strong>插件分类：</strong></p>
+    style Game fill:#95E1D3</pre>
+<p><strong>插件分类：</strong></p>
 <table>
   <thead>
       <tr>
@@ -2852,7 +2872,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 8：端侧记忆管理架构图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph 短期记忆 Session Memory
         SM[(会话上下文&lt;br/&gt;最近100轮对话)]
     end
@@ -2882,8 +2903,8 @@ https://github.com/alex-shpak/hugo-book
     style PM fill:#4ECDC4
     style KM fill:#A29BFE
     style SQLite fill:#55EFC4
-    style Cloud fill:#DFE6E9
-</code></pre><hr>
+    style Cloud fill:#DFE6E9</pre>
+<hr>
 <h2 id="五决策层设计">
   五、决策层设计
   <a class="anchor" href="#%e4%ba%94%e5%86%b3%e7%ad%96%e5%b1%82%e8%ae%be%e8%ae%a1">#</a>
@@ -2894,7 +2915,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 9：Ella Intent路由决策树</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+
+<pre class="mermaid">graph TD
     A[用户语音输入&lt;br/&gt;NLU结果] --&gt; B{端侧可处理?}
     
     B --&gt;|是| C{任务类型}
@@ -2924,8 +2946,8 @@ https://github.com/alex-shpak/hugo-book
     style B fill:#FF6B6B
     style D fill:#FF6B6B
     style J fill:#4ECDC4
-    style M fill:#55EFC4
-</code></pre><h3 id="52-function-calling-端侧实现">
+    style M fill:#55EFC4</pre>
+<h3 id="52-function-calling-端侧实现">
   5.2 Function Calling 端侧实现
   <a class="anchor" href="#52-function-calling-%e7%ab%af%e4%be%a7%e5%ae%9e%e7%8e%b0">#</a>
 </h3>
@@ -2981,7 +3003,8 @@ https://github.com/alex-shpak/hugo-book
 <p>根据竺兆江2025Q3业绩会披露，传音正在构建下一代Agent框架：</p>
 <blockquote>
 <p>🖼 <strong>配图 10：Ella Agent框架时序图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+
+<pre class="mermaid">sequenceDiagram
     participant User as 用户
     participant Ella as Ella Agent&lt;br/&gt;Orchestrator
     participant Planner as 规划Agent
@@ -2991,7 +3014,7 @@ https://github.com/alex-shpak/hugo-book
     participant EcoAgent as 生态服务Agent
     
     User-&gt;&gt;Ella: 复杂语音指令&lt;br/&gt;&#34;帮我查一下明天天气，然后给Mom发个消息&#34;
-    Ella-&gt;&gt;Ella: Intent解析 + 任务分解
+    Ella-&gt;&gt;Ella: Intent解析 &#43; 任务分解
     Ella-&gt;&gt;Planner: 任务规划
     Planner-&gt;&gt;Planner: 分解为2个子任务
     
@@ -3005,8 +3028,8 @@ https://github.com/alex-shpak/hugo-book
     
     Planner--&gt;&gt;Ella: 全部子任务完成
     Ella-&gt;&gt;Ella: 结果汇总
-    Ella-&gt;&gt;User: TTS多语种语音反馈&lt;br/&gt;&#34;明天天气晴，消息已发送&#34;
-</code></pre><h3 id="54-安全护栏设计">
+    Ella-&gt;&gt;User: TTS多语种语音反馈&lt;br/&gt;&#34;明天天气晴，消息已发送&#34;</pre>
+<h3 id="54-安全护栏设计">
   5.4 安全护栏设计
   <a class="anchor" href="#54-%e5%ae%89%e5%85%a8%e6%8a%a4%e6%a0%8f%e8%ae%be%e8%ae%a1">#</a>
 </h3>
@@ -3092,7 +3115,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 11：Ella执行层生态集成图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph Ella执行引擎
         Guard[安全护栏&lt;br/&gt;权限校验]
         FC[Function Calling&lt;br/&gt;工具调度]
@@ -3136,8 +3160,8 @@ https://github.com/alex-shpak/hugo-book
     style Ella执行引擎 fill:#FF6B6B
     style Boomplay fill:#4ECDC4
     style Phone fill:#95E1D3
-    style WhatsApp fill:#DFE6E9
-</code></pre><p><strong>生态服务集成详情：</strong></p>
+    style WhatsApp fill:#DFE6E9</pre>
+<p><strong>生态服务集成详情：</strong></p>
 <table>
   <thead>
       <tr>
@@ -3193,7 +3217,8 @@ https://github.com/alex-shpak/hugo-book
 <p>TECNO CAMON 50系列首次搭载<strong>物理AI按键</strong>，这是传音AI手机的标志性创新：</p>
 <blockquote>
 <p>🖼 <strong>配图 12：AI按键多入口交互流程图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">stateDiagram-v2
+
+<pre class="mermaid">stateDiagram-v2
     [*] --&gt; 待机
     
     待机 --&gt; 短按AI键: 短按
@@ -3208,12 +3233,12 @@ https://github.com/alex-shpak/hugo-book
     
     待机 --&gt; 双击AI键: 双击
     双击 --&gt; 一键问屏: 屏幕内容AI解读
-    一键问屏 --&gt; 屏幕分析: OCR + LLM分析
+    一键问屏 --&gt; 屏幕分析: OCR &#43; LLM分析
     屏幕分析 --&gt; 待机: 完成/超时
     
     待机 --&gt; 语音唤醒: 说出唤醒词
-    语音唤醒 --&gt; Ella唤醒: KWS匹配成功
-</code></pre><p><strong>AI按键交互规范：</strong></p>
+    语音唤醒 --&gt; Ella唤醒: KWS匹配成功</pre>
+<p><strong>AI按键交互规范：</strong></p>
 <table>
   <thead>
       <tr>
@@ -3337,7 +3362,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 13：传音端云路由决策流程图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+
+<pre class="mermaid">graph TD
     A[用户输入] --&gt; B{网络状态?}
     
     B --&gt;|断网| C[纯端侧处理]
@@ -3345,8 +3371,8 @@ https://github.com/alex-shpak/hugo-book
     B --&gt;|稳定网络&lt;br/&gt;4G/WiFi| E{任务复杂度}
     
     D --&gt;|简单| C
-    D --&gt;|中等| F[端侧处理 +&lt;br/&gt;云端轻量API]
-    D --&gt;|复杂| G[端侧LLM +&lt;br/&gt;云端增强]
+    D --&gt;|中等| F[端侧处理 &#43;&lt;br/&gt;云端轻量API]
+    D --&gt;|复杂| G[端侧LLM &#43;&lt;br/&gt;云端增强]
     
     E --&gt;|简单| C
     E --&gt;|中等| G
@@ -3361,8 +3387,8 @@ https://github.com/alex-shpak/hugo-book
     style F fill:#FFEAA7
     style G fill:#74B9FF
     style H fill:#A29BFE
-    style I fill:#95E1D3
-</code></pre><h3 id="73-降级策略弱网断网兜底保障">
+    style I fill:#95E1D3</pre>
+<h3 id="73-降级策略弱网断网兜底保障">
   7.3 降级策略：弱网/断网兜底保障
   <a class="anchor" href="#73-%e9%99%8d%e7%ba%a7%e7%ad%96%e7%95%a5%e5%bc%b1%e7%bd%91%e6%96%ad%e7%bd%91%e5%85%9c%e5%ba%95%e4%bf%9d%e9%9a%9c">#</a>
 </h3>
@@ -3485,7 +3511,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <blockquote>
 <p>🖼 <strong>配图 14：传音机型分层部署策略图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph 高端机型 TECNO CAMON 50系列
         H1[通义千问3B&lt;br/&gt;4bit量化]
         H2[DeepSeek蒸馏版]
@@ -3508,8 +3535,8 @@ https://github.com/alex-shpak/hugo-book
     
     style H1 fill:#FF6B6B
     style M1 fill:#4ECDC4
-    style L1 fill:#95E1D3
-</code></pre><h3 id="83-低端机适配策略2gb-ram挑战">
+    style L1 fill:#95E1D3</pre>
+<h3 id="83-低端机适配策略2gb-ram挑战">
   8.3 低端机适配策略（2GB RAM挑战）
   <a class="anchor" href="#83-%e4%bd%8e%e7%ab%af%e6%9c%ba%e9%80%82%e9%85%8d%e7%ad%96%e7%95%a52gb-ram%e6%8c%91%e6%88%98">#</a>
 </h3>
@@ -3838,7 +3865,8 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <blockquote>
 <p>🖼 <strong>配图 16：Ella技术演进路线图</strong></p></blockquote>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">gantt
+
+<pre class="mermaid">gantt
     title Ella语音助手技术演进路线图
     dateFormat  YYYY-Q
     axisFormat  %Y Q%q
@@ -3857,16 +3885,16 @@ https://github.com/alex-shpak/hugo-book
     
     section 2027
     端到端语音大模型          :2027-Q1, 2027-Q4
-    100+语言覆盖              :2027-Q1, 2027-Q3
+    100&#43;语言覆盖              :2027-Q1, 2027-Q3
     情感TTS小语种             :2027-Q2, 2027-Q4
     跨设备Agent协作           :2027-Q3, 2027-Q4
     
-    section 2028+
+    section 2028&#43;
     第三方Agent平台           :2028-Q1, 2028-Q4
     新兴市场服务分发网络      :2028-Q1, 2028-Q4
     AIoT全场景联动            :2028-Q2, 2028-Q4
-    主动智能服务              :2028-Q3, 2028-Q4
-</code></pre><hr>
+    主动智能服务              :2028-Q3, 2028-Q4</pre>
+<hr>
 <h2 id="附录">
   附录
   <a class="anchor" href="#%e9%99%84%e5%bd%95">#</a>

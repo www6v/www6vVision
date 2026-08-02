@@ -72,7 +72,7 @@
 <link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/sound-pilot/sound-pilot1/transsion-ai-voice-assistant-article/">
 <link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
   <script defer src="/www6vVision/fuse.min.js"></script>
-  <script defer src="/www6vVision/en.search.min.94e20ed9429a2c569cbb53f864cd1f76dbc0c4cc03bf5f13bee875426adb8d33.js" integrity="sha256-lOIO2UKaLFacu1P4ZM0fdtvAxMwDv18Tvuh1QmrbjTM=" crossorigin="anonymous"></script>
+  <script defer src="/www6vVision/en.search.min.b1c47ff3bbe7c92a0aeed244ccfd999d60e1398f22f37b959061e1790e579248.js" integrity="sha256-scR/87vnySoK7tJEzP2ZnWDhOY8i83uVkGHheQ5Xkkg=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -2056,7 +2056,21 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#31-%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84%e5%9b%be%e7%bb%84%e4%bb%b6%e8%a7%86%e5%9b%be">#</a>
 </h3>
 <p>传音 AI 语音助手采用<strong>五层架构</strong>，从用户交互到云端服务逐层解耦：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+
+<script src="/www6vVision/mermaid.min.js"></script>
+
+  <script>mermaid.initialize({
+  "flowchart": {
+    "useMaxWidth":true
+  },
+  "theme": "default"
+}
+)</script>
+
+
+
+<pre class="mermaid">graph TB
     subgraph &#34;用户层&#34;
         U[语音输入]
         D[文本输入]
@@ -2075,7 +2089,7 @@ https://github.com/alex-shpak/hugo-book
 
         subgraph &#34;认知层&#34;
             NLU[NLU 意图理解&lt;br/&gt;端侧小模型]
-            AGENT[Agent 引擎&lt;br/&gt;规划 + 工具调用]
+            AGENT[Agent 引擎&lt;br/&gt;规划 &#43; 工具调用]
         end
 
         subgraph &#34;表达层&#34;
@@ -2114,8 +2128,8 @@ https://github.com/alex-shpak/hugo-book
     NLU --&gt; OS
     AGENT --&gt; OS
     OS --&gt; HW
-    HW --&gt; NPU
-</code></pre><p><strong>各层职责</strong>：</p>
+    HW --&gt; NPU</pre>
+<p><strong>各层职责</strong>：</p>
 <ul>
 <li><strong>唤醒层</strong>：低功耗实时监听，毫秒级唤醒</li>
 <li><strong>感知层</strong>：语音转文字，支持多语言流式识别</li>
@@ -2129,14 +2143,15 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#32-%e6%95%b0%e6%8d%ae%e6%b5%81%e5%85%a8%e6%99%af%e5%9b%beruntime-data-flow">#</a>
 </h3>
 <p>理解架构的最佳方式是追踪一条用户请求的完整数据流。下图展示了从麦克风输入到最终响应的 6 个阶段：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart LR
+
+<pre class="mermaid">flowchart LR
     subgraph &#34;1. 输入采集&#34;
         Mic[麦克风阵列] --&gt; AEC[AEC 回声消除]
         AEC --&gt; NS[降噪 / 增益控制]
     end
 
     subgraph &#34;2. 唤醒检测&#34;
-        NS --&gt; Frame[分帧 + 特征提取]
+        NS --&gt; Frame[分帧 &#43; 特征提取]
         Frame --&gt; KWS[KWS 推理]
         KWS --&gt;|未唤醒| Idle[低功耗休眠]
         KWS --&gt;|唤醒| Activate[激活 ASR 引擎]
@@ -2154,7 +2169,7 @@ https://github.com/alex-shpak/hugo-book
     subgraph &#34;4. 意图理解 (NLU)&#34;
         Text --&gt; Token[Tokenizer]
         Token --&gt; Model[NLU 意图分类模型]
-        Model --&gt; Intent[Intent + Slots]
+        Model --&gt; Intent[Intent &#43; Slots]
         Intent --&gt; Router[路由分发]
     end
 
@@ -2170,8 +2185,8 @@ https://github.com/alex-shpak/hugo-book
         Planner --&gt; TTS[TTS 推理合成]
         TTS --&gt; Audio[音频流输出]
         Planner --&gt; UI[UI 卡片渲染]
-    end
-</code></pre><p><strong>关键路径说明与延迟预算</strong>：</p>
+    end</pre>
+<p><strong>关键路径说明与延迟预算</strong>：</p>
 <table>
   <thead>
       <tr>
@@ -2272,7 +2287,8 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#34-%e7%ab%af%e4%ba%91%e5%8d%8f%e5%90%8c%e6%9e%b6%e6%9e%84%e5%9b%be">#</a>
 </h3>
 <p>端侧与云端的协同是架构的核心设计。下图展示了端云之间的决策流：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+
+<pre class="mermaid">sequenceDiagram
     participant User as 用户
     participant KWS as 唤醒模块
     participant ASR as 端侧 ASR
@@ -2293,7 +2309,7 @@ https://github.com/alex-shpak/hugo-book
         Cloud_ASR--&gt;&gt;NLU: 高精度文本
     end
 
-    NLU-&gt;&gt;NLU: 意图分类 + 槽位填充
+    NLU-&gt;&gt;NLU: 意图分类 &#43; 槽位填充
     alt 简单意图
         NLU-&gt;&gt;Agent: 直接执行
     else 复杂意图
@@ -2301,10 +2317,10 @@ https://github.com/alex-shpak/hugo-book
         Cloud_LLM--&gt;&gt;Agent: 推理结果
     end
 
-    Agent-&gt;&gt;Agent: 工具调用 + 结果组装
+    Agent-&gt;&gt;Agent: 工具调用 &#43; 结果组装
     Agent-&gt;&gt;TTS: 回复文本
-    TTS-&gt;&gt;User: 语音回复
-</code></pre><p><strong>协同策略</strong>：</p>
+    TTS-&gt;&gt;User: 语音回复</pre>
+<p><strong>协同策略</strong>：</p>
 <ol>
 <li><strong>默认端侧优先</strong>：所有请求先在端侧处理，仅在置信度不足或需要复杂推理时才上云</li>
 <li><strong>智能降级</strong>：网络不可用时，自动切换到纯端侧模式，关闭云端依赖</li>
@@ -2320,12 +2336,13 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#41-%e5%94%a4%e9%86%92%e6%a8%a1%e5%9d%97keyword-spotting">#</a>
 </h3>
 <p>唤醒是语音助手的第一道门。传音的方案采用<strong>端侧轻量模型 + 双模型级联确认</strong>，确保低功耗与高准确率。</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart LR
+
+<pre class="mermaid">flowchart LR
     Mic[麦克风] --&gt; Pre[预处理&lt;br/&gt;降噪/VAD]
-    Pre --&gt; KWS[KWS 模型&lt;br/&gt;MFCC + 轻量 CNN]
+    Pre --&gt; KWS[KWS 模型&lt;br/&gt;MFCC &#43; 轻量 CNN]
     KWS --&gt; Confirm[确认机制&lt;br/&gt;连续 N 帧激活]
-    Confirm --&gt; Wake[唤醒信号]
-</code></pre><p><strong>技术指标与实现：</strong></p>
+    Confirm --&gt; Wake[唤醒信号]</pre>
+<p><strong>技术指标与实现：</strong></p>
 <table>
   <thead>
       <tr>
@@ -2427,7 +2444,8 @@ https://github.com/alex-shpak/hugo-book
   </tbody>
 </table>
 <p><strong>传音定制策略：共享 Backbone + 语种 Adapter</strong></p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+
+<pre class="mermaid">graph LR
     A[通用 ASR Base] --&gt; B[语种适配层]
     B --&gt; C[斯瓦希里语]
     B --&gt; D[豪萨语]
@@ -2438,8 +2456,8 @@ https://github.com/alex-shpak/hugo-book
     D --&gt; H
     E --&gt; H
     F --&gt; H
-    G --&gt; H
-</code></pre><p><strong>设计原理</strong>：</p>
+    G --&gt; H</pre>
+<p><strong>设计原理</strong>：</p>
 <ul>
 <li><strong>Base 模型</strong>：使用 Paraformer 或 Conformer 作为共享 Backbone，在英语、中文等资源丰富语言上预训练，学习通用声学特征</li>
 <li><strong>语种适配层</strong>：通过 Adapter（仅训练 5% 参数）或 LoRA 微调，适配目标语言的发音特征</li>
@@ -2522,7 +2540,8 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <p>Agent 是语音助手的大脑，负责意图规划、工具调用、结果组装。与传统&quot;指令-执行&quot;模式不同，Agent 支持<strong>多步任务分解、工具动态选择、结果自校验</strong>。</p>
 <p><strong>架构图：Agent 工具调用链</strong></p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     Intent[意图输入] --&gt; Plan[规划器&lt;br/&gt;Task Decomposition]
 
     Plan --&gt; T1[电话工具]
@@ -2540,8 +2559,8 @@ https://github.com/alex-shpak/hugo-book
     Exec --&gt; R[结果组装]
     R --&gt; Verify[自校验]
     Verify --&gt;|通过| Output[输出]
-    Verify --&gt;|失败| Retry[重试 / Fallback]
-</code></pre><p><strong>Agent 工具集（传音定制）</strong>：</p>
+    Verify --&gt;|失败| Retry[重试 / Fallback]</pre>
+<p><strong>Agent 工具集（传音定制）</strong>：</p>
 <table>
   <thead>
       <tr>
@@ -2708,7 +2727,8 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#51-%e7%a1%ac%e4%bb%b6%e5%88%86%e7%ba%a7%e7%ad%96%e7%95%a5">#</a>
 </h3>
 <p>传音旗下三大品牌覆盖从入门到旗舰的全价位段，硬件能力差异巨大。我们采用<strong>三级硬件适配矩阵</strong>，确保每个设备都能获得最佳 AI 体验。</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph &#34;旗舰层（TECNO Phantom/Camon）&#34;
         F1[12GB RAM]
         F2[NPU / GPU]
@@ -2728,8 +2748,8 @@ https://github.com/alex-shpak/hugo-book
         L2[仅 CPU]
         L3[微型模型 / 云端 fallback]
         L4[系统 TTS 兜底]
-    end
-</code></pre><table>
+    end</pre>
+<table>
   <thead>
       <tr>
           <th>层级</th>
@@ -2930,13 +2950,14 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#62-%e4%bd%8e%e8%b5%84%e6%ba%90%e8%af%ad%e8%a8%80%e9%80%82%e9%85%8d%e6%96%b9%e6%a1%88">#</a>
 </h3>
 <p>对于斯瓦希里语、豪萨语等低资源语言（训练数据 &lt; 100 小时），我们采用<strong>多语言迁移学习 + Adapter 微调 + 数据增强 + 知识蒸馏</strong>的四步法：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart LR
+
+<pre class="mermaid">flowchart LR
     A[通用 Base 模型] --&gt; B[多语言预训练&lt;br/&gt;mBART / Whisper]
     B --&gt; C[数据增强&lt;br/&gt;语速/噪声/混响]
     C --&gt; D[Adapter 微调&lt;br/&gt;仅训练 5% 参数]
     D --&gt; E[知识蒸馏&lt;br/&gt;教师: 云端大模型]
-    E --&gt; F[端侧量化部署&lt;br/&gt;INT8 / INT4]
-</code></pre><table>
+    E --&gt; F[端侧量化部署&lt;br/&gt;INT8 / INT4]</pre>
+<table>
   <thead>
       <tr>
           <th>阶段</th>
@@ -2995,11 +3016,12 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#71-%e7%ab%af%e4%ba%91%e5%8d%8f%e5%90%8c%e5%86%b3%e7%ad%96%e6%a0%91">#</a>
 </h3>
 <p>在传音市场，网络状况是 AI 语音助手可用性的关键瓶颈。我们设计了<strong>基于网络状态的动态决策树</strong>：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart TD
+
+<pre class="mermaid">flowchart TD
     Q{网络状态?}
-    Q --&gt;|WiFi/4G 良好| Full[全功能: 端侧 + 云端]
-    Q --&gt;|3G/弱网| Hybrid[混合: 端侧优先 + 云端 fallback]
-    Q --&gt;|2G/离线| EdgeOnly[纯端侧: KWS + ASR + 基础 NLU]
+    Q --&gt;|WiFi/4G 良好| Full[全功能: 端侧 &#43; 云端]
+    Q --&gt;|3G/弱网| Hybrid[混合: 端侧优先 &#43; 云端 fallback]
+    Q --&gt;|2G/离线| EdgeOnly[纯端侧: KWS &#43; ASR &#43; 基础 NLU]
 
     Full --&gt;|复杂查询| Cloud[云端 LLM]
     Hybrid --&gt;|复杂查询| CloudRetry[云端重试 3 次]
@@ -3009,8 +3031,8 @@ https://github.com/alex-shpak/hugo-book
     EdgeOnly --&gt; B[ASR ✓]
     EdgeOnly --&gt; C[基础 NLU ✓]
     EdgeOnly --&gt; D[系统控制 ✓]
-    EdgeOnly --&gt; E[知识查询 ✗ → 本地缓存]
-</code></pre><p><strong>决策逻辑详解</strong>：</p>
+    EdgeOnly --&gt; E[知识查询 ✗ → 本地缓存]</pre>
+<p><strong>决策逻辑详解</strong>：</p>
 <table>
   <thead>
       <tr>
@@ -3126,7 +3148,8 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#81-os-%e9%80%82%e9%85%8d%e6%9e%b6%e6%9e%84">#</a>
 </h3>
 <p>传音旗下三大品牌运行不同的定制 Android 系统：<strong>HiOS</strong>（TECNO）、<strong>XOS</strong>（Infinix）、<strong>itel OS</strong>（itel）。虽然都是 Android 衍生版，但在 API 实现、权限管理、系统服务方面存在差异。</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+
+<pre class="mermaid">graph TB
     subgraph &#34;AI Voice Assistant&#34;
         AI[统一 AI 引擎]
     end
@@ -3158,8 +3181,8 @@ https://github.com/alex-shpak/hugo-book
     itelOS --&gt; AMS
     AMS --&gt; NS
     AMS --&gt; TS
-    AMS --&gt; AS
-</code></pre><h3 id="82-适配层关键抽象">
+    AMS --&gt; AS</pre>
+<h3 id="82-适配层关键抽象">
   8.2 适配层关键抽象
   <a class="anchor" href="#82-%e9%80%82%e9%85%8d%e5%b1%82%e5%85%b3%e9%94%ae%e6%8a%bd%e8%b1%a1">#</a>
 </h3>
@@ -3291,11 +3314,12 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#92-%e6%a0%b8%e5%bf%83%e5%86%b3%e7%ad%96%e6%94%af%e6%8c%81%e6%a1%86%e6%9e%b6">#</a>
 </h3>
 <p>技术选型不是&quot;选最强的&quot;，而是&quot;选最合适的&quot;。我们建立了<strong>技术选型决策树</strong>：</p>
-<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart TD
+
+<pre class="mermaid">flowchart TD
     Q1{目标市场?}
     Q1 --&gt;|非洲/南亚| Q2{语言资源?}
     Q2 --&gt;|丰富(&gt;100h)| A1[端到端训练]
-    Q2 --&gt;|稀缺(&lt;50h)| A2[迁移学习 + Adapter]
+    Q2 --&gt;|稀缺(&lt;50h)| A2[迁移学习 &#43; Adapter]
 
     Q1 --&gt;|通用(英/法)| A3[开源 Base 微调]
 
@@ -3303,10 +3327,10 @@ https://github.com/alex-shpak/hugo-book
     A2 --&gt; Q3
     A3 --&gt; Q3
 
-    Q3 --&gt;|旗舰| B1[全量端侧 + 云端增强]
-    Q3 --&gt;|中端| B2[精简端侧 + 云端 fallback]
-    Q3 --&gt;|入门| B3[微型端侧 + 云端为主]
-</code></pre><p><strong>决策示例</strong>：</p>
+    Q3 --&gt;|旗舰| B1[全量端侧 &#43; 云端增强]
+    Q3 --&gt;|中端| B2[精简端侧 &#43; 云端 fallback]
+    Q3 --&gt;|入门| B3[微型端侧 &#43; 云端为主]</pre>
+<p><strong>决策示例</strong>：</p>
 <ul>
 <li><strong>场景</strong>：斯瓦希里语 ASR 部署到 Infinix Note（中端机）</li>
 <li><strong>路径</strong>：非洲/南亚 → 语言稀缺（&lt; 50h）→ 迁移学习 + Adapter → 中端 → 精简端侧 + 云端 fallback</li>
