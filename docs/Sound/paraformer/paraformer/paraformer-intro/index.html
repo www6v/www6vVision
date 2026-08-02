@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  阿里 Paraformer 语音识别模型介绍
+  #
+
+
+  Paraformer 简介
+  #
+
+Paraformer 是阿里巴巴达摩院（现通义实验室）开发的 非自回归（Non-Autoregressive, NAR）端到端语音识别（ASR）模型，作为开源语音识别工具链 FunASR 的核心模型开源。
+
+GitHub: github.com/modelscope/FunASR (⭐ 19.5K&#43;, 🍴 1.9K&#43;)
+论文: &ldquo;Paraformer: Fast and Accurate Parallel Transformer for Non-autoregressive End-to-End Speech Recognition&rdquo; (ICASSP 2023)
+
+  核心特点
+  #
+
+
+  1. 非自回归架构（NAR）
+  #
+
+这是 Paraformer 最核心的创新。传统 ASR 模型（如 Conformer、Transformer）是自回归的，逐个 token 串行解码；Paraformer 采用非自回归，所有 token 并行解码，大幅提升推理速度。
+
+  2. 关键技术创新
+  #
+
+
+  
+      
+          技术
+          作用
+      
+  
+  
+      
+          Continuous Predictions (CIF)
+          连续积分框架，自动预测输出序列长度，解决 NAR 模型的长度预测难题
+      
+      
+          Predictor
+          预测每个声学帧对应的输出 token 数量，动态分配解码资源
+      
+      
+          Two-pass Training
+          先用自回归模型蒸馏训练，再端到端微调，保证精度的同时获得并行推理能力
+      
+      
+          Contextual Biasing
+          支持热词/上下文偏置，可提升特定领域词汇的识别率
+      
+      
+          Multi-task Learning
+          联合训练标点恢复、说话人日志等任务
+      
+  
+
+
+  3. 模型变体
+  #
+
+
+Paraformer-large：大参数版本，精度最高
+Paraformer-small：轻量版本，适合端侧部署
+Paraformer-zh / Paraformer-en：中英文专用模型
+Paraformer-online：流式版本，支持实时语音识别
+
+
+  优势
+  #
+
+
+  
+      
+          优势
+          说明
+      
+  
+  
+      
+          🚀 推理速度快
+          并行解码，比自回归模型快 3-10 倍，RTF 可低至 0.01-0.02
+      
+      
+          ✅ 精度高
+          在 AISHELL-1/2、LibriSpeech 等基准上接近/超过 Conformer 自回归模型
+      
+      
+          🌐 中文能力突出
+          专门针对中文优化的模型，在中文 ASR 任务上表现优异
+      
+      
+          📦 开源生态好
+          集成在 FunASR 中，提供完整训练/推理/部署工具链
+      
+      
+          🔧 部署友好
+          支持 ONNX、TensorRT 导出，适合生产环境部署
+      
+      
+          🎯 功能丰富
+          除了 ASR，还支持 VAD、标点恢复、说话人分离、时间戳等
+      
+      
+          🆓 完全开源
+          Apache 2.0 协议，可商用
+      
+  
+
+
+  劣势
+  #
+
+
+  
+      
+          劣势
+          说明
+      
+  
+  
+      
+          ⚠️ NAR 固有精度损失
+          非自回归模型无法利用已生成 token 的信息，在极长句、强上下文依赖场景下，精度仍略逊于自回归模型
+      
+      
+          ⚠️ 长度预测误差
+          CIF Predictor 对输出序列长度的预测偶尔出错（多预测/少预测），导致重复/漏字
+      
+      
+          ⚠️ 训练复杂度高
+          两阶段蒸馏训练比端到端训练更复杂，需要自回归教师模型
+      
+      
+          ⚠️ 英文泛化稍弱
+          英文表现不错，但对比 Whisper 等大规模预训练模型，英文多语言泛化仍有差距
+      
+      
+          ⚠️ 流式版本有延迟
+          Paraformer-online 虽然支持流式，但仍有 chunk 级别的延迟，不如纯 CTC/RNN-T 流式方案
+      
+      
+          ⚠️ 生态依赖 FunASR
+          深度绑定 FunASR 工具链，脱离 FunASR 独立使用成本较高
+      
+  
+
+
+  典型应用场景
+  #
+
+
+大规模语音转写：会议转写、客服录音处理（速度优势明显）
+实时语音识别：直播字幕、语音助手（流式版本）
+中文 ASR：普通话识别、方言识别（中文模型专精）
+多模态流水线：FunASR 整合 VAD → ASR → 标点 → 说话人分离，一站式处理
+
+
+  总结
+  #
+
+Paraformer 的核心价值在于用 NAR 架构换来了接近自回归模型的精度，同时获得了数倍的推理加速。在中文 ASR 领域，它是最强的开源模型之一。如果你的场景对推理延迟/吞吐量有要求，Paraformer 是非常值得考虑的方案。但如果追求极致的识别精度（尤其英文场景），Whisper 等超大规模自回归模型仍有优势。">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Sound/paraformer/paraformer/paraformer-intro/">
+  <meta property="og:site_name" content="Vision">
+  <meta property="og:title" content="Vision">
+  <meta property="og:description" content="阿里 Paraformer 语音识别模型介绍 # Paraformer 简介 # Paraformer 是阿里巴巴达摩院（现通义实验室）开发的 非自回归（Non-Autoregressive, NAR）端到端语音识别（ASR）模型，作为开源语音识别工具链 FunASR 的核心模型开源。
+GitHub: github.com/modelscope/FunASR (⭐ 19.5K&#43;, 🍴 1.9K&#43;) 论文: “Paraformer: Fast and Accurate Parallel Transformer for Non-autoregressive End-to-End Speech Recognition” (ICASSP 2023)
+核心特点 # 1. 非自回归架构（NAR） # 这是 Paraformer 最核心的创新。传统 ASR 模型（如 Conformer、Transformer）是自回归的，逐个 token 串行解码；Paraformer 采用非自回归，所有 token 并行解码，大幅提升推理速度。
+2. 关键技术创新 # 技术 作用 Continuous Predictions (CIF) 连续积分框架，自动预测输出序列长度，解决 NAR 模型的长度预测难题 Predictor 预测每个声学帧对应的输出 token 数量，动态分配解码资源 Two-pass Training 先用自回归模型蒸馏训练，再端到端微调，保证精度的同时获得并行推理能力 Contextual Biasing 支持热词/上下文偏置，可提升特定领域词汇的识别率 Multi-task Learning 联合训练标点恢复、说话人日志等任务 3. 模型变体 # Paraformer-large：大参数版本，精度最高 Paraformer-small：轻量版本，适合端侧部署 Paraformer-zh / Paraformer-en：中英文专用模型 Paraformer-online：流式版本，支持实时语音识别 优势 # 优势 说明 🚀 推理速度快 并行解码，比自回归模型快 3-10 倍，RTF 可低至 0.01-0.02 ✅ 精度高 在 AISHELL-1/2、LibriSpeech 等基准上接近/超过 Conformer 自回归模型 🌐 中文能力突出 专门针对中文优化的模型，在中文 ASR 任务上表现优异 📦 开源生态好 集成在 FunASR 中，提供完整训练/推理/部署工具链 🔧 部署友好 支持 ONNX、TensorRT 导出，适合生产环境部署 🎯 功能丰富 除了 ASR，还支持 VAD、标点恢复、说话人分离、时间戳等 🆓 完全开源 Apache 2.0 协议，可商用 劣势 # 劣势 说明 ⚠️ NAR 固有精度损失 非自回归模型无法利用已生成 token 的信息，在极长句、强上下文依赖场景下，精度仍略逊于自回归模型 ⚠️ 长度预测误差 CIF Predictor 对输出序列长度的预测偶尔出错（多预测/少预测），导致重复/漏字 ⚠️ 训练复杂度高 两阶段蒸馏训练比端到端训练更复杂，需要自回归教师模型 ⚠️ 英文泛化稍弱 英文表现不错，但对比 Whisper 等大规模预训练模型，英文多语言泛化仍有差距 ⚠️ 流式版本有延迟 Paraformer-online 虽然支持流式，但仍有 chunk 级别的延迟，不如纯 CTC/RNN-T 流式方案 ⚠️ 生态依赖 FunASR 深度绑定 FunASR 工具链，脱离 FunASR 独立使用成本较高 典型应用场景 # 大规模语音转写：会议转写、客服录音处理（速度优势明显） 实时语音识别：直播字幕、语音助手（流式版本） 中文 ASR：普通话识别、方言识别（中文模型专精） 多模态流水线：FunASR 整合 VAD → ASR → 标点 → 说话人分离，一站式处理 总结 # Paraformer 的核心价值在于用 NAR 架构换来了接近自回归模型的精度，同时获得了数倍的推理加速。在中文 ASR 领域，它是最强的开源模型之一。如果你的场景对推理延迟/吞吐量有要求，Paraformer 是非常值得考虑的方案。但如果追求极致的识别精度（尤其英文场景），Whisper 等超大规模自回归模型仍有优势。">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Paraformer Intro | Vision</title>
+<link rel="icon" href="/www6vVision/favicon.png" >
+<link rel="manifest" href="/www6vVision/manifest.json">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/paraformer/paraformer/paraformer-intro/">
+<link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/www6vVision/fuse.min.js"></script>
+  <script defer src="/www6vVision/en.search.min.94e20ed9429a2c569cbb53f864cd1f76dbc0c4cc03bf5f13bee875426adb8d33.js" integrity="sha256-lOIO2UKaLFacu1P4ZM0fdtvAxMwDv18Tvuh1QmrbjTM=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/www6vVision/"><span>Vision</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a7a6c173855ef5d21d37c3867e9d463f" class="toggle"  />
+    <label for="section-a7a6c173855ef5d21d37c3867e9d463f" class="flex justify-between">
+      <a role="button" class="">Survey</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSeries/" class="">多模态 系列</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSurvey/" class="">(Survey)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/Multimodal/" class="">(综述)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-af964bbd7b41fee7b2fd656e42b249cc" class="toggle"  />
+    <label for="section-af964bbd7b41fee7b2fd656e42b249cc" class="flex justify-between">
+      <a role="button" class="">文档智能</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/MinerU/" class="">MinerU</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/DocumentAI/" class="">文档智能</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/Table/" class="">表格</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c0ab9c3273b3f23a856bb12f640857f1" class="toggle"  />
+    <label for="section-c0ab9c3273b3f23a856bb12f640857f1" class="flex justify-between">
+      <a role="button" class="">视觉理解</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="toggle"  />
+    <label for="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="flex justify-between">
+      <a role="button" class="">Vision Encoder</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/" class="">VQ-VAE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/" class="">DINO</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIP/" class="">(原理)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/" class="">(原理|实战)ViT, ViLT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIPPractice/" class="">(实战)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-59d5a4a57b02830e81317b476374fd6a" class="toggle"  />
+    <label for="section-59d5a4a57b02830e81317b476374fd6a" class="flex justify-between">
+      <a role="button" class="">Connector</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Connector/Connector/" class="">(原理)Connector</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ef6dc6daebcb2103bd104a5d412d6a95" class="toggle"  />
+    <label for="section-ef6dc6daebcb2103bd104a5d412d6a95" class="flex justify-between">
+      <a role="button" class="">Segmentation</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/seg/SAM/" class="">(原理|实战) SAM</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b8e1c1481a25df1c807b33ddfba8040" class="toggle"  />
+    <label for="section-1b8e1c1481a25df1c807b33ddfba8040" class="flex justify-between">
+      <a role="button" class="">生成</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle"  />
+    <label for="section-ddf62cc5d84e3e1ded920e808499a142" class="flex justify-between">
+      <a role="button" class="">Diffusion 基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%8E%9F%E7%90%86/" class="">(原理)Diffusion 原理 *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/" class="">(原理)Flow Matching</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion/" class="">(原理)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%AE%9E%E7%8E%B0/" class="">(实现)Stable Diffusion *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Guidance/" class="">(原理)Guidance</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
+    <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
+      <a role="button" class="">Diffusion</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2vsImagen/" class="">(NT)DALLE-2 vs Imagen</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion-%E6%80%BB%E7%BB%93/" class="">(原理) Diffusion 总结</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion%E6%BC%94%E8%BF%9B/" class="">(原理) Diffusion 演进</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/" class="">(原理)SD XL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2/" class="">(原理)DALLE-2[unCLIP]</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/" class="">(原理|实战)DiT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Flux/" class="">(原理|实现)Flux</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Qwen-Image/" class="">(原理|实现)Qwen-Image</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle"  />
+    <label for="section-1b2aa7832a4d8939e814125e1948a4b3" class="flex justify-between">
+      <a role="button" class="">Controllable</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/" class="">(work|实战) fine-tuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControllableWork/" class="">(Work|实战)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/" class="">(原理|实战)ControlNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/" class="">(原理|实战)DreamBooth</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="">(原理|实战)IP-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/" class="">(原理|实战)ReferenceNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/" class="">(原理|实战)T2I-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/Controllable/" class="">(综述)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="toggle"  />
+    <label for="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="flex justify-between">
+      <a role="button" class="">Editing</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/" class="">(Work|实战)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/" class="">(综述)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/" class="">InstructPix2Pix</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/MGIE/" class="">MGIE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/" class="">pix2pix-zero</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/" class="">Prompt-to-Prompt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b16cccda09102f993e096fdddb9640bb" class="toggle"  />
+    <label for="section-b16cccda09102f993e096fdddb9640bb" class="flex justify-between">
+      <a role="button" class="">人像生图</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/" class="">人像生图</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="toggle"  />
+    <label for="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="flex justify-between">
+      <a role="button" class="">VLM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-45b5b2398f34a3f194922660e20d3d8a" class="toggle"  />
+    <label for="section-45b5b2398f34a3f194922660e20d3d8a" class="flex justify-between">
+      <a role="button" class="">VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ccc420269771dda9ad4d1d0a53b878ee" class="toggle"  />
+    <label for="section-ccc420269771dda9ad4d1d0a53b878ee" class="flex justify-between">
+      <a role="button" class="">Qwen-VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3_A1/" class="">(A1)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL1/" class="">(NT)Qwen-VL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL2/" class="">(NT)Qwen-VL2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3/" class="">(NT)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Blip/" class="">BLIP-2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Minigpt4/" class="">(原理|实战)MiniGPT4</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Llava/" class="">(原理|实战) LLaVa 演化</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Flamingo/" class="">Flamingo</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="toggle"  />
+    <label for="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="flex justify-between">
+      <a role="button" class="">Training</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/InstructTuning/" class="">(综述)多模态InstructTuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/Pretrain/" class="">(原理)多模态预训练 概述</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f8725fcac148ea06984d5b57d39133f6" class="toggle"  />
+    <label for="section-f8725fcac148ea06984d5b57d39133f6" class="flex justify-between">
+      <a role="button" class="">多模态 Agent</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/" class="">Agent - UI-assistants</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/WebAgent/" class="">(原理)Web Agent</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/" class="">(原理)Agent 多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e7495aa0cd5a18585caa15338de39e42" class="toggle"  />
+    <label for="section-e7495aa0cd5a18585caa15338de39e42" class="flex justify-between">
+      <a role="button" class="">Data</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Data/MulitmodalDataset/" class="">(survey)多模态  数据集</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5be05fe4845e45443a3dc5a20cdcae9f" class="toggle"  />
+    <label for="section-5be05fe4845e45443a3dc5a20cdcae9f" class="flex justify-between">
+      <a role="button" class="">Vision</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/VisionTask/" class="">CV 任务</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/" class="">DETR</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5c35f6e3b187337d603071c5e7e9b238" class="toggle" checked />
+    <label for="section-5c35f6e3b187337d603071c5e7e9b238" class="flex justify-between">
+      <a role="button" class="">Sound</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="toggle"  />
+    <label for="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="flex justify-between">
+      <a role="button" class="">ASR</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt/" class="">Asr Opt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt1/" class="">Asr Opt1</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74b52f9c0b9e90d4626f6627d3a51b61" class="toggle" checked />
+    <label for="section-74b52f9c0b9e90d4626f6627d3a51b61" class="flex justify-between">
+      <a role="button" class="">paraformer</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/paraformer/paraformer/paraformer-intro/" class="active">Paraformer Intro</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/paraformer/paraformer2/paraformer-intro/" class="">Paraformer Intro</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f5eb0271b49bf11a3cda8e942465a764" class="toggle"  />
+    <label for="section-f5eb0271b49bf11a3cda8e942465a764" class="flex justify-between">
+      <a role="button" class="">语音助手</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/sound-pilot/sound-pilot1/transsion-ai-voice-assistant-article/" class="">Transsion Ai Voice Assistant Article</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/sound-pilot/sound-pilot2/transsion-ella-voice-assistant-article/" class="">Transsion Ella Voice Assistant Article</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Paraformer Intro</h3>
+
+  <label for="toc-control">
+    
+    <img src="/www6vVision/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#阿里-paraformer-语音识别模型介绍">阿里 Paraformer 语音识别模型介绍</a>
+      <ul>
+        <li><a href="#paraformer-简介">Paraformer 简介</a></li>
+        <li><a href="#核心特点">核心特点</a>
+          <ul>
+            <li><a href="#1-非自回归架构nar">1. 非自回归架构（NAR）</a></li>
+            <li><a href="#2-关键技术创新">2. 关键技术创新</a></li>
+            <li><a href="#3-模型变体">3. 模型变体</a></li>
+          </ul>
+        </li>
+        <li><a href="#优势">优势</a></li>
+        <li><a href="#劣势">劣势</a></li>
+        <li><a href="#典型应用场景">典型应用场景</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="阿里-paraformer-语音识别模型介绍">
+  阿里 Paraformer 语音识别模型介绍
+  <a class="anchor" href="#%e9%98%bf%e9%87%8c-paraformer-%e8%af%ad%e9%9f%b3%e8%af%86%e5%88%ab%e6%a8%a1%e5%9e%8b%e4%bb%8b%e7%bb%8d">#</a>
+</h1>
+<h2 id="paraformer-简介">
+  Paraformer 简介
+  <a class="anchor" href="#paraformer-%e7%ae%80%e4%bb%8b">#</a>
+</h2>
+<p><strong>Paraformer</strong> 是阿里巴巴达摩院（现通义实验室）开发的 <strong>非自回归（Non-Autoregressive, NAR）端到端语音识别（ASR）模型</strong>，作为开源语音识别工具链 <strong>FunASR</strong> 的核心模型开源。</p>
+<blockquote>
+<p>GitHub: <code>github.com/modelscope/FunASR</code> (⭐ 19.5K+, 🍴 1.9K+)
+论文: &ldquo;Paraformer: Fast and Accurate Parallel Transformer for Non-autoregressive End-to-End Speech Recognition&rdquo; (ICASSP 2023)</p></blockquote>
+<h2 id="核心特点">
+  核心特点
+  <a class="anchor" href="#%e6%a0%b8%e5%bf%83%e7%89%b9%e7%82%b9">#</a>
+</h2>
+<h3 id="1-非自回归架构nar">
+  1. 非自回归架构（NAR）
+  <a class="anchor" href="#1-%e9%9d%9e%e8%87%aa%e5%9b%9e%e5%bd%92%e6%9e%b6%e6%9e%84nar">#</a>
+</h3>
+<p>这是 Paraformer 最核心的创新。传统 ASR 模型（如 Conformer、Transformer）是<strong>自回归</strong>的，逐个 token 串行解码；Paraformer 采用<strong>非自回归</strong>，<strong>所有 token 并行解码</strong>，大幅提升推理速度。</p>
+<h3 id="2-关键技术创新">
+  2. 关键技术创新
+  <a class="anchor" href="#2-%e5%85%b3%e9%94%ae%e6%8a%80%e6%9c%af%e5%88%9b%e6%96%b0">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>技术</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Continuous Predictions (CIF)</strong></td>
+          <td>连续积分框架，自动预测输出序列长度，解决 NAR 模型的长度预测难题</td>
+      </tr>
+      <tr>
+          <td><strong>Predictor</strong></td>
+          <td>预测每个声学帧对应的输出 token 数量，动态分配解码资源</td>
+      </tr>
+      <tr>
+          <td><strong>Two-pass Training</strong></td>
+          <td>先用自回归模型蒸馏训练，再端到端微调，保证精度的同时获得并行推理能力</td>
+      </tr>
+      <tr>
+          <td><strong>Contextual Biasing</strong></td>
+          <td>支持热词/上下文偏置，可提升特定领域词汇的识别率</td>
+      </tr>
+      <tr>
+          <td><strong>Multi-task Learning</strong></td>
+          <td>联合训练标点恢复、说话人日志等任务</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="3-模型变体">
+  3. 模型变体
+  <a class="anchor" href="#3-%e6%a8%a1%e5%9e%8b%e5%8f%98%e4%bd%93">#</a>
+</h3>
+<ul>
+<li><strong>Paraformer-large</strong>：大参数版本，精度最高</li>
+<li><strong>Paraformer-small</strong>：轻量版本，适合端侧部署</li>
+<li><strong>Paraformer-zh / Paraformer-en</strong>：中英文专用模型</li>
+<li><strong>Paraformer-online</strong>：流式版本，支持实时语音识别</li>
+</ul>
+<h2 id="优势">
+  优势
+  <a class="anchor" href="#%e4%bc%98%e5%8a%bf">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th>优势</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>🚀 <strong>推理速度快</strong></td>
+          <td>并行解码，比自回归模型快 <strong>3-10 倍</strong>，RTF 可低至 0.01-0.02</td>
+      </tr>
+      <tr>
+          <td>✅ <strong>精度高</strong></td>
+          <td>在 AISHELL-1/2、LibriSpeech 等基准上接近/超过 Conformer 自回归模型</td>
+      </tr>
+      <tr>
+          <td>🌐 <strong>中文能力突出</strong></td>
+          <td>专门针对中文优化的模型，在中文 ASR 任务上表现优异</td>
+      </tr>
+      <tr>
+          <td>📦 <strong>开源生态好</strong></td>
+          <td>集成在 FunASR 中，提供完整训练/推理/部署工具链</td>
+      </tr>
+      <tr>
+          <td>🔧 <strong>部署友好</strong></td>
+          <td>支持 ONNX、TensorRT 导出，适合生产环境部署</td>
+      </tr>
+      <tr>
+          <td>🎯 <strong>功能丰富</strong></td>
+          <td>除了 ASR，还支持 VAD、标点恢复、说话人分离、时间戳等</td>
+      </tr>
+      <tr>
+          <td>🆓 <strong>完全开源</strong></td>
+          <td>Apache 2.0 协议，可商用</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="劣势">
+  劣势
+  <a class="anchor" href="#%e5%8a%a3%e5%8a%bf">#</a>
+</h2>
+<table>
+  <thead>
+      <tr>
+          <th>劣势</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>⚠️ <strong>NAR 固有精度损失</strong></td>
+          <td>非自回归模型无法利用已生成 token 的信息，在极长句、强上下文依赖场景下，精度仍略逊于自回归模型</td>
+      </tr>
+      <tr>
+          <td>⚠️ <strong>长度预测误差</strong></td>
+          <td>CIF Predictor 对输出序列长度的预测偶尔出错（多预测/少预测），导致重复/漏字</td>
+      </tr>
+      <tr>
+          <td>⚠️ <strong>训练复杂度高</strong></td>
+          <td>两阶段蒸馏训练比端到端训练更复杂，需要自回归教师模型</td>
+      </tr>
+      <tr>
+          <td>⚠️ <strong>英文泛化稍弱</strong></td>
+          <td>英文表现不错，但对比 Whisper 等大规模预训练模型，英文多语言泛化仍有差距</td>
+      </tr>
+      <tr>
+          <td>⚠️ <strong>流式版本有延迟</strong></td>
+          <td>Paraformer-online 虽然支持流式，但仍有 chunk 级别的延迟，不如纯 CTC/RNN-T 流式方案</td>
+      </tr>
+      <tr>
+          <td>⚠️ <strong>生态依赖 FunASR</strong></td>
+          <td>深度绑定 FunASR 工具链，脱离 FunASR 独立使用成本较高</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="典型应用场景">
+  典型应用场景
+  <a class="anchor" href="#%e5%85%b8%e5%9e%8b%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af">#</a>
+</h2>
+<ol>
+<li><strong>大规模语音转写</strong>：会议转写、客服录音处理（速度优势明显）</li>
+<li><strong>实时语音识别</strong>：直播字幕、语音助手（流式版本）</li>
+<li><strong>中文 ASR</strong>：普通话识别、方言识别（中文模型专精）</li>
+<li><strong>多模态流水线</strong>：FunASR 整合 VAD → ASR → 标点 → 说话人分离，一站式处理</li>
+</ol>
+<h2 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h2>
+<p>Paraformer 的核心价值在于<strong>用 NAR 架构换来了接近自回归模型的精度，同时获得了数倍的推理加速</strong>。在中文 ASR 领域，它是最强的开源模型之一。如果你的场景对<strong>推理延迟/吞吐量</strong>有要求，Paraformer 是非常值得考虑的方案。但如果追求极致的识别精度（尤其英文场景），Whisper 等超大规模自回归模型仍有优势。</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#阿里-paraformer-语音识别模型介绍">阿里 Paraformer 语音识别模型介绍</a>
+      <ul>
+        <li><a href="#paraformer-简介">Paraformer 简介</a></li>
+        <li><a href="#核心特点">核心特点</a>
+          <ul>
+            <li><a href="#1-非自回归架构nar">1. 非自回归架构（NAR）</a></li>
+            <li><a href="#2-关键技术创新">2. 关键技术创新</a></li>
+            <li><a href="#3-模型变体">3. 模型变体</a></li>
+          </ul>
+        </li>
+        <li><a href="#优势">优势</a></li>
+        <li><a href="#劣势">劣势</a></li>
+        <li><a href="#典型应用场景">典型应用场景</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,4174 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  传音集团手机端AI语音助手（Ella）：从架构设计到端侧实现
+  #
+
+
+作者： 大风
+日期： 2026-08-02
+系列： 手机端AI产品架构设计
+关键词： 传音 · Ella语音助手 · 端侧大模型 · HiOS/itelOS/XOS · 小语种ASR · 离线AI · 新兴市场
+
+
+  一、行业背景与传音AI战略
+  #
+
+
+  1.1 传音集团概况与市场定位
+  #
+
+传音控股，被称为&quot;非洲手机之王&quot;，2025年全球手机出货量达1.69亿部，全球市占率12.3%排名第三。旗下拥有三大手机品牌：
+
+  
+      
+          品牌
+          定位
+          主要市场
+          操作系统
+      
+  
+  
+      
+          TECNO
+          中高端科技品牌
+          非洲、南亚、东南亚、拉美
+          HiOS
+      
+      
+          itel
+          入门级性价比品牌
+          非洲、南亚
+          itelOS
+      
+      
+          Infinix
+          年轻科技潮牌
+          非洲、南亚、东南亚
+          XOS
+      
+  
+
+除手机外，传音还构建了完整的AIoT生态：
+
+Boomplay — 非洲最大音乐流媒体平台之一，千万级MAU
+AHA Games — 游戏中心，覆盖新兴市场游戏分发
+Phone Master — 手机管家，装机必备工具
+Palm Store — 本地化应用商店
+Carlcare — 售后服务品牌，覆盖非洲50&#43;国家
+oraimo — 数码配件品牌（TWS耳机、智能音箱、移动电源等）
+Syinix — 家用电器品牌
+
+
+🖼 配图 1：传音集团品牌矩阵与市场分布图">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://www6v.github.io/www6vVision/docs/Sound/sound-pilot/sound-pilot2/transsion-ella-voice-assistant-article/">
+  <meta property="og:site_name" content="Vision">
+  <meta property="og:title" content="Vision">
+  <meta property="og:description" content="传音集团手机端AI语音助手（Ella）：从架构设计到端侧实现 # 作者： 大风
+日期： 2026-08-02
+系列： 手机端AI产品架构设计
+关键词： 传音 · Ella语音助手 · 端侧大模型 · HiOS/itelOS/XOS · 小语种ASR · 离线AI · 新兴市场
+一、行业背景与传音AI战略 # 1.1 传音集团概况与市场定位 # 传音控股，被称为&#34;非洲手机之王&#34;，2025年全球手机出货量达1.69亿部，全球市占率12.3%排名第三。旗下拥有三大手机品牌：
+品牌 定位 主要市场 操作系统 TECNO 中高端科技品牌 非洲、南亚、东南亚、拉美 HiOS itel 入门级性价比品牌 非洲、南亚 itelOS Infinix 年轻科技潮牌 非洲、南亚、东南亚 XOS 除手机外，传音还构建了完整的AIoT生态：
+Boomplay — 非洲最大音乐流媒体平台之一，千万级MAU AHA Games — 游戏中心，覆盖新兴市场游戏分发 Phone Master — 手机管家，装机必备工具 Palm Store — 本地化应用商店 Carlcare — 售后服务品牌，覆盖非洲50&#43;国家 oraimo — 数码配件品牌（TWS耳机、智能音箱、移动电源等） Syinix — 家用电器品牌 🖼 配图 1：传音集团品牌矩阵与市场分布图">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+<title>Transsion Ella Voice Assistant Article | Vision</title>
+<link rel="icon" href="/www6vVision/favicon.png" >
+<link rel="manifest" href="/www6vVision/manifest.json">
+<link rel="canonical" href="https://www6v.github.io/www6vVision/docs/Sound/sound-pilot/sound-pilot2/transsion-ella-voice-assistant-article/">
+<link rel="stylesheet" href="/www6vVision/book.min.6c8b9d2a1fc95075ed7da46ca81060b39add8fff6741ac51259f768929281e2c.css" integrity="sha256-bIudKh/JUHXtfaRsqBBgs5rdj/9nQaxRJZ92iSkoHiw=" crossorigin="anonymous">
+  <script defer src="/www6vVision/fuse.min.js"></script>
+  <script defer src="/www6vVision/en.search.min.94e20ed9429a2c569cbb53f864cd1f76dbc0c4cc03bf5f13bee875426adb8d33.js" integrity="sha256-lOIO2UKaLFacu1P4ZM0fdtvAxMwDv18Tvuh1QmrbjTM=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/www6vVision/"><span>Vision</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a7a6c173855ef5d21d37c3867e9d463f" class="toggle"  />
+    <label for="section-a7a6c173855ef5d21d37c3867e9d463f" class="flex justify-between">
+      <a role="button" class="">Survey</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSeries/" class="">多模态 系列</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/MultimodalSurvey/" class="">(Survey)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Survey/Multimodal/" class="">(综述)多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-af964bbd7b41fee7b2fd656e42b249cc" class="toggle"  />
+    <label for="section-af964bbd7b41fee7b2fd656e42b249cc" class="flex justify-between">
+      <a role="button" class="">文档智能</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/MinerU/" class="">MinerU</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/DocumentAI/" class="">文档智能</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/DocumentAI/Table/" class="">表格</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-c0ab9c3273b3f23a856bb12f640857f1" class="toggle"  />
+    <label for="section-c0ab9c3273b3f23a856bb12f640857f1" class="flex justify-between">
+      <a role="button" class="">视觉理解</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="toggle"  />
+    <label for="section-0c6f5585f5e480d3e24a4bf7efa7a6aa" class="flex justify-between">
+      <a role="button" class="">Vision Encoder</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/VQVAE/" class="">VQ-VAE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/DINO/" class="">DINO</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIP/" class="">(原理)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/ViT/" class="">(原理|实战)ViT, ViLT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Vision-Encoder/CLIPPractice/" class="">(实战)CLIP</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-59d5a4a57b02830e81317b476374fd6a" class="toggle"  />
+    <label for="section-59d5a4a57b02830e81317b476374fd6a" class="flex justify-between">
+      <a role="button" class="">Connector</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/Connector/Connector/" class="">(原理)Connector</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ef6dc6daebcb2103bd104a5d412d6a95" class="toggle"  />
+    <label for="section-ef6dc6daebcb2103bd104a5d412d6a95" class="flex justify-between">
+      <a role="button" class="">Segmentation</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3/seg/SAM/" class="">(原理|实战) SAM</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b8e1c1481a25df1c807b33ddfba8040" class="toggle"  />
+    <label for="section-1b8e1c1481a25df1c807b33ddfba8040" class="flex justify-between">
+      <a role="button" class="">生成</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ddf62cc5d84e3e1ded920e808499a142" class="toggle"  />
+    <label for="section-ddf62cc5d84e3e1ded920e808499a142" class="flex justify-between">
+      <a role="button" class="">Diffusion 基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%8E%9F%E7%90%86/" class="">(原理)Diffusion 原理 *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Flow-Matching/" class="">(原理)Flow Matching</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion/" class="">(原理)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Diffusion%E5%AE%9E%E7%8E%B0/" class="">(实现)Stable Diffusion *</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/DiffusionPractice/" class="">(实战)Stable Diffusion</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion%E5%9F%BA%E7%A1%80/Guidance/" class="">(原理)Guidance</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-795b65cbbf8117cd83686969cd72d7f5" class="toggle"  />
+    <label for="section-795b65cbbf8117cd83686969cd72d7f5" class="flex justify-between">
+      <a role="button" class="">Diffusion</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2vsImagen/" class="">(NT)DALLE-2 vs Imagen</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion-%E6%80%BB%E7%BB%93/" class="">(原理) Diffusion 总结</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Diffusion%E6%BC%94%E8%BF%9B/" class="">(原理) Diffusion 演进</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiffusionXL/" class="">(原理)SD XL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DALLE2/" class="">(原理)DALLE-2[unCLIP]</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/DiT/" class="">(原理|实战)DiT</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Flux/" class="">(原理|实现)Flux</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Diffusion/Qwen-Image/" class="">(原理|实现)Qwen-Image</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b2aa7832a4d8939e814125e1948a4b3" class="toggle"  />
+    <label for="section-1b2aa7832a4d8939e814125e1948a4b3" class="flex justify-between">
+      <a role="button" class="">Controllable</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/FineTuning/" class="">(work|实战) fine-tuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControllableWork/" class="">(Work|实战)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ControlNet/" class="">(原理|实战)ControlNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/DreamBooth/" class="">(原理|实战)DreamBooth</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/IPAdapter/" class="">(原理|实战)IP-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/ReferenceNet/" class="">(原理|实战)ReferenceNet</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/T2IAdapter/" class="">(原理|实战)T2I-Adapter</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Controllable/Controllable/" class="">(综述)Controllable</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="toggle"  />
+    <label for="section-d9071985d3160fb1fa6eef8f9dc6cb04" class="flex justify-between">
+      <a role="button" class="">Editing</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEditWork/" class="">(Work|实战)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/ImageEdit/" class="">(综述)Image Editing</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Instruct/" class="">InstructPix2Pix</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/MGIE/" class="">MGIE</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Pix2pix/" class="">pix2pix-zero</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/Editing/Prompt/" class="">Prompt-to-Prompt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b16cccda09102f993e096fdddb9640bb" class="toggle"  />
+    <label for="section-b16cccda09102f993e096fdddb9640bb" class="flex justify-between">
+      <a role="button" class="">人像生图</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E7%94%9F%E6%88%90/%E4%BA%BA%E5%83%8F%E7%94%9F%E5%9B%BE/IDCreate/" class="">人像生图</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="toggle"  />
+    <label for="section-7b3a25e7d916e8cbc59c35a8fe3656c2" class="flex justify-between">
+      <a role="button" class="">VLM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-45b5b2398f34a3f194922660e20d3d8a" class="toggle"  />
+    <label for="section-45b5b2398f34a3f194922660e20d3d8a" class="flex justify-between">
+      <a role="button" class="">VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ccc420269771dda9ad4d1d0a53b878ee" class="toggle"  />
+    <label for="section-ccc420269771dda9ad4d1d0a53b878ee" class="flex justify-between">
+      <a role="button" class="">Qwen-VL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3_A1/" class="">(A1)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL1/" class="">(NT)Qwen-VL</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL2/" class="">(NT)Qwen-VL2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Qwen-VL/Qwen-VL3/" class="">(NT)Qwen-VL3</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Blip/" class="">BLIP-2</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Minigpt4/" class="">(原理|实战)MiniGPT4</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Llava/" class="">(原理|实战) LLaVa 演化</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/VL/Flamingo/" class="">Flamingo</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="toggle"  />
+    <label for="section-0461ecd414e52ecdaa7bcc3e865d1bbd" class="flex justify-between">
+      <a role="button" class="">Training</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/InstructTuning/" class="">(综述)多模态InstructTuning</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/VLM/Training/Pretrain/" class="">(原理)多模态预训练 概述</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f8725fcac148ea06984d5b57d39133f6" class="toggle"  />
+    <label for="section-f8725fcac148ea06984d5b57d39133f6" class="flex justify-between">
+      <a role="button" class="">多模态 Agent</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgentApp/" class="">Agent - UI-assistants</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/WebAgent/" class="">(原理)Web Agent</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/%E5%A4%9A%E6%A8%A1%E6%80%81-Agent/MultimodalAgent/" class="">(原理)Agent 多模态</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e7495aa0cd5a18585caa15338de39e42" class="toggle"  />
+    <label for="section-e7495aa0cd5a18585caa15338de39e42" class="flex justify-between">
+      <a role="button" class="">Data</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Data/MulitmodalDataset/" class="">(survey)多模态  数据集</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5be05fe4845e45443a3dc5a20cdcae9f" class="toggle"  />
+    <label for="section-5be05fe4845e45443a3dc5a20cdcae9f" class="flex justify-between">
+      <a role="button" class="">Vision</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/VisionTask/" class="">CV 任务</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Vision/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/DETR/" class="">DETR</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5c35f6e3b187337d603071c5e7e9b238" class="toggle" checked />
+    <label for="section-5c35f6e3b187337d603071c5e7e9b238" class="flex justify-between">
+      <a role="button" class="">Sound</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="toggle"  />
+    <label for="section-e90878a5326cfb6092d07c2ca0b3f1fd" class="flex justify-between">
+      <a role="button" class="">ASR</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt/" class="">Asr Opt</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/ASR/ASR-Opt1/" class="">Asr Opt1</a>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74b52f9c0b9e90d4626f6627d3a51b61" class="toggle"  />
+    <label for="section-74b52f9c0b9e90d4626f6627d3a51b61" class="flex justify-between">
+      <a role="button" class="">paraformer</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/paraformer/paraformer/paraformer-intro/" class="">Paraformer Intro</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/paraformer/paraformer2/paraformer-intro/" class="">Paraformer Intro</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f5eb0271b49bf11a3cda8e942465a764" class="toggle" checked />
+    <label for="section-f5eb0271b49bf11a3cda8e942465a764" class="flex justify-between">
+      <a role="button" class="">语音助手</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/sound-pilot/sound-pilot1/transsion-ai-voice-assistant-article/" class="">Transsion Ai Voice Assistant Article</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/www6vVision/docs/Sound/sound-pilot/sound-pilot2/transsion-ella-voice-assistant-article/" class="active">Transsion Ella Voice Assistant Article</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/www6vVision/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Transsion Ella Voice Assistant Article</h3>
+
+  <label for="toc-control">
+    
+    <img src="/www6vVision/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#传音集团手机端ai语音助手ella从架构设计到端侧实现">传音集团手机端AI语音助手（Ella）：从架构设计到端侧实现</a>
+      <ul>
+        <li><a href="#一行业背景与传音ai战略">一、行业背景与传音AI战略</a>
+          <ul>
+            <li><a href="#11-传音集团概况与市场定位">1.1 传音集团概况与市场定位</a></li>
+            <li><a href="#12-ella语音助手从离线助手到端侧agent的演进">1.2 Ella语音助手：从离线助手到端侧Agent的演进</a></li>
+            <li><a href="#13-传音ai战略核心信息">1.3 传音AI战略核心信息</a></li>
+            <li><a href="#14-岗位职责映射架构师在传音语音助手中的核心定位">1.4 岗位职责映射：架构师在传音语音助手中的核心定位</a></li>
+          </ul>
+        </li>
+        <li><a href="#二总体架构设计">二、总体架构设计</a>
+          <ul>
+            <li><a href="#21-传音ella语音助手架构设计三原则">2.1 传音Ella语音助手架构设计三原则</a></li>
+            <li><a href="#22-四层架构总览传音定制版">2.2 四层架构总览（传音定制版）</a></li>
+            <li><a href="#23-端云协同架构传音定制版">2.3 端云协同架构（传音定制版）</a></li>
+            <li><a href="#24-架构权衡四维约束分析传音场景">2.4 架构权衡：四维约束分析（传音场景）</a></li>
+          </ul>
+        </li>
+        <li><a href="#三感知层设计听清听懂多语种">三、感知层设计：听清·听懂·多语种</a>
+          <ul>
+            <li><a href="#31-多语种kws--vad50语言唤醒">3.1 多语种KWS + VAD：50+语言唤醒</a></li>
+            <li><a href="#32-多语种asr语音识别">3.2 多语种ASR语音识别</a></li>
+            <li><a href="#33-多模态感知融合">3.3 多模态感知融合</a></li>
+          </ul>
+        </li>
+        <li><a href="#四认知层设计端侧大模型核心">四、认知层设计：端侧大模型核心</a>
+          <ul>
+            <li><a href="#41-传音端侧llm选型与部署">4.1 传音端侧LLM选型与部署</a></li>
+            <li><a href="#42-1n-架构基础模型--场景插件">4.2 &ldquo;1+N&rdquo; 架构：基础模型 + 场景插件</a></li>
+            <li><a href="#43-推理加速关键技术">4.3 推理加速关键技术</a></li>
+            <li><a href="#44-端侧个性化记忆">4.4 端侧个性化记忆</a></li>
+          </ul>
+        </li>
+        <li><a href="#五决策层设计">五、决策层设计</a>
+          <ul>
+            <li><a href="#51-intent路由与agent规划">5.1 Intent路由与Agent规划</a></li>
+            <li><a href="#52-function-calling-端侧实现">5.2 Function Calling 端侧实现</a></li>
+            <li><a href="#53-agent框架设计传音下一代">5.3 Agent框架设计（传音下一代）</a></li>
+            <li><a href="#54-安全护栏设计">5.4 安全护栏设计</a></li>
+          </ul>
+        </li>
+        <li><a href="#六执行层设计">六、执行层设计</a>
+          <ul>
+            <li><a href="#61-传音os系统api集成">6.1 传音OS系统API集成</a></li>
+            <li><a href="#62-传音生态跨应用调度">6.2 传音生态跨应用调度</a></li>
+            <li><a href="#63-ai按键与多入口设计">6.3 AI按键与多入口设计</a></li>
+          </ul>
+        </li>
+        <li><a href="#七端云协同架构详解">七、端云协同架构详解</a>
+          <ul>
+            <li><a href="#71-端侧-vs-云端分工矩阵传音版">7.1 端侧 vs 云端分工矩阵（传音版）</a></li>
+            <li><a href="#72-端云路由策略">7.2 端云路由策略</a></li>
+            <li><a href="#73-降级策略弱网断网兜底保障">7.3 降级策略：弱网/断网兜底保障</a></li>
+          </ul>
+        </li>
+        <li><a href="#八工程实现与部署">八、工程实现与部署</a>
+          <ul>
+            <li><a href="#81-芯片与推理框架适配传音机型矩阵">8.1 芯片与推理框架适配（传音机型矩阵）</a></li>
+            <li><a href="#82-分层部署策略">8.2 分层部署策略</a></li>
+            <li><a href="#83-低端机适配策略2gb-ram挑战">8.3 低端机适配策略（2GB RAM挑战）</a></li>
+            <li><a href="#84-功耗与热管理">8.4 功耗与热管理</a></li>
+          </ul>
+        </li>
+        <li><a href="#九关键技术攻关">九、关键技术攻关</a>
+          <ul>
+            <li><a href="#91-攻关1小语种asr准确率从8292">9.1 攻关1：小语种ASR准确率从82%→92%</a></li>
+            <li><a href="#92-攻关2低端机2gb-ram端侧推理延迟从350ms200ms">9.2 攻关2：低端机（2GB RAM）端侧推理延迟从350ms→200ms</a></li>
+            <li><a href="#93-攻关3离线多轮对话100轮无卡顿">9.3 攻关3：离线多轮对话100轮无卡顿</a></li>
+            <li><a href="#94-攻关4ai按键端到端延迟优化500ms200ms">9.4 攻关4：AI按键端到端延迟优化（500ms→200ms）</a></li>
+          </ul>
+        </li>
+        <li><a href="#十未来演进路线">十、未来演进路线</a>
+          <ul>
+            <li><a href="#101-2026ella-agent框架量产">10.1 2026：Ella Agent框架量产</a></li>
+            <li><a href="#102-2027端到端语音大模型">10.2 2027：端到端语音大模型</a></li>
+            <li><a href="#103-2028agent生态与服务分发网络">10.3 2028+：Agent生态与服务分发网络</a></li>
+          </ul>
+        </li>
+        <li><a href="#附录">附录</a>
+          <ul>
+            <li><a href="#a-传音ella语音助手关键术语表">A. 传音Ella语音助手关键术语表</a></li>
+            <li><a href="#b-参考信息">B. 参考信息</a></li>
+            <li><a href="#c-性能测试环境">C. 性能测试环境</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="传音集团手机端ai语音助手ella从架构设计到端侧实现">
+  传音集团手机端AI语音助手（Ella）：从架构设计到端侧实现
+  <a class="anchor" href="#%e4%bc%a0%e9%9f%b3%e9%9b%86%e5%9b%a2%e6%89%8b%e6%9c%ba%e7%ab%afai%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8bella%e4%bb%8e%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1%e5%88%b0%e7%ab%af%e4%be%a7%e5%ae%9e%e7%8e%b0">#</a>
+</h1>
+<blockquote>
+<p><strong>作者：</strong> 大风<br>
+<strong>日期：</strong> 2026-08-02<br>
+<strong>系列：</strong> 手机端AI产品架构设计<br>
+<strong>关键词：</strong> 传音 · Ella语音助手 · 端侧大模型 · HiOS/itelOS/XOS · 小语种ASR · 离线AI · 新兴市场</p></blockquote>
+<hr>
+<h2 id="一行业背景与传音ai战略">
+  一、行业背景与传音AI战略
+  <a class="anchor" href="#%e4%b8%80%e8%a1%8c%e4%b8%9a%e8%83%8c%e6%99%af%e4%b8%8e%e4%bc%a0%e9%9f%b3ai%e6%88%98%e7%95%a5">#</a>
+</h2>
+<h3 id="11-传音集团概况与市场定位">
+  1.1 传音集团概况与市场定位
+  <a class="anchor" href="#11-%e4%bc%a0%e9%9f%b3%e9%9b%86%e5%9b%a2%e6%a6%82%e5%86%b5%e4%b8%8e%e5%b8%82%e5%9c%ba%e5%ae%9a%e4%bd%8d">#</a>
+</h3>
+<p>传音控股，被称为&quot;非洲手机之王&quot;，2025年全球手机出货量达1.69亿部，全球市占率12.3%排名第三。旗下拥有三大手机品牌：</p>
+<table>
+  <thead>
+      <tr>
+          <th>品牌</th>
+          <th>定位</th>
+          <th>主要市场</th>
+          <th>操作系统</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>TECNO</strong></td>
+          <td>中高端科技品牌</td>
+          <td>非洲、南亚、东南亚、拉美</td>
+          <td>HiOS</td>
+      </tr>
+      <tr>
+          <td><strong>itel</strong></td>
+          <td>入门级性价比品牌</td>
+          <td>非洲、南亚</td>
+          <td>itelOS</td>
+      </tr>
+      <tr>
+          <td><strong>Infinix</strong></td>
+          <td>年轻科技潮牌</td>
+          <td>非洲、南亚、东南亚</td>
+          <td>XOS</td>
+      </tr>
+  </tbody>
+</table>
+<p>除手机外，传音还构建了完整的AIoT生态：</p>
+<ul>
+<li><strong>Boomplay</strong> — 非洲最大音乐流媒体平台之一，千万级MAU</li>
+<li><strong>AHA Games</strong> — 游戏中心，覆盖新兴市场游戏分发</li>
+<li><strong>Phone Master</strong> — 手机管家，装机必备工具</li>
+<li><strong>Palm Store</strong> — 本地化应用商店</li>
+<li><strong>Carlcare</strong> — 售后服务品牌，覆盖非洲50+国家</li>
+<li><strong>oraimo</strong> — 数码配件品牌（TWS耳机、智能音箱、移动电源等）</li>
+<li><strong>Syinix</strong> — 家用电器品牌</li>
+</ul>
+<blockquote>
+<p>🖼 <strong>配图 1：传音集团品牌矩阵与市场分布图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph 传音控股 Transsion
+        TECNO[TECNO&lt;br/&gt;中高端]
+        itel[itel&lt;br/&gt;入门级]
+        Infinix[Infinix&lt;br/&gt;年轻科技]
+    end
+    
+    subgraph AIoT生态
+        Boomplay[Boomplay&lt;br/&gt;音乐]
+        AHA[AHA Games&lt;br/&gt;游戏]
+        PhoneM[Phone Master&lt;br/&gt;管家]
+        Carl[Carlcare&lt;br/&gt;售后]
+        orai[oraimo&lt;br/&gt;配件]
+    end
+    
+    subgraph 自研OS
+        HiOS[HiOS&lt;br/&gt;TECNO]
+        itelOS[itelOS&lt;br/&gt;itel]
+        XOS[XOS&lt;br/&gt;Infinix]
+    end
+    
+    subgraph AI能力
+        Ella[Ella语音助手]
+        Qwen[通义千问]
+        DS[DeepSeek-R1]
+        AIKey[AI按键]
+    end
+    
+    TECNO --&gt; HiOS
+    itel --&gt; itelOS
+    Infinix --&gt; XOS
+    HiOS --&gt; Ella
+    itelOS --&gt; Ella
+    XOS --&gt; Ella
+    Ella --&gt; Qwen
+    Ella --&gt; DS
+    Ella --&gt; AIKey
+    TECNO --&gt; Boomplay
+    itel --&gt; AHA
+    Infinix --&gt; PhoneM
+    TECNO --&gt; Carl
+    
+    style Ella fill:#FF6B6B
+    style Qwen fill:#4ECDC4
+    style DS fill:#4ECDC4
+    style AIKey fill:#FFEAA7
+</code></pre><h3 id="12-ella语音助手从离线助手到端侧agent的演进">
+  1.2 Ella语音助手：从离线助手到端侧Agent的演进
+  <a class="anchor" href="#12-ella%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8b%e4%bb%8e%e7%a6%bb%e7%ba%bf%e5%8a%a9%e6%89%8b%e5%88%b0%e7%ab%af%e4%be%a7agent%e7%9a%84%e6%bc%94%e8%bf%9b">#</a>
+</h3>
+<p>Ella是传音集团旗下各品牌手机的AI语音助手名称。它的演进路线深刻反映了传音在新兴市场的本地化创新路径：</p>
+<table>
+  <thead>
+      <tr>
+          <th>代际</th>
+          <th>时间</th>
+          <th>形态</th>
+          <th>核心能力</th>
+          <th>局限</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>1.0 离线指令</strong></td>
+          <td>2020-2022</td>
+          <td>端侧规则引擎</td>
+          <td>基础语音控制（打电话、发短信、播放音乐）</td>
+          <td>仅支持英语/法语/斯瓦希里语，指令有限，无法对话</td>
+      </tr>
+      <tr>
+          <td><strong>2.0 离线+云端混合</strong></td>
+          <td>2023-2024</td>
+          <td>端侧小语种ASR + 云端大模型</td>
+          <td>非洲小语种支持、离线翻译、简单对话</td>
+          <td>依赖网络，延迟高，弱网体验差</td>
+      </tr>
+      <tr>
+          <td><strong>3.0 端侧大模型Agent</strong></td>
+          <td>2025-至今</td>
+          <td>通义千问/DeepSeek端侧部署</td>
+          <td>离线多轮对话、AI按键一键唤醒、AI Writing、通话摘要</td>
+          <td>端侧算力受限，中低端机型适配挑战大</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>关键里程碑：</strong></p>
+<ul>
+<li><strong>2025.1</strong> — 阿里云通义千问大模型搭载TECNO AI手机，基于联发科芯片深度优化</li>
+<li><strong>2024</strong> — Infinix手机品牌接入DeepSeek-R1满血版</li>
+<li><strong>2025.3</strong> — MWC 2026发布CAMON 50系列，首次搭载<strong>物理AI按键</strong></li>
+<li><strong>2025.6</strong> — 新品搭载离线翻译和语音助手等多个AI功能</li>
+<li><strong>2025.11</strong> — 传音宣布启动香港IPO，募资10亿美元用于AI研发</li>
+<li><strong>WMT2025</strong> — 国际机器翻译大赛四项冠军，成果已落地Ella</li>
+</ul>
+<blockquote>
+<p>🖼 <strong>配图 2：Ella语音助手演进时间轴</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">timeline
+    title Ella语音助手演进路线
+    2020-2022 : 1.0 离线指令阶段
+              : 端侧规则引擎
+              : 基础语音控制
+              : 3语言支持
+    2023-2024 : 2.0 离线+云端混合
+              : 小语种ASR突破
+              : Infinix接入DeepSeek-R1
+              : 离线翻译落地
+    2025 : 3.0 端侧大模型Agent
+         : 通义千问端侧部署
+         : AI物理按键
+         : WMT2025四冠
+         : 港股IPO募资AI
+    2026+ : 下一代Agent框架
+          : 端到端语音大模型
+          : AI眼镜语音交互
+          : 100+语言覆盖
+</code></pre><h3 id="13-传音ai战略核心信息">
+  1.3 传音AI战略核心信息
+  <a class="anchor" href="#13-%e4%bc%a0%e9%9f%b3ai%e6%88%98%e7%95%a5%e6%a0%b8%e5%bf%83%e4%bf%a1%e6%81%af">#</a>
+</h3>
+<p><strong>硬件端：</strong></p>
+<ul>
+<li><strong>AI物理按键</strong>：TECNO CAMON 50系列首次搭载，短按唤醒Ella、长按深度对话、双击一键问屏</li>
+<li><strong>芯片适配</strong>：与联发科深度合作，在天玑9300/9400上部署通义千问；同时适配展锐低端芯片</li>
+<li><strong>影像AI</strong>：AI RAW 2.0图像引擎、AI Auto Zoom等AI影像功能</li>
+</ul>
+<p><strong>软件端：</strong></p>
+<ul>
+<li><strong>大模型接入</strong>：通义千问 + DeepSeek-R1双引擎</li>
+<li><strong>Google Cloud合作</strong>：一键问屏、AI搜索、通话摘要、AI Writing</li>
+<li><strong>Agent框架</strong>：下一代Agent框架构建中</li>
+<li><strong>小语种技术</strong>：WMT2025四冠，非洲/南亚50+语言覆盖</li>
+</ul>
+<p><strong>战略方向（竺兆江2025Q3业绩会披露）：</strong></p>
+<blockquote>
+<p>&ldquo;公司希望推动AI应用和AI终端技术在新兴市场的创新和普及，为消费者带来更优化、更智能的用户体验。&rdquo;</p></blockquote>
+<h3 id="14-岗位职责映射架构师在传音语音助手中的核心定位">
+  1.4 岗位职责映射：架构师在传音语音助手中的核心定位
+  <a class="anchor" href="#14-%e5%b2%97%e4%bd%8d%e8%81%8c%e8%b4%a3%e6%98%a0%e5%b0%84%e6%9e%b6%e6%9e%84%e5%b8%88%e5%9c%a8%e4%bc%a0%e9%9f%b3%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8b%e4%b8%ad%e7%9a%84%e6%a0%b8%e5%bf%83%e5%ae%9a%e4%bd%8d">#</a>
+</h3>
+<p>根据岗位需求，我们将架构师职责映射到Ella语音助手的具体模块：</p>
+<table>
+  <thead>
+      <tr>
+          <th>职责要求</th>
+          <th>Ella对应模块</th>
+          <th>技术指标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>系统架构规划与产品特性落地</td>
+          <td>Ella四层架构（感知→认知→决策→执行）</td>
+          <td>整体架构文档 + 技术方案</td>
+      </tr>
+      <tr>
+          <td>AI需求拆解为技术指标</td>
+          <td>小语种ASR准确率/离线可用性/低端机型适配SLA</td>
+          <td>CER≤8%、延迟≤200ms、内存≤600MB</td>
+      </tr>
+      <tr>
+          <td>逻辑/技术架构方案输出</td>
+          <td>端云协同架构 + 端侧大模型部署方案</td>
+          <td>架构设计文档 + 部署方案</td>
+      </tr>
+      <tr>
+          <td>功能模块拆分与交付跟踪</td>
+          <td>Ella插件生态模块拆分</td>
+          <td>模块边界文档 + 交付标准</td>
+      </tr>
+      <tr>
+          <td>攻关复杂场景技术难题</td>
+          <td>非洲50+语言适配、低端机端侧推理、弱网/断网兜底</td>
+          <td>攻关报告 + 性能数据</td>
+      </tr>
+      <tr>
+          <td>追踪前沿技术推动迭代</td>
+          <td>Agent框架、端到端语音大模型、多模态融合</td>
+          <td>技术评估报告 + 路线图</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="二总体架构设计">
+  二、总体架构设计
+  <a class="anchor" href="#%e4%ba%8c%e6%80%bb%e4%bd%93%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1">#</a>
+</h2>
+<h3 id="21-传音ella语音助手架构设计三原则">
+  2.1 传音Ella语音助手架构设计三原则
+  <a class="anchor" href="#21-%e4%bc%a0%e9%9f%b3ella%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8b%e6%9e%b6%e6%9e%84%e8%ae%be%e8%ae%a1%e4%b8%89%e5%8e%9f%e5%88%99">#</a>
+</h3>
+<pre tabindex="0"><code>┌───────────────────────────────────────────────────────────────┐
+│              传音Ella语音助手架构设计三原则                      │
+├─────────────────┬─────────────────┬───────────────────────────┤
+│   稳健 Robust   │   前瞻 Forward   │      可扩展 Scalable       │
+│                 │   Looking       │                            │
+│ • 离线全可用     │ • Agent原生框架  │ • 1+N 插件架构              │
+│ • 弱网强兜底     │ • 端到端语音模型  │ • 多芯片适配               │
+│ • 低端机可用     │ • 多模态融合     │   (MTK/展锐/高通)           │
+│ • 小语种优先     │ • 多品牌差异化   │ • 模型OTA热更新             │
+│ • 隐私优先       │ • AIoT全场景     │ • 生态服务可扩展             │
+└─────────────────┴─────────────────┴───────────────────────────┘
+</code></pre><p><strong>稳健（Robust）</strong> 是传音架构的第一原则。新兴市场网络基础设施薄弱，30%用户可能处于断网状态，40%处于2G/3G弱网。Ella必须做到<strong>离线全可用</strong>——核心语音识别、意图理解、手机操作在断网时100%可用。</p>
+<p><strong>前瞻（Forward Looking）</strong> 要求架构面向未来3-5年。Agent原生框架设计、端到端语音大模型预研、多模态AI眼镜语音交互集成，这些都是2026-2028年的技术方向，架构必须提前预留接口。</p>
+<p><strong>可扩展（Scalable）</strong> 体现在三个层面：芯片层面适配天玑/展锐/高通多平台，系统层面兼容HiOS/itelOS/XOS三套OS，生态层面支持Boomplay/AHA Games/Carlcare等自有服务以及第三方Agent接入。</p>
+<h3 id="22-四层架构总览传音定制版">
+  2.2 四层架构总览（传音定制版）
+  <a class="anchor" href="#22-%e5%9b%9b%e5%b1%82%e6%9e%b6%e6%9e%84%e6%80%bb%e8%a7%88%e4%bc%a0%e9%9f%b3%e5%ae%9a%e5%88%b6%e7%89%88">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 3：Ella语音助手四层架构全景图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph Layer1[用户交互层]
+        AIKey[AI物理按键&lt;br/&gt;短按/长按/双击]
+        Voice[语音输入&lt;br/&gt;50+语言]
+        Touch[屏幕触摸&lt;br/&gt;一键问屏]
+        Glasses[AI眼镜语音&lt;br/&gt;MWC 2026]
+    end
+    
+    subgraph Layer2[感知层 Perception]
+        KWS[多语种KWS&lt;br/&gt;50+语言唤醒]
+        VAD[VAD语音活动检测]
+        ASR[多语种ASR&lt;br/&gt;Paraformer/自研]
+        NLU[语义理解&lt;br/&gt;意图识别]
+        MultiModal[多模态融合&lt;br/&gt;语音+屏幕+传感器]
+    end
+    
+    subgraph Layer3[认知层 Cognition]
+        LLM[端侧LLM&lt;br/&gt;通义千问/DeepSeek]
+        Trans[小语种翻译&lt;br/&gt;WMT冠军技术]
+        Memory[上下文记忆&lt;br/&gt;端侧持久化]
+        Emotion[情感理解&lt;br/&gt;语调/语义分析]
+    end
+    
+    subgraph Layer4[决策层 Decision]
+        Router[Intent路由&lt;br/&gt;端/云分发]
+        Agent[Agent规划&lt;br/&gt;任务分解]
+        FC[Function Calling&lt;br/&gt;工具调用]
+        Guard[安全护栏&lt;br/&gt;权限/内容/幻觉]
+    end
+    
+    subgraph Layer5[执行层 Execution]
+        OSAPI[HiOS/itelOS/XOS API]
+        AppDispatch[跨应用调度&lt;br/&gt;Intent转发]
+        EcoTools[生态工具链&lt;br/&gt;Boomplay/AHA/Carlcare]
+        Output[TTS语音反馈&lt;br/&gt;多语种]
+    end
+    
+    subgraph External[外部增强]
+        Cloud[Google Cloud&lt;br/&gt;云端增强]
+        Qwen[阿里云通义千问&lt;br/&gt;云端大模型]
+    end
+    
+    AIKey --&gt; KWS
+    Voice --&gt; KWS
+    Touch --&gt; MultiModal
+    Glasses --&gt; Voice
+    
+    KWS --&gt; VAD
+    VAD --&gt; ASR
+    ASR --&gt; NLU
+    NLU --&gt; MultiModal
+    MultiModal --&gt; LLM
+    
+    LLM --&gt; Trans
+    LLM --&gt; Memory
+    LLM --&gt; Emotion
+    
+    LLM --&gt; Router
+    Router --&gt; Agent
+    Agent --&gt; FC
+    FC --&gt; Guard
+    
+    Guard --&gt; OSAPI
+    OSAPI --&gt; AppDispatch
+    AppDispatch --&gt; EcoTools
+    EcoTools --&gt; Output
+    Output --&gt; AIKey
+    
+    Router -.弱网/云端.-&gt; Cloud
+    LLM -.复杂推理.-&gt; Qwen
+    
+    style Layer1 fill:#FFEAA7
+    style Layer2 fill:#74B9FF
+    style Layer3 fill:#A29BFE
+    style Layer4 fill:#FD79A8
+    style Layer5 fill:#55EFC4
+    style External fill:#DFE6E9
+</code></pre><h3 id="23-端云协同架构传音定制版">
+  2.3 端云协同架构（传音定制版）
+  <a class="anchor" href="#23-%e7%ab%af%e4%ba%91%e5%8d%8f%e5%90%8c%e6%9e%b6%e6%9e%84%e4%bc%a0%e9%9f%b3%e5%ae%9a%e5%88%b6%e7%89%88">#</a>
+</h3>
+<p>传音的端云协同架构必须深度适配<strong>新兴市场网络环境</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th>网络环境</th>
+          <th>非洲用户占比</th>
+          <th>网络特征</th>
+          <th>Ella策略</th>
+          <th>可用能力</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>4G/WiFi稳定</strong></td>
+          <td>~30%</td>
+          <td>带宽充足，延迟&lt;100ms</td>
+          <td>端云协同</td>
+          <td>全部能力，云端深度推理</td>
+      </tr>
+      <tr>
+          <td><strong>2G/3G弱网</strong></td>
+          <td>~40%</td>
+          <td>带宽&lt;1Mbps，延迟&gt;500ms</td>
+          <td>端侧优先</td>
+          <td>端侧全量，云端降级为文本API</td>
+      </tr>
+      <tr>
+          <td><strong>完全断网</strong></td>
+          <td>~30%</td>
+          <td>无网络连接</td>
+          <td>纯端侧</td>
+          <td>基础ASR+LLM+手机操作100%可用</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>🖼 <strong>配图 4：传音端云协同架构图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    User[用户&lt;br/&gt;语音/按键输入] --&gt; Perceive[感知层&lt;br/&gt;KWS → VAD → ASR → NLU]
+    
+    Perceive --&gt; Router{端云路由器&lt;br/&gt;网络状态 + 任务复杂度}
+    
+    Router --&gt;|断网| LocalOnly[纯端侧处理]
+    Router --&gt;|弱网| LocalFirst[端侧优先&lt;br/&gt;云端增强]
+    Router --&gt;|稳定网络| FullCloud[端云协同]
+    
+    LocalOnly --&gt; LocalLLM[端侧LLM&lt;br/&gt;通义千问3B/DeepSeek蒸馏]
+    LocalLLM --&gt; LocalFC[端侧Function Calling]
+    LocalFC --&gt; LocalExec[端侧执行&lt;br/&gt;OS API + 生态服务]
+    
+    LocalFirst --&gt; LocalLLM
+    LocalFirst --&gt; LightCloud[云端轻量API&lt;br/&gt;搜索增强/知识补充]
+    LightCloud --&gt; LocalExec
+    
+    FullCloud --&gt; CloudLLM[云端大模型&lt;br/&gt;Google Cloud / 通义千问云端版]
+    CloudLLM --&gt; CloudExec[云端执行 + 端侧回调]
+    
+    LocalExec --&gt; Feedback[TTS多语种语音输出]
+    CloudExec --&gt; Feedback
+    Feedback --&gt; User
+    
+    style LocalOnly fill:#55EFC4
+    style LocalFirst fill:#FFEAA7
+    style FullCloud fill:#74B9FF
+    style Router fill:#FF6B6B
+</code></pre><h3 id="24-架构权衡四维约束分析传音场景">
+  2.4 架构权衡：四维约束分析（传音场景）
+  <a class="anchor" href="#24-%e6%9e%b6%e6%9e%84%e6%9d%83%e8%a1%a1%e5%9b%9b%e7%bb%b4%e7%ba%a6%e6%9d%9f%e5%88%86%e6%9e%90%e4%bc%a0%e9%9f%b3%e5%9c%ba%e6%99%af">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>约束维度</th>
+          <th>传音目标</th>
+          <th>技术手段</th>
+          <th>挑战</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>功耗</strong></td>
+          <td>≤8W持续推理（中低端机型散热差）</td>
+          <td>NPU加速 + 动态精度 + 休眠策略</td>
+          <td>itel入门机型无NPU，需CPU/GPU兜底</td>
+      </tr>
+      <tr>
+          <td><strong>延迟</strong></td>
+          <td>唤醒≤500ms（弱网容忍更高），TTS首字≤1s</td>
+          <td>KV Cache + Speculative Decoding</td>
+          <td>小语种ASR延迟较高，需模型优化</td>
+      </tr>
+      <tr>
+          <td><strong>精度</strong></td>
+          <td>非洲语言ASR≥90%，主流语言≥97%</td>
+          <td>小语种微调模型 + 云端增强</td>
+          <td>50+语言覆盖难度大，低资源语言数据稀缺</td>
+      </tr>
+      <tr>
+          <td><strong>隐私</strong></td>
+          <td>用户数据不出端（新兴市场信任建立）</td>
+          <td>端侧处理 + 差分隐私 + 本地存储</td>
+          <td>个性化推荐和长期记忆受限</td>
+      </tr>
+      <tr>
+          <td><strong>低端机适配</strong></td>
+          <td>2GB RAM机型可用</td>
+          <td>模型蒸馏 + 4bit量化 + 分层加载</td>
+          <td>2GB内存下模型≤1GB，推理延迟≤250ms</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>关键设计决策：</strong></p>
+<ol>
+<li><strong>小语种优先</strong>：与苹果/华为不同，传音必须优先保证非洲/南亚小语种的ASR准确率，这是核心竞争力</li>
+<li><strong>低端机兜底</strong>：itel品牌大量出货在$50-$100价位段，2GB RAM是常态，架构必须适配</li>
+<li><strong>离线第一</strong>：30%断网率意味着离线能力不是锦上添花，而是基本要求</li>
+<li><strong>隐私信任</strong>：新兴市场用户对数据隐私高度敏感，端侧处理是建立信任的关键</li>
+</ol>
+<hr>
+<h2 id="三感知层设计听清听懂多语种">
+  三、感知层设计：听清·听懂·多语种
+  <a class="anchor" href="#%e4%b8%89%e6%84%9f%e7%9f%a5%e5%b1%82%e8%ae%be%e8%ae%a1%e5%90%ac%e6%b8%85%e5%90%ac%e6%87%82%e5%a4%9a%e8%af%ad%e7%a7%8d">#</a>
+</h2>
+<h3 id="31-多语种kws--vad50语言唤醒">
+  3.1 多语种KWS + VAD：50+语言唤醒
+  <a class="anchor" href="#31-%e5%a4%9a%e8%af%ad%e7%a7%8dkws--vad50%e8%af%ad%e8%a8%80%e5%94%a4%e9%86%92">#</a>
+</h3>
+<p>传音语音助手的核心差异化竞争力之一是<strong>小语种支持</strong>。这是与Siri、小爱同学等国内语音助手最本质的区别。</p>
+<p><strong>语言覆盖策略：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>语言类别</th>
+          <th>代表语言</th>
+          <th>用户量级</th>
+          <th>技术方案</th>
+          <th>优先级</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>主流语言</strong></td>
+          <td>英语、法语、阿拉伯语</td>
+          <td>~5亿</td>
+          <td>轻量KWS模型（&lt;50M参数）</td>
+          <td>P0</td>
+      </tr>
+      <tr>
+          <td><strong>非洲大语种</strong></td>
+          <td>斯瓦希里语、豪萨语、约鲁巴语、阿姆哈拉语</td>
+          <td>~2亿</td>
+          <td>专用KWS模型 + 迁移学习</td>
+          <td>P0</td>
+      </tr>
+      <tr>
+          <td><strong>南亚语言</strong></td>
+          <td>乌尔都语、孟加拉语、印地语</td>
+          <td>~5亿</td>
+          <td>多语种共享编码器</td>
+          <td>P1</td>
+      </tr>
+      <tr>
+          <td><strong>东南亚语言</strong></td>
+          <td>印尼语、马来语、他加禄语</td>
+          <td>~3亿</td>
+          <td>迁移学习 + 数据增强</td>
+          <td>P1</td>
+      </tr>
+      <tr>
+          <td><strong>拉美语言</strong></td>
+          <td>西班牙语、葡萄牙语</td>
+          <td>~3亿</td>
+          <td>复用主流语言模型</td>
+          <td>P2</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>性能指标：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>指标</th>
+          <th>目标值</th>
+          <th>现状（主流语言）</th>
+          <th>现状（小语种）</th>
+          <th>技术方案</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>唤醒延迟</td>
+          <td>≤500ms</td>
+          <td>~350ms</td>
+          <td>~450ms</td>
+          <td>端侧轻量KWS模型</td>
+      </tr>
+      <tr>
+          <td>误唤醒率</td>
+          <td>≤2次/24h</td>
+          <td>~1.5次/24h</td>
+          <td>~1.8次/24h</td>
+          <td>多级验证：KWS → VAD → ASR</td>
+      </tr>
+      <tr>
+          <td>离线可用</td>
+          <td>全支持</td>
+          <td>✅</td>
+          <td>✅</td>
+          <td>纯端侧推理</td>
+      </tr>
+      <tr>
+          <td>功耗</td>
+          <td>≤1.5%电池/天</td>
+          <td>~1.2%电池/天</td>
+          <td>~1.3%电池/天</td>
+          <td>DSP/NPU常驻监听</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>🖼 <strong>配图 5：感知层数据流时序图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant User as 用户
+    participant DSP as DSP/NPU&lt;br/&gt;低功耗常驻
+    participant KWS as KWS引擎&lt;br/&gt;50+语言
+    participant VAD as VAD检测
+    participant ASR as ASR引擎&lt;br/&gt;多语种
+    participant NLU as NLU&lt;br/&gt;意图理解
+    participant LLM as 端侧LLM
+    
+    User-&gt;&gt;DSP: 语音输入
+    DSP-&gt;&gt;DSP: 音频采集(16kHz/24bit)
+    DSP-&gt;&gt;KWS: 音频流输入
+    KWS-&gt;&gt;KWS: 50+语言唤醒词匹配
+    KWS--&gt;&gt;User: 唤醒成功(震动+音效)
+    
+    KWS-&gt;&gt;VAD: 激活语音活动检测
+    VAD-&gt;&gt;VAD: 检测语音起始/结束
+    VAD-&gt;&gt;ASR: 有效语音段输入
+    
+    ASR-&gt;&gt;ASR: 多语种语音识别&lt;br/&gt;(语言自动检测)
+    ASR-&gt;&gt;NLU: 识别文本 + 置信度
+    NLU-&gt;&gt;LLM: 意图理解结果
+    
+    LLM-&gt;&gt;LLM: 认知层处理...
+    
+    Note over DSP,KWS: KWS常驻功耗: ≤1.2%电池/天
+    Note over ASR,LLM: ASR延迟: ~100ms&lt;br/&gt;NLU延迟: ~50ms
+</code></pre><h3 id="32-多语种asr语音识别">
+  3.2 多语种ASR语音识别
+  <a class="anchor" href="#32-%e5%a4%9a%e8%af%ad%e7%a7%8dasr%e8%af%ad%e9%9f%b3%e8%af%86%e5%88%ab">#</a>
+</h3>
+<p>ASR是感知层的核心。传音采用<strong>多模型并存</strong>策略，不同语言使用不同模型：</p>
+<table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>适用语言</th>
+          <th>参数量</th>
+          <th>内存占用(4bit)</th>
+          <th>延迟(NPU)</th>
+          <th>准确率(CER)</th>
+          <th>部署状态</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Paraformer-large</strong></td>
+          <td>中文、英语</td>
+          <td>~220M</td>
+          <td>~800MB</td>
+          <td>~120ms</td>
+          <td>≤2%</td>
+          <td>✅ 已部署</td>
+      </tr>
+      <tr>
+          <td><strong>传音自研小语种ASR</strong></td>
+          <td>斯瓦希里/豪萨/约鲁巴等</td>
+          <td>~150M</td>
+          <td>~500MB</td>
+          <td>~100ms</td>
+          <td>≤8%</td>
+          <td>✅ 已部署</td>
+      </tr>
+      <tr>
+          <td><strong>Whisper-tiny（多语言兜底）</strong></td>
+          <td>50+语言</td>
+          <td>39M</td>
+          <td>~150MB</td>
+          <td>~80ms</td>
+          <td>≤15%</td>
+          <td>✅ 已部署</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>语言自动检测（LID）策略：</strong></p>
+<pre tabindex="0"><code>输入音频 → LID模型(轻量) → 判断语言类别
+    ├── 中文/英语 → Paraformer-large
+    ├── 斯瓦希里语/豪萨语 → 传音自研ASR
+    └── 其他/未知 → Whisper-tiny兜底
+</code></pre><blockquote>
+<p>🖼 <strong>配图 6：多语种ASR路由决策图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[输入音频] --&gt; B[LID轻量模型&lt;br/&gt;语言检测]
+    B --&gt;|中文| C[Paraformer-large]
+    B --&gt;|英语| C
+    B --&gt;|斯瓦希里语| D[传音自研ASR]
+    B --&gt;|豪萨语| D
+    B --&gt;|约鲁巴语| D
+    B --&gt;|阿姆哈拉语| D
+    B --&gt;|其他语言| E[Whisper-tiny兜底]
+    B --&gt;|未知语言| E
+    
+    C --&gt; F[输出文本 + 置信度]
+    D --&gt; F
+    E --&gt; F
+    
+    F --&gt; G{置信度 ≥ 85%?}
+    G --&gt;|是| H[送入NLU]
+    G --&gt;|否| I[请求云端ASR增强]
+    I --&gt; J[云端返回增强结果]
+    J --&gt; H
+    
+    style A fill:#FFEAA7
+    style C fill:#4ECDC4
+    style D fill:#4ECDC4
+    style E fill:#FFEAA7
+    style H fill:#95E1D3
+    style I fill:#FF6B6B
+</code></pre><h3 id="33-多模态感知融合">
+  3.3 多模态感知融合
+  <a class="anchor" href="#33-%e5%a4%9a%e6%a8%a1%e6%80%81%e6%84%9f%e7%9f%a5%e8%9e%8d%e5%90%88">#</a>
+</h3>
+<p>Ella不仅听语音，还融合多种感知输入：</p>
+<table>
+  <thead>
+      <tr>
+          <th>感知模态</th>
+          <th>输入源</th>
+          <th>用途</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>语音</strong></td>
+          <td>麦克风阵列</td>
+          <td>核心交互方式</td>
+      </tr>
+      <tr>
+          <td><strong>屏幕内容</strong></td>
+          <td>屏幕截图/OCR</td>
+          <td>一键问屏、AI解读当前页面</td>
+      </tr>
+      <tr>
+          <td><strong>传感器</strong></td>
+          <td>加速度计/陀螺仪/GPS</td>
+          <td>场景感知（行走/驾车/静止）</td>
+      </tr>
+      <tr>
+          <td><strong>AI眼镜</strong></td>
+          <td>摄像头 + 麦克风</td>
+          <td>MWC 2026发布的AI眼镜语音交互</td>
+      </tr>
+      <tr>
+          <td><strong>环境音</strong></td>
+          <td>麦克风</td>
+          <td>环境场景识别（室内/户外/嘈杂）</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="四认知层设计端侧大模型核心">
+  四、认知层设计：端侧大模型核心
+  <a class="anchor" href="#%e5%9b%9b%e8%ae%a4%e7%9f%a5%e5%b1%82%e8%ae%be%e8%ae%a1%e7%ab%af%e4%be%a7%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%a0%b8%e5%bf%83">#</a>
+</h2>
+<h3 id="41-传音端侧llm选型与部署">
+  4.1 传音端侧LLM选型与部署
+  <a class="anchor" href="#41-%e4%bc%a0%e9%9f%b3%e7%ab%af%e4%be%a7llm%e9%80%89%e5%9e%8b%e4%b8%8e%e9%83%a8%e7%bd%b2">#</a>
+</h3>
+<p>传音已接入两大基座模型，形成<strong>双引擎驱动</strong>：</p>
+<table>
+  <thead>
+      <tr>
+          <th>模型</th>
+          <th>基座</th>
+          <th>合作方式</th>
+          <th>端侧参数量</th>
+          <th>内存占用(4bit)</th>
+          <th>推理延迟(NPU)</th>
+          <th>适用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>通义千问端侧版</strong></td>
+          <td>Qwen2.5</td>
+          <td>与阿里云深度合作</td>
+          <td>3B</td>
+          <td>~1.8GB</td>
+          <td>~85ms</td>
+          <td>主流语言对话、AI写作</td>
+      </tr>
+      <tr>
+          <td><strong>DeepSeek-R1端侧版</strong></td>
+          <td>DeepSeek</td>
+          <td>Infinix已接入满血版</td>
+          <td>7B→3B蒸馏</td>
+          <td>~2.5GB</td>
+          <td>~150ms</td>
+          <td>深度推理、复杂任务</td>
+      </tr>
+      <tr>
+          <td><strong>传音自研轻量模型</strong></td>
+          <td>自研蒸馏</td>
+          <td>低端机适配</td>
+          <td>1B</td>
+          <td>~600MB</td>
+          <td>~40ms</td>
+          <td>低端机型、基础指令</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>关键合作成果（传音 × 阿里云）：</strong></p>
+<blockquote>
+<p>在CAMON 50系列手机上，传音与阿里云基于联发科天玑9300芯片进行了大量技术创新，在<strong>模型瘦身、工具链优化、推理优化、内存优化</strong>等多个维度展开合作。借助阿里巴巴淘系最新开源的MNN-LLM大模型推理引擎的高效GPU加速能力，真正把大模型&quot;装进&quot;手机中。</p></blockquote>
+<p><strong>部署策略：按机型分层</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>机型档次</th>
+          <th>代表品牌</th>
+          <th>RAM</th>
+          <th>部署模型</th>
+          <th>NPU</th>
+          <th>推理延迟</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>高端</strong></td>
+          <td>TECNO CAMON 50 Ultra</td>
+          <td>8GB+</td>
+          <td>通义千问3B + DeepSeek蒸馏</td>
+          <td>天玑9300 APU</td>
+          <td>~85ms</td>
+      </tr>
+      <tr>
+          <td><strong>中端</strong></td>
+          <td>Infinix Hot 40</td>
+          <td>6GB</td>
+          <td>通义千问3B</td>
+          <td>天玑8000 APU</td>
+          <td>~120ms</td>
+      </tr>
+      <tr>
+          <td><strong>入门</strong></td>
+          <td>itel RS4</td>
+          <td>2-4GB</td>
+          <td>传音自研1B</td>
+          <td>展锐T616无NPU</td>
+          <td>~250ms</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="42-1n-架构基础模型--场景插件">
+  4.2 &ldquo;1+N&rdquo; 架构：基础模型 + 场景插件
+  <a class="anchor" href="#42-1n-%e6%9e%b6%e6%9e%84%e5%9f%ba%e7%a1%80%e6%a8%a1%e5%9e%8b--%e5%9c%ba%e6%99%af%e6%8f%92%e4%bb%b6">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 7：Ella 1+N 架构设计图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph 1[1 基础大模型]
+        Base[通义千问3B / DeepSeek蒸馏版&lt;br/&gt;端侧推理引擎]
+    end
+    
+    subgraph N[N 场景插件]
+        Trans[小语种翻译&lt;br/&gt;WMT冠军技术]
+        Write[AI写作&lt;br/&gt;邮件/短信/社媒文案]
+        Summary[通话摘要&lt;br/&gt;自动总结通话]
+        Search[AI搜索&lt;br/&gt;一键问屏]
+        PhoneOp[手机操作&lt;br/&gt;打电话/发短信/开应用]
+        Music[Boomplay音乐&lt;br/&gt;语音点播/推荐]
+        Image[AI影像增强&lt;br/&gt;AI RAW 2.0]
+        Game[AHA Games&lt;br/&gt;游戏辅助]
+    end
+    
+    Base --&gt; Trans
+    Base --&gt; Write
+    Base --&gt; Summary
+    Base --&gt; Search
+    Base --&gt; PhoneOp
+    Base --&gt; Music
+    Base --&gt; Image
+    Base --&gt; Game
+    
+    style Base fill:#FF6B6B
+    style Trans fill:#4ECDC4
+    style Write fill:#4ECDC4
+    style Summary fill:#4ECDC4
+    style Search fill:#4ECDC4
+    style PhoneOp fill:#95E1D3
+    style Music fill:#95E1D3
+    style Image fill:#95E1D3
+    style Game fill:#95E1D3
+</code></pre><p><strong>插件分类：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>类别</th>
+          <th>插件</th>
+          <th>依赖</th>
+          <th>离线可用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>AI核心</strong></td>
+          <td>AI写作、通话摘要、AI搜索</td>
+          <td>端侧LLM</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td><strong>语言服务</strong></td>
+          <td>小语种翻译（WMT技术）</td>
+          <td>端侧翻译模型</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td><strong>手机操作</strong></td>
+          <td>打电话、发短信、开应用</td>
+          <td>Function Calling + OS API</td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td><strong>生态服务</strong></td>
+          <td>Boomplay音乐、AHA Games</td>
+          <td>Boomplay/AHA API</td>
+          <td>❌ 需网络</td>
+      </tr>
+      <tr>
+          <td><strong>影像增强</strong></td>
+          <td>AI RAW 2.0</td>
+          <td>NPU图像处理</td>
+          <td>✅</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="43-推理加速关键技术">
+  4.3 推理加速关键技术
+  <a class="anchor" href="#43-%e6%8e%a8%e7%90%86%e5%8a%a0%e9%80%9f%e5%85%b3%e9%94%ae%e6%8a%80%e6%9c%af">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>技术</th>
+          <th>原理</th>
+          <th>加速效果</th>
+          <th>传音适配情况</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>MNN-LLM推理引擎</strong></td>
+          <td>阿里淘系开源，高效GPU/NPU加速</td>
+          <td>3x vs 原生推理</td>
+          <td>✅ 已部署（CAMON 50系列）</td>
+      </tr>
+      <tr>
+          <td><strong>4bit AWQ量化</strong></td>
+          <td>激活感知权重量化，保留重要通道精度</td>
+          <td>内存↓4倍，精度损失&lt;2.3%</td>
+          <td>✅ 通义千问端侧版</td>
+      </tr>
+      <tr>
+          <td><strong>KV Cache优化</strong></td>
+          <td>KV Cache量化 + 压缩 + 局部-全局注意力</td>
+          <td>内存↓2倍</td>
+          <td>✅ 已部署</td>
+      </tr>
+      <tr>
+          <td><strong>Speculative Decoding</strong></td>
+          <td>草稿模型预测 + 主模型验证</td>
+          <td>1.5-2x 加速，无损</td>
+          <td>🔄 规划中</td>
+      </tr>
+      <tr>
+          <td><strong>NPU算子融合</strong></td>
+          <td>注意力+FFN融合为单核，减少内存搬运</td>
+          <td>1.3-1.8x 加速</td>
+          <td>✅ MediaTek NPU已适配</td>
+      </tr>
+      <tr>
+          <td><strong>分层加载</strong></td>
+          <td>核心层常驻内存，非核心层按需加载</td>
+          <td>内存↓50%</td>
+          <td>✅ 低端机适配</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="44-端侧个性化记忆">
+  4.4 端侧个性化记忆
+  <a class="anchor" href="#44-%e7%ab%af%e4%be%a7%e4%b8%aa%e6%80%a7%e5%8c%96%e8%ae%b0%e5%bf%86">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 8：端侧记忆管理架构图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph 短期记忆 Session Memory
+        SM[(会话上下文&lt;br/&gt;最近100轮对话)]
+    end
+    
+    subgraph 中期记忆 Profile Memory
+        PM[(用户画像&lt;br/&gt;偏好/习惯/常用语言)]
+    end
+    
+    subgraph 长期记忆 Knowledge Memory
+        KM[(用户知识库&lt;br/&gt;联系人/日程/笔记)]
+    end
+    
+    subgraph 端侧存储
+        SQLite[(SQLite 本地数据库&lt;br/&gt;加密存储)]
+    end
+    
+    LLM[端侧LLM] --&gt; SM
+    SM --&gt; PM
+    PM --&gt; KM
+    SM --&gt; SQLite
+    PM --&gt; SQLite
+    KM --&gt; SQLite
+    
+    SQLite -.云端同步.-&gt; Cloud[(Google Cloud&lt;br/&gt;加密备份)]
+    
+    style SM fill:#FFEAA7
+    style PM fill:#4ECDC4
+    style KM fill:#A29BFE
+    style SQLite fill:#55EFC4
+    style Cloud fill:#DFE6E9
+</code></pre><hr>
+<h2 id="五决策层设计">
+  五、决策层设计
+  <a class="anchor" href="#%e4%ba%94%e5%86%b3%e7%ad%96%e5%b1%82%e8%ae%be%e8%ae%a1">#</a>
+</h2>
+<h3 id="51-intent路由与agent规划">
+  5.1 Intent路由与Agent规划
+  <a class="anchor" href="#51-intent%e8%b7%af%e7%94%b1%e4%b8%8eagent%e8%a7%84%e5%88%92">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 9：Ella Intent路由决策树</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[用户语音输入&lt;br/&gt;NLU结果] --&gt; B{端侧可处理?}
+    
+    B --&gt;|是| C{任务类型}
+    B --&gt;|否| D[路由至云端&lt;br/&gt;Google Cloud]
+    
+    C --&gt;|手机操作| E[Function Calling&lt;br/&gt;OS API调用]
+    C --&gt;|AI对话| F{对话复杂度}
+    C --&gt;|翻译| G[端侧翻译模型]
+    C --&gt;|AI写作| H[端侧LLM生成]
+    C --&gt;|音乐播放| I[Boomplay API]
+    
+    F --&gt;|≤10轮| J[端侧LLM直接响应]
+    F --&gt;|&gt;10轮| D
+    
+    D --&gt; K[云端大模型推理]
+    K --&gt; L[返回结果到端侧]
+    L --&gt; M[端侧TTS输出]
+    
+    E --&gt; N[执行结果反馈]
+    G --&gt; M
+    H --&gt; M
+    I --&gt; O[音乐播放]
+    J --&gt; M
+    N --&gt; M
+    
+    style A fill:#FFEAA7
+    style B fill:#FF6B6B
+    style D fill:#FF6B6B
+    style J fill:#4ECDC4
+    style M fill:#55EFC4
+</code></pre><h3 id="52-function-calling-端侧实现">
+  5.2 Function Calling 端侧实现
+  <a class="anchor" href="#52-function-calling-%e7%ab%af%e4%be%a7%e5%ae%9e%e7%8e%b0">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>参数量</th>
+          <th>适用场景</th>
+          <th>准确率</th>
+          <th>传音适配</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>通义千问内置FC</strong></td>
+          <td>包含在3B模型中</td>
+          <td>已优化端侧FC</td>
+          <td>95%+</td>
+          <td>✅ 已部署</td>
+      </tr>
+      <tr>
+          <td><strong>FunctionGemma</strong></td>
+          <td>270M</td>
+          <td>端侧函数调用（独立）</td>
+          <td>94%+</td>
+          <td>🔄 评估中</td>
+      </tr>
+      <tr>
+          <td><strong>云端FC兜底</strong></td>
+          <td>—</td>
+          <td>复杂多步调用</td>
+          <td>98%+</td>
+          <td>✅ Google Cloud</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>端侧FC调用示例：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;intent&#34;</span>: <span style="color:#e6db74">&#34;send_message&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;parameters&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;contact&#34;</span>: <span style="color:#e6db74">&#34;Mom&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;I&#39;ll be home late today&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;language&#34;</span>: <span style="color:#e6db74">&#34;swahili&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;confidence&#34;</span>: <span style="color:#ae81ff">0.96</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;execution&#34;</span>: <span style="color:#e6db74">&#34;local&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="53-agent框架设计传音下一代">
+  5.3 Agent框架设计（传音下一代）
+  <a class="anchor" href="#53-agent%e6%a1%86%e6%9e%b6%e8%ae%be%e8%ae%a1%e4%bc%a0%e9%9f%b3%e4%b8%8b%e4%b8%80%e4%bb%a3">#</a>
+</h3>
+<p>根据竺兆江2025Q3业绩会披露，传音正在构建下一代Agent框架：</p>
+<blockquote>
+<p>🖼 <strong>配图 10：Ella Agent框架时序图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant User as 用户
+    participant Ella as Ella Agent&lt;br/&gt;Orchestrator
+    participant Planner as 规划Agent
+    participant TransAgent as 翻译Agent
+    participant PhoneAgent as 手机操作Agent
+    participant SearchAgent as AI搜索Agent
+    participant EcoAgent as 生态服务Agent
+    
+    User-&gt;&gt;Ella: 复杂语音指令&lt;br/&gt;&#34;帮我查一下明天天气，然后给Mom发个消息&#34;
+    Ella-&gt;&gt;Ella: Intent解析 + 任务分解
+    Ella-&gt;&gt;Planner: 任务规划
+    Planner-&gt;&gt;Planner: 分解为2个子任务
+    
+    Planner-&gt;&gt;SearchAgent: 子任务1: 查询明天天气
+    SearchAgent-&gt;&gt;SearchAgent: 调用天气API(云端)
+    SearchAgent--&gt;&gt;Planner: 返回天气结果
+    
+    Planner-&gt;&gt;PhoneAgent: 子任务2: 给Mom发消息
+    PhoneAgent-&gt;&gt;PhoneAgent: Function Calling&lt;br/&gt;OS API调用
+    PhoneAgent--&gt;&gt;Planner: 消息发送成功
+    
+    Planner--&gt;&gt;Ella: 全部子任务完成
+    Ella-&gt;&gt;Ella: 结果汇总
+    Ella-&gt;&gt;User: TTS多语种语音反馈&lt;br/&gt;&#34;明天天气晴，消息已发送&#34;
+</code></pre><h3 id="54-安全护栏设计">
+  5.4 安全护栏设计
+  <a class="anchor" href="#54-%e5%ae%89%e5%85%a8%e6%8a%a4%e6%a0%8f%e8%ae%be%e8%ae%a1">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>护栏类型</th>
+          <th>机制</th>
+          <th>传音场景特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>权限护栏</strong></td>
+          <td>HiOS/itelOS/XOS级权限校验</td>
+          <td>新兴市场用户对隐私敏感，需明确授权</td>
+      </tr>
+      <tr>
+          <td><strong>内容护栏</strong></td>
+          <td>端侧安全分类器 + 多语言内容审核</td>
+          <td>50+语言内容安全检测是挑战</td>
+      </tr>
+      <tr>
+          <td><strong>幻觉护栏</strong></td>
+          <td>事实核查 + 置信度阈值</td>
+          <td>低于阈值时转云端Google Cloud</td>
+      </tr>
+      <tr>
+          <td><strong>操作护栏</strong></td>
+          <td>支付/删除等敏感操作二次确认</td>
+          <td>新兴市场价格敏感，误操作成本高</td>
+      </tr>
+      <tr>
+          <td><strong>合规护栏</strong></td>
+          <td>本地法律法规适配</td>
+          <td>各国数据保护法差异大</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="六执行层设计">
+  六、执行层设计
+  <a class="anchor" href="#%e5%85%ad%e6%89%a7%e8%a1%8c%e5%b1%82%e8%ae%be%e8%ae%a1">#</a>
+</h2>
+<h3 id="61-传音os系统api集成">
+  6.1 传音OS系统API集成
+  <a class="anchor" href="#61-%e4%bc%a0%e9%9f%b3os%e7%b3%bb%e7%bb%9fapi%e9%9b%86%e6%88%90">#</a>
+</h3>
+<p>传音拥有三套自研OS，Ella需要适配每套OS的API能力：</p>
+<table>
+  <thead>
+      <tr>
+          <th>OS</th>
+          <th>品牌</th>
+          <th>API集成范围</th>
+          <th>特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>HiOS</strong></td>
+          <td>TECNO</td>
+          <td>电话/短信/相机/日历/导航/设置/文件管理</td>
+          <td>中高端机型，API最全</td>
+      </tr>
+      <tr>
+          <td><strong>itelOS</strong></td>
+          <td>itel</td>
+          <td>电话/短信/基础应用</td>
+          <td>入门机型，API精简，保证核心功能</td>
+      </tr>
+      <tr>
+          <td><strong>XOS</strong></td>
+          <td>Infinix</td>
+          <td>电话/短信/相机/游戏/导航</td>
+          <td>年轻用户，游戏API增强</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="62-传音生态跨应用调度">
+  6.2 传音生态跨应用调度
+  <a class="anchor" href="#62-%e4%bc%a0%e9%9f%b3%e7%94%9f%e6%80%81%e8%b7%a8%e5%ba%94%e7%94%a8%e8%b0%83%e5%ba%a6">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 11：Ella执行层生态集成图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph Ella执行引擎
+        Guard[安全护栏&lt;br/&gt;权限校验]
+        FC[Function Calling&lt;br/&gt;工具调度]
+    end
+    
+    subgraph 传音自有生态
+        Boomplay[Boomplay&lt;br/&gt;音乐流媒体&lt;br/&gt;千万级MAU]
+        AHA[AHA Games&lt;br/&gt;游戏中心]
+        PhoneM[Phone Master&lt;br/&gt;手机管家]
+        Palm[Palm Store&lt;br/&gt;应用商店]
+        Carl[Carlcare&lt;br/&gt;售后服务]
+    end
+    
+    subgraph OS系统能力
+        Phone[电话/短信]
+        Camera[相机/相册]
+        Calendar[日历]
+        Settings[系统设置]
+    end
+    
+    subgraph 第三方服务
+        WhatsApp[WhatsApp]
+        Maps[地图导航]
+        Browser[浏览器]
+    end
+    
+    Guard --&gt; FC
+    FC --&gt; Boomplay
+    FC --&gt; AHA
+    FC --&gt; PhoneM
+    FC --&gt; Palm
+    FC --&gt; Carl
+    FC --&gt; Phone
+    FC --&gt; Camera
+    FC --&gt; Calendar
+    FC --&gt; Settings
+    FC --&gt; WhatsApp
+    FC --&gt; Maps
+    FC --&gt; Browser
+    
+    style Ella执行引擎 fill:#FF6B6B
+    style Boomplay fill:#4ECDC4
+    style Phone fill:#95E1D3
+    style WhatsApp fill:#DFE6E9
+</code></pre><p><strong>生态服务集成详情：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>生态服务</th>
+          <th>类型</th>
+          <th>Ella集成方式</th>
+          <th>用户场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Boomplay</strong></td>
+          <td>音乐流媒体</td>
+          <td>语音点播、歌词翻译、音乐推荐</td>
+          <td>&ldquo;播放Burna Boy的歌&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>AHA Games</strong></td>
+          <td>游戏中心</td>
+          <td>语音启动游戏、游戏内辅助</td>
+          <td>&ldquo;打开Free Fire&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>Phone Master</strong></td>
+          <td>手机管家</td>
+          <td>语音清理垃圾、优化内存</td>
+          <td>&ldquo;清理手机垃圾&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>Palm Store</strong></td>
+          <td>应用商店</td>
+          <td>语音搜索下载应用</td>
+          <td>&ldquo;下载TikTok&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>Carlcare</strong></td>
+          <td>售后服务</td>
+          <td>语音报修、服务预约</td>
+          <td>&ldquo;我的手机屏幕坏了&rdquo;</td>
+      </tr>
+      <tr>
+          <td><strong>oraimo</strong></td>
+          <td>数码配件</td>
+          <td>TWS耳机控制、音箱播放</td>
+          <td>&ldquo;连接我的耳机&rdquo;</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="63-ai按键与多入口设计">
+  6.3 AI按键与多入口设计
+  <a class="anchor" href="#63-ai%e6%8c%89%e9%94%ae%e4%b8%8e%e5%a4%9a%e5%85%a5%e5%8f%a3%e8%ae%be%e8%ae%a1">#</a>
+</h3>
+<p>TECNO CAMON 50系列首次搭载<strong>物理AI按键</strong>，这是传音AI手机的标志性创新：</p>
+<blockquote>
+<p>🖼 <strong>配图 12：AI按键多入口交互流程图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">stateDiagram-v2
+    [*] --&gt; 待机
+    
+    待机 --&gt; 短按AI键: 短按
+    短按 --&gt; Ella唤醒: 语音输入
+    Ella唤醒 --&gt; 语音交互: 正常对话
+    语音交互 --&gt; 待机: 完成/超时
+    
+    待机 --&gt; 长按AI键: 长按
+    长按 --&gt; 深度对话: AI深度模式
+    深度对话 --&gt; 复杂推理: 调用端侧/云端LLM
+    复杂推理 --&gt; 待机: 完成/超时
+    
+    待机 --&gt; 双击AI键: 双击
+    双击 --&gt; 一键问屏: 屏幕内容AI解读
+    一键问屏 --&gt; 屏幕分析: OCR + LLM分析
+    屏幕分析 --&gt; 待机: 完成/超时
+    
+    待机 --&gt; 语音唤醒: 说出唤醒词
+    语音唤醒 --&gt; Ella唤醒: KWS匹配成功
+</code></pre><p><strong>AI按键交互规范：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>操作</th>
+          <th>触发</th>
+          <th>行为</th>
+          <th>反馈</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>短按</strong></td>
+          <td>按一次AI键</td>
+          <td>唤醒Ella，进入语音交互</td>
+          <td>震动 + 音效</td>
+      </tr>
+      <tr>
+          <td><strong>长按</strong></td>
+          <td>按住&gt;1s</td>
+          <td>进入AI深度对话模式</td>
+          <td>持续震动 + 呼吸灯</td>
+      </tr>
+      <tr>
+          <td><strong>双击</strong></td>
+          <td>快速按两次</td>
+          <td>一键问屏，AI解读当前屏幕</td>
+          <td>截图动画 + 分析进度</td>
+      </tr>
+      <tr>
+          <td><strong>语音唤醒</strong></td>
+          <td>说出&quot;Ella&quot;</td>
+          <td>KWS匹配成功自动唤醒</td>
+          <td>音效</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="七端云协同架构详解">
+  七、端云协同架构详解
+  <a class="anchor" href="#%e4%b8%83%e7%ab%af%e4%ba%91%e5%8d%8f%e5%90%8c%e6%9e%b6%e6%9e%84%e8%af%a6%e8%a7%a3">#</a>
+</h2>
+<h3 id="71-端侧-vs-云端分工矩阵传音版">
+  7.1 端侧 vs 云端分工矩阵（传音版）
+  <a class="anchor" href="#71-%e7%ab%af%e4%be%a7-vs-%e4%ba%91%e7%ab%af%e5%88%86%e5%b7%a5%e7%9f%a9%e9%98%b5%e4%bc%a0%e9%9f%b3%e7%89%88">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>能力</th>
+          <th>端侧</th>
+          <th>Google Cloud</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>KWS唤醒</td>
+          <td>✅</td>
+          <td>—</td>
+          <td>必须端侧，50+语言，低功耗常驻</td>
+      </tr>
+      <tr>
+          <td>基础ASR</td>
+          <td>✅</td>
+          <td>增强</td>
+          <td>端侧兜底，云端提升精度（低置信度时）</td>
+      </tr>
+      <tr>
+          <td>小语种翻译</td>
+          <td>✅</td>
+          <td>—</td>
+          <td>WMT冠军技术，端侧优先</td>
+      </tr>
+      <tr>
+          <td>简单意图</td>
+          <td>✅</td>
+          <td>—</td>
+          <td>打电话、发短信等本地操作</td>
+      </tr>
+      <tr>
+          <td>AI写作</td>
+          <td>✅</td>
+          <td>增强</td>
+          <td>端侧生成，云端润色</td>
+      </tr>
+      <tr>
+          <td>复杂推理</td>
+          <td>降级</td>
+          <td>✅</td>
+          <td>需要大算力的推理任务转云端</td>
+      </tr>
+      <tr>
+          <td>AI搜索</td>
+          <td>有限</td>
+          <td>✅</td>
+          <td>云端实时搜索 + 端侧摘要</td>
+      </tr>
+      <tr>
+          <td>多轮深度对话</td>
+          <td>有限（10轮）</td>
+          <td>✅</td>
+          <td>100轮以上转云端</td>
+      </tr>
+      <tr>
+          <td>个性化记忆</td>
+          <td>✅</td>
+          <td>同步备份</td>
+          <td>端侧为主，云端加密备份</td>
+      </tr>
+      <tr>
+          <td>情感语音合成</td>
+          <td>✅</td>
+          <td>增强</td>
+          <td>端侧基础TTS，云端高质量音色</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="72-端云路由策略">
+  7.2 端云路由策略
+  <a class="anchor" href="#72-%e7%ab%af%e4%ba%91%e8%b7%af%e7%94%b1%e7%ad%96%e7%95%a5">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 13：传音端云路由决策流程图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+    A[用户输入] --&gt; B{网络状态?}
+    
+    B --&gt;|断网| C[纯端侧处理]
+    B --&gt;|弱网&lt;br/&gt;2G/3G| D{任务复杂度}
+    B --&gt;|稳定网络&lt;br/&gt;4G/WiFi| E{任务复杂度}
+    
+    D --&gt;|简单| C
+    D --&gt;|中等| F[端侧处理 +&lt;br/&gt;云端轻量API]
+    D --&gt;|复杂| G[端侧LLM +&lt;br/&gt;云端增强]
+    
+    E --&gt;|简单| C
+    E --&gt;|中等| G
+    E --&gt;|复杂| H[完整端云协同&lt;br/&gt;云端深度推理]
+    
+    C --&gt; I[端侧TTS输出]
+    F --&gt; I
+    G --&gt; I
+    H --&gt; I
+    
+    style C fill:#55EFC4
+    style F fill:#FFEAA7
+    style G fill:#74B9FF
+    style H fill:#A29BFE
+    style I fill:#95E1D3
+</code></pre><h3 id="73-降级策略弱网断网兜底保障">
+  7.3 降级策略：弱网/断网兜底保障
+  <a class="anchor" href="#73-%e9%99%8d%e7%ba%a7%e7%ad%96%e7%95%a5%e5%bc%b1%e7%bd%91%e6%96%ad%e7%bd%91%e5%85%9c%e5%ba%95%e4%bf%9d%e9%9a%9c">#</a>
+</h3>
+<p>这是传音架构的核心竞争力之一。在非洲、南亚等新兴市场，<strong>70%的用户可能处于弱网或断网状态</strong>。</p>
+<table>
+  <thead>
+      <tr>
+          <th>网络状态</th>
+          <th>用户占比（非洲）</th>
+          <th>可用能力</th>
+          <th>降级策略</th>
+          <th>用户体验</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>4G/WiFi稳定</strong></td>
+          <td>~30%</td>
+          <td>全部能力</td>
+          <td>端云协同，云端增强推理</td>
+          <td>完整体验</td>
+      </tr>
+      <tr>
+          <td><strong>2G/3G弱网</strong></td>
+          <td>~40%</td>
+          <td>端侧全量 + 云端文本API</td>
+          <td>优先端侧，云端仅用于搜索增强</td>
+          <td>80%体验</td>
+      </tr>
+      <tr>
+          <td><strong>完全断网</strong></td>
+          <td>~30%</td>
+          <td>端侧基础能力</td>
+          <td>纯端侧运行，离线指令100%可用</td>
+          <td>70%体验</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>断网时仍可用的核心能力：</strong></p>
+<ul>
+<li>✅ 语音唤醒（50+语言KWS）</li>
+<li>✅ 基础ASR识别</li>
+<li>✅ 端侧LLM多轮对话（10轮以内）</li>
+<li>✅ 小语种翻译</li>
+<li>✅ 手机操作（打电话、发短信、开应用、设闹钟等）</li>
+<li>✅ AI写作（基础版本）</li>
+<li>✅ 通话摘要</li>
+<li>❌ AI搜索（需网络）</li>
+<li>❌ Boomplay音乐点播（需网络）</li>
+<li>❌ 复杂推理（需云端大算力）</li>
+</ul>
+<hr>
+<h2 id="八工程实现与部署">
+  八、工程实现与部署
+  <a class="anchor" href="#%e5%85%ab%e5%b7%a5%e7%a8%8b%e5%ae%9e%e7%8e%b0%e4%b8%8e%e9%83%a8%e7%bd%b2">#</a>
+</h2>
+<h3 id="81-芯片与推理框架适配传音机型矩阵">
+  8.1 芯片与推理框架适配（传音机型矩阵）
+  <a class="anchor" href="#81-%e8%8a%af%e7%89%87%e4%b8%8e%e6%8e%a8%e7%90%86%e6%a1%86%e6%9e%b6%e9%80%82%e9%85%8d%e4%bc%a0%e9%9f%b3%e6%9c%ba%e5%9e%8b%e7%9f%a9%e9%98%b5">#</a>
+</h3>
+<p>传音的机型覆盖从$50到$500+的宽价位段，芯片平台多样：</p>
+<table>
+  <thead>
+      <tr>
+          <th>芯片平台</th>
+          <th>代表机型</th>
+          <th>价格段</th>
+          <th>NPU</th>
+          <th>推理框架</th>
+          <th>典型延迟</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>MediaTek天玑9300/9400</strong></td>
+          <td>CAMON 50 Ultra</td>
+          <td>$400+</td>
+          <td>APU 37 TOPS</td>
+          <td>MNN-LLM + NPU</td>
+          <td>~85ms</td>
+      </tr>
+      <tr>
+          <td><strong>MediaTek天玑8000系列</strong></td>
+          <td>CAMON 50 标准版</td>
+          <td>$200-400</td>
+          <td>APU 16 TOPS</td>
+          <td>MNN-LLM + NPU</td>
+          <td>~120ms</td>
+      </tr>
+      <tr>
+          <td><strong>Qualcomm骁龙</strong></td>
+          <td>Infinix GT系列</td>
+          <td>$200-300</td>
+          <td>Hexagon NPU</td>
+          <td>QNN / MNN-LLM</td>
+          <td>~90ms</td>
+      </tr>
+      <tr>
+          <td><strong>Unisoc展锐T616/T606</strong></td>
+          <td>itel A系列</td>
+          <td>$50-100</td>
+          <td>无独立NPU</td>
+          <td>MNN-LLM (GPU/CPU)</td>
+          <td>~250ms</td>
+      </tr>
+      <tr>
+          <td><strong>Unisoc展锐T310</strong></td>
+          <td>itel入门款</td>
+          <td>$50以下</td>
+          <td>无独立NPU</td>
+          <td>MNN-LLM (CPU only)</td>
+          <td>~350ms</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>关键发现：</strong> 传音大量出货机型（itel品牌）使用的是<strong>无NPU的展锐芯片</strong>，这意味着推理必须依赖CPU/GPU，延迟和功耗是巨大挑战。</p>
+<h3 id="82-分层部署策略">
+  8.2 分层部署策略
+  <a class="anchor" href="#82-%e5%88%86%e5%b1%82%e9%83%a8%e7%bd%b2%e7%ad%96%e7%95%a5">#</a>
+</h3>
+<blockquote>
+<p>🖼 <strong>配图 14：传音机型分层部署策略图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TB
+    subgraph 高端机型 TECNO CAMON 50系列
+        H1[通义千问3B&lt;br/&gt;4bit量化]
+        H2[DeepSeek蒸馏版]
+        H3[完整插件生态]
+        H1 --&gt; H2
+        H2 --&gt; H3
+    end
+    
+    subgraph 中端机型 Infinix Hot系列
+        M1[通义千问3B&lt;br/&gt;4bit量化]
+        M2[基础插件生态]
+        M1 --&gt; M2
+    end
+    
+    subgraph 入门机型 itel A系列
+        L1[自研轻量模型1B&lt;br/&gt;4bit量化]
+        L2[核心插件&lt;br/&gt;手机操作/翻译]
+        L1 --&gt; L2
+    end
+    
+    style H1 fill:#FF6B6B
+    style M1 fill:#4ECDC4
+    style L1 fill:#95E1D3
+</code></pre><h3 id="83-低端机适配策略2gb-ram挑战">
+  8.3 低端机适配策略（2GB RAM挑战）
+  <a class="anchor" href="#83-%e4%bd%8e%e7%ab%af%e6%9c%ba%e9%80%82%e9%85%8d%e7%ad%96%e7%95%a52gb-ram%e6%8c%91%e6%88%98">#</a>
+</h3>
+<p>这是传音区别于苹果/三星的核心技术挑战。itel品牌大量出货在$50-$100价位段，2GB RAM是常态。</p>
+<table>
+  <thead>
+      <tr>
+          <th>挑战</th>
+          <th>传音方案</th>
+          <th>效果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>2GB内存限制</td>
+          <td>模型≤600MB（1B参数，4bit量化）</td>
+          <td>低端机可用，推理延迟≤250ms</td>
+      </tr>
+      <tr>
+          <td>无独立NPU</td>
+          <td>GPU加速 + CPU NEON优化</td>
+          <td>推理可行，功耗可控</td>
+      </tr>
+      <tr>
+          <td>存储有限(32GB)</td>
+          <td>模型按需下载，云端OTA</td>
+          <td>初始安装≤100MB</td>
+      </tr>
+      <tr>
+          <td>散热能力弱</td>
+          <td>动态降频 + 推理限流</td>
+          <td>温度≤40°C</td>
+      </tr>
+      <tr>
+          <td>电池容量小</td>
+          <td>智能休眠策略</td>
+          <td>待机功耗&lt;1%</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>低端机模型瘦身方案：</strong></p>
+<pre tabindex="0"><code>原始模型: 7B参数 → 蒸馏到3B → 4bit AWQ量化 → 1.8GB
+                              → 继续蒸馏到1B → 4bit量化 → 600MB ✅
+                              适用于2GB RAM机型
+</code></pre><h3 id="84-功耗与热管理">
+  8.4 功耗与热管理
+  <a class="anchor" href="#84-%e5%8a%9f%e8%80%97%e4%b8%8e%e7%83%ad%e7%ae%a1%e7%90%86">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>策略</th>
+          <th>触发条件</th>
+          <th>动作</th>
+          <th>效果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>动态精度</strong></td>
+          <td>温度&gt;38°C（中低端机阈值更低）</td>
+          <td>FP16 → INT8</td>
+          <td>功耗↓30%</td>
+      </tr>
+      <tr>
+          <td><strong>帧率降低</strong></td>
+          <td>连续推理&gt;20s</td>
+          <td>token生成速率↓50%</td>
+          <td>温度↓5°C</td>
+      </tr>
+      <tr>
+          <td><strong>休眠策略</strong></td>
+          <td>无交互&gt;3min</td>
+          <td>NPU/GPU进入低功耗</td>
+          <td>功耗↓90%</td>
+      </tr>
+      <tr>
+          <td><strong>模型切换</strong></td>
+          <td>温度&gt;42°C</td>
+          <td>大模型→轻量模型</td>
+          <td>功耗↓50%</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="九关键技术攻关">
+  九、关键技术攻关
+  <a class="anchor" href="#%e4%b9%9d%e5%85%b3%e9%94%ae%e6%8a%80%e6%9c%af%e6%94%bb%e5%85%b3">#</a>
+</h2>
+<h3 id="91-攻关1小语种asr准确率从8292">
+  9.1 攻关1：小语种ASR准确率从82%→92%
+  <a class="anchor" href="#91-%e6%94%bb%e5%85%b31%e5%b0%8f%e8%af%ad%e7%a7%8dasr%e5%87%86%e7%a1%ae%e7%8e%87%e4%bb%8e8292">#</a>
+</h3>
+<p>小语种ASR是传音的核心竞争力，也是最大技术挑战。</p>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>优化手段</th>
+          <th>斯瓦希里语CER</th>
+          <th>豪萨语CER</th>
+          <th>累计优化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>基线</td>
+          <td>Whisper-tiny</td>
+          <td>18% (82%)</td>
+          <td>22% (78%)</td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td>Step 1</td>
+          <td>传音小语种数据集（10000小时）</td>
+          <td>14% (86%)</td>
+          <td>17% (83%)</td>
+          <td>-22%</td>
+      </tr>
+      <tr>
+          <td>Step 2</td>
+          <td>迁移学习 + 数据增强</td>
+          <td>11% (89%)</td>
+          <td>13% (87%)</td>
+          <td>-39%</td>
+      </tr>
+      <tr>
+          <td>Step 3</td>
+          <td>端到端微调（Paraformer架构）</td>
+          <td>9% (91%)</td>
+          <td>11% (89%)</td>
+          <td>-50%</td>
+      </tr>
+      <tr>
+          <td>Step 4</td>
+          <td>多语种联合训练</td>
+          <td>8% (92%)</td>
+          <td>10% (90%)</td>
+          <td>-56%</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>🖼 <strong>配图 15：小语种ASR优化瀑布图</strong></p></blockquote>
+<pre tabindex="0"><code>小语种ASR准确率优化瀑布图 (斯瓦希里语)
+
+基线 Whisper-tiny          ████████████████████████████████████████  82%
++ 传音数据集(10000h)        ████████████████████████████████████████████████  86%
++ 迁移学习+数据增强         █████████████████████████████████████████████████████████  89%
++ 端到端微调(Paraformer)    ████████████████████████████████████████████████████████████████  91%
++ 多语种联合训练            ██████████████████████████████████████████████████████████████████████  92%
+
+目标: 95%  ← 仍需提升3%
+</code></pre><h3 id="92-攻关2低端机2gb-ram端侧推理延迟从350ms200ms">
+  9.2 攻关2：低端机（2GB RAM）端侧推理延迟从350ms→200ms
+  <a class="anchor" href="#92-%e6%94%bb%e5%85%b32%e4%bd%8e%e7%ab%af%e6%9c%ba2gb-ram%e7%ab%af%e4%be%a7%e6%8e%a8%e7%90%86%e5%bb%b6%e8%bf%9f%e4%bb%8e350ms200ms">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>优化手段</th>
+          <th>延迟</th>
+          <th>累计优化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>基线</td>
+          <td>CPU推理 1B模型</td>
+          <td>350ms</td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td>Step 1</td>
+          <td>GPU加速（MNN-LLM）</td>
+          <td>280ms</td>
+          <td>-20%</td>
+      </tr>
+      <tr>
+          <td>Step 2</td>
+          <td>CPU NEON优化</td>
+          <td>250ms</td>
+          <td>-29%</td>
+      </tr>
+      <tr>
+          <td>Step 3</td>
+          <td>KV Cache压缩</td>
+          <td>220ms</td>
+          <td>-37%</td>
+      </tr>
+      <tr>
+          <td>Step 4</td>
+          <td>算子融合 + 内存复用</td>
+          <td>200ms</td>
+          <td>-43%</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="93-攻关3离线多轮对话100轮无卡顿">
+  9.3 攻关3：离线多轮对话100轮无卡顿
+  <a class="anchor" href="#93-%e6%94%bb%e5%85%b33%e7%a6%bb%e7%ba%bf%e5%a4%9a%e8%bd%ae%e5%af%b9%e8%af%9d100%e8%bd%ae%e6%97%a0%e5%8d%a1%e9%a1%bf">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>优化手段</th>
+          <th>100轮内存占用</th>
+          <th>卡顿率</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>基线</td>
+          <td>完整KV Cache</td>
+          <td>800MB</td>
+          <td>35%</td>
+      </tr>
+      <tr>
+          <td>Step 1</td>
+          <td>KV Cache量化(INT8)</td>
+          <td>400MB</td>
+          <td>20%</td>
+      </tr>
+      <tr>
+          <td>Step 2</td>
+          <td>局部-全局注意力</td>
+          <td>250MB</td>
+          <td>12%</td>
+      </tr>
+      <tr>
+          <td>Step 3</td>
+          <td>历史摘要压缩</td>
+          <td>150MB</td>
+          <td>5%</td>
+      </tr>
+      <tr>
+          <td>Step 4</td>
+          <td>滑动窗口 + 记忆检索</td>
+          <td>100MB</td>
+          <td>&lt;1%</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="94-攻关4ai按键端到端延迟优化500ms200ms">
+  9.4 攻关4：AI按键端到端延迟优化（500ms→200ms）
+  <a class="anchor" href="#94-%e6%94%bb%e5%85%b34ai%e6%8c%89%e9%94%ae%e7%ab%af%e5%88%b0%e7%ab%af%e5%bb%b6%e8%bf%9f%e4%bc%98%e5%8c%96500ms200ms">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>优化手段</th>
+          <th>端到端延迟</th>
+          <th>优化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>基线</td>
+          <td>按键→系统→Ella→响应</td>
+          <td>500ms</td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td>Step 1</td>
+          <td>KWS常驻DSP</td>
+          <td>400ms</td>
+          <td>-20%</td>
+      </tr>
+      <tr>
+          <td>Step 2</td>
+          <td>Ella预加载到内存</td>
+          <td>300ms</td>
+          <td>-40%</td>
+      </tr>
+      <tr>
+          <td>Step 3</td>
+          <td>异步推理流水线</td>
+          <td>250ms</td>
+          <td>-50%</td>
+      </tr>
+      <tr>
+          <td>Step 4</td>
+          <td>NPU推理加速</td>
+          <td>200ms</td>
+          <td>-60%</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="十未来演进路线">
+  十、未来演进路线
+  <a class="anchor" href="#%e5%8d%81%e6%9c%aa%e6%9d%a5%e6%bc%94%e8%bf%9b%e8%b7%af%e7%ba%bf">#</a>
+</h2>
+<h3 id="101-2026ella-agent框架量产">
+  10.1 2026：Ella Agent框架量产
+  <a class="anchor" href="#101-2026ella-agent%e6%a1%86%e6%9e%b6%e9%87%8f%e4%ba%a7">#</a>
+</h3>
+<ul>
+<li>下一代Agent框架正式落地，支持多Agent协作</li>
+<li>AI按键全面普及至TECNO全系</li>
+<li>多模态AI眼镜（MWC 2026已发布）语音交互集成</li>
+<li>端侧大模型升级至5B参数（高端机型）</li>
+</ul>
+<h3 id="102-2027端到端语音大模型">
+  10.2 2027：端到端语音大模型
+  <a class="anchor" href="#102-2027%e7%ab%af%e5%88%b0%e7%ab%af%e8%af%ad%e9%9f%b3%e5%a4%a7%e6%a8%a1%e5%9e%8b">#</a>
+</h3>
+<ul>
+<li>端到端语音→语音大模型（跳过文本中间态）</li>
+<li>100+语言覆盖，包括非洲少数民族语言</li>
+<li>情感语音合成（TTS）支持小语种</li>
+<li>跨设备Agent协作（手机+眼镜+音箱）</li>
+</ul>
+<h3 id="103-2028agent生态与服务分发网络">
+  10.3 2028+：Agent生态与服务分发网络
+  <a class="anchor" href="#103-2028agent%e7%94%9f%e6%80%81%e4%b8%8e%e6%9c%8d%e5%8a%a1%e5%88%86%e5%8f%91%e7%bd%91%e7%bb%9c">#</a>
+</h3>
+<ul>
+<li>第三方Agent接入Ella平台</li>
+<li>新兴市场服务分发网络（本地商户/政府服务/金融服务）</li>
+<li>AIoT全场景联动（手机+眼镜+音箱+家电）</li>
+<li>主动智能服务（基于用户行为的预判式服务）</li>
+</ul>
+<blockquote>
+<p>🖼 <strong>配图 16：Ella技术演进路线图</strong></p></blockquote>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">gantt
+    title Ella语音助手技术演进路线图
+    dateFormat  YYYY-Q
+    axisFormat  %Y Q%q
+    
+    section 2025
+    通义千问端侧部署          :done, 2025-Q1, 2025-Q4
+    AI物理按键(CAMON 50)      :done, 2025-Q2, 2025-Q3
+    WMT2025四冠落地           :done, 2025-Q3, 2025-Q4
+    离线多轮对话              :done, 2025-Q2, 2025-Q4
+    
+    section 2026
+    下一代Agent框架           :active, 2026-Q1, 2026-Q4
+    AI按键全系普及            :2026-Q1, 2026-Q3
+    AI眼镜语音集成            :2026-Q2, 2026-Q4
+    端侧5B模型(高端)          :2026-Q3, 2026-Q4
+    
+    section 2027
+    端到端语音大模型          :2027-Q1, 2027-Q4
+    100+语言覆盖              :2027-Q1, 2027-Q3
+    情感TTS小语种             :2027-Q2, 2027-Q4
+    跨设备Agent协作           :2027-Q3, 2027-Q4
+    
+    section 2028+
+    第三方Agent平台           :2028-Q1, 2028-Q4
+    新兴市场服务分发网络      :2028-Q1, 2028-Q4
+    AIoT全场景联动            :2028-Q2, 2028-Q4
+    主动智能服务              :2028-Q3, 2028-Q4
+</code></pre><hr>
+<h2 id="附录">
+  附录
+  <a class="anchor" href="#%e9%99%84%e5%bd%95">#</a>
+</h2>
+<h3 id="a-传音ella语音助手关键术语表">
+  A. 传音Ella语音助手关键术语表
+  <a class="anchor" href="#a-%e4%bc%a0%e9%9f%b3ella%e8%af%ad%e9%9f%b3%e5%8a%a9%e6%89%8b%e5%85%b3%e9%94%ae%e6%9c%af%e8%af%ad%e8%a1%a8">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>术语</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Ella</strong></td>
+          <td>传音集团AI语音助手名称，搭载于TECNO/Infinix/itel全系</td>
+      </tr>
+      <tr>
+          <td><strong>HiOS</strong></td>
+          <td>TECNO品牌智能操作系统，基于Android深度定制</td>
+      </tr>
+      <tr>
+          <td><strong>itelOS</strong></td>
+          <td>itel品牌智能操作系统，面向入门级市场</td>
+      </tr>
+      <tr>
+          <td><strong>XOS</strong></td>
+          <td>Infinix品牌智能操作系统，面向年轻用户</td>
+      </tr>
+      <tr>
+          <td><strong>传音OS</strong></td>
+          <td>HiOS + itelOS + XOS的统称</td>
+      </tr>
+      <tr>
+          <td><strong>MNN-LLM</strong></td>
+          <td>阿里巴巴淘系开源的大模型推理引擎，传音端侧部署核心框架</td>
+      </tr>
+      <tr>
+          <td><strong>AI按键</strong></td>
+          <td>TECNO CAMON 50系列首次搭载的物理AI按键</td>
+      </tr>
+      <tr>
+          <td><strong>一键问屏</strong></td>
+          <td>传音AI功能，双击AI键调用AI解读屏幕内容</td>
+      </tr>
+      <tr>
+          <td><strong>Boomplay</strong></td>
+          <td>传音旗下音乐流媒体平台，非洲最大音乐平台之一</td>
+      </tr>
+      <tr>
+          <td><strong>Carlcare</strong></td>
+          <td>传音旗下售后服务品牌，覆盖非洲50+国家</td>
+      </tr>
+      <tr>
+          <td><strong>KWS</strong></td>
+          <td>Keyword Spotting，关键词唤醒检测</td>
+      </tr>
+      <tr>
+          <td><strong>VAD</strong></td>
+          <td>Voice Activity Detection，语音活动检测</td>
+      </tr>
+      <tr>
+          <td><strong>ASR</strong></td>
+          <td>Automatic Speech Recognition，自动语音识别</td>
+      </tr>
+      <tr>
+          <td><strong>CER</strong></td>
+          <td>Character Error Rate，字符错误率</td>
+      </tr>
+      <tr>
+          <td><strong>AWQ</strong></td>
+          <td>Activation-aware Weight Quantization，激活感知权重量化</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="b-参考信息">
+  B. 参考信息
+  <a class="anchor" href="#b-%e5%8f%82%e8%80%83%e4%bf%a1%e6%81%af">#</a>
+</h3>
+<ul>
+<li>传音控股港股IPO招股书（2025.12）</li>
+<li>竺兆江2025Q3业绩说明会</li>
+<li>MWC 2026 TECNO生态发布会（CAMON 50系列）</li>
+<li>传音 × 阿里云通义千问合作（2025.1）</li>
+<li>Infinix接入DeepSeek-R1满血版（2024）</li>
+<li>WMT2025国际机器翻译大赛四项冠军</li>
+<li>IDC全球手机季度跟踪报告（2025）</li>
+<li>南都记者报道：传音搭载通义千问大模型（2025.1.7）</li>
+</ul>
+<h3 id="c-性能测试环境">
+  C. 性能测试环境
+  <a class="anchor" href="#c-%e6%80%a7%e8%83%bd%e6%b5%8b%e8%af%95%e7%8e%af%e5%a2%83">#</a>
+</h3>
+<table>
+  <thead>
+      <tr>
+          <th>测试项目</th>
+          <th>测试机型</th>
+          <th>芯片</th>
+          <th>内存</th>
+          <th>OS</th>
+          <th>结果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>端侧LLM推理</td>
+          <td>TECNO CAMON 50 Ultra</td>
+          <td>天玑9300</td>
+          <td>8GB</td>
+          <td>HiOS 14</td>
+          <td>~85ms/token</td>
+      </tr>
+      <tr>
+          <td>低端机适配</td>
+          <td>itel RS4</td>
+          <td>展锐T616</td>
+          <td>2GB</td>
+          <td>itelOS 13</td>
+          <td>~250ms/token</td>
+      </tr>
+      <tr>
+          <td>多语种ASR</td>
+          <td>Infinix Hot 40</td>
+          <td>天玑8000</td>
+          <td>6GB</td>
+          <td>XOS 13</td>
+          <td>斯瓦希里语92%</td>
+      </tr>
+      <tr>
+          <td>离线多轮对话</td>
+          <td>TECNO CAMON 50</td>
+          <td>天玑8000</td>
+          <td>6GB</td>
+          <td>HiOS 14</td>
+          <td>100轮无卡顿</td>
+      </tr>
+      <tr>
+          <td>AI按键延迟</td>
+          <td>TECNO CAMON 50 Ultra</td>
+          <td>天玑9300</td>
+          <td>8GB</td>
+          <td>HiOS 14</td>
+          <td>~200ms</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<p><em>全文完。</em></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#传音集团手机端ai语音助手ella从架构设计到端侧实现">传音集团手机端AI语音助手（Ella）：从架构设计到端侧实现</a>
+      <ul>
+        <li><a href="#一行业背景与传音ai战略">一、行业背景与传音AI战略</a>
+          <ul>
+            <li><a href="#11-传音集团概况与市场定位">1.1 传音集团概况与市场定位</a></li>
+            <li><a href="#12-ella语音助手从离线助手到端侧agent的演进">1.2 Ella语音助手：从离线助手到端侧Agent的演进</a></li>
+            <li><a href="#13-传音ai战略核心信息">1.3 传音AI战略核心信息</a></li>
+            <li><a href="#14-岗位职责映射架构师在传音语音助手中的核心定位">1.4 岗位职责映射：架构师在传音语音助手中的核心定位</a></li>
+          </ul>
+        </li>
+        <li><a href="#二总体架构设计">二、总体架构设计</a>
+          <ul>
+            <li><a href="#21-传音ella语音助手架构设计三原则">2.1 传音Ella语音助手架构设计三原则</a></li>
+            <li><a href="#22-四层架构总览传音定制版">2.2 四层架构总览（传音定制版）</a></li>
+            <li><a href="#23-端云协同架构传音定制版">2.3 端云协同架构（传音定制版）</a></li>
+            <li><a href="#24-架构权衡四维约束分析传音场景">2.4 架构权衡：四维约束分析（传音场景）</a></li>
+          </ul>
+        </li>
+        <li><a href="#三感知层设计听清听懂多语种">三、感知层设计：听清·听懂·多语种</a>
+          <ul>
+            <li><a href="#31-多语种kws--vad50语言唤醒">3.1 多语种KWS + VAD：50+语言唤醒</a></li>
+            <li><a href="#32-多语种asr语音识别">3.2 多语种ASR语音识别</a></li>
+            <li><a href="#33-多模态感知融合">3.3 多模态感知融合</a></li>
+          </ul>
+        </li>
+        <li><a href="#四认知层设计端侧大模型核心">四、认知层设计：端侧大模型核心</a>
+          <ul>
+            <li><a href="#41-传音端侧llm选型与部署">4.1 传音端侧LLM选型与部署</a></li>
+            <li><a href="#42-1n-架构基础模型--场景插件">4.2 &ldquo;1+N&rdquo; 架构：基础模型 + 场景插件</a></li>
+            <li><a href="#43-推理加速关键技术">4.3 推理加速关键技术</a></li>
+            <li><a href="#44-端侧个性化记忆">4.4 端侧个性化记忆</a></li>
+          </ul>
+        </li>
+        <li><a href="#五决策层设计">五、决策层设计</a>
+          <ul>
+            <li><a href="#51-intent路由与agent规划">5.1 Intent路由与Agent规划</a></li>
+            <li><a href="#52-function-calling-端侧实现">5.2 Function Calling 端侧实现</a></li>
+            <li><a href="#53-agent框架设计传音下一代">5.3 Agent框架设计（传音下一代）</a></li>
+            <li><a href="#54-安全护栏设计">5.4 安全护栏设计</a></li>
+          </ul>
+        </li>
+        <li><a href="#六执行层设计">六、执行层设计</a>
+          <ul>
+            <li><a href="#61-传音os系统api集成">6.1 传音OS系统API集成</a></li>
+            <li><a href="#62-传音生态跨应用调度">6.2 传音生态跨应用调度</a></li>
+            <li><a href="#63-ai按键与多入口设计">6.3 AI按键与多入口设计</a></li>
+          </ul>
+        </li>
+        <li><a href="#七端云协同架构详解">七、端云协同架构详解</a>
+          <ul>
+            <li><a href="#71-端侧-vs-云端分工矩阵传音版">7.1 端侧 vs 云端分工矩阵（传音版）</a></li>
+            <li><a href="#72-端云路由策略">7.2 端云路由策略</a></li>
+            <li><a href="#73-降级策略弱网断网兜底保障">7.3 降级策略：弱网/断网兜底保障</a></li>
+          </ul>
+        </li>
+        <li><a href="#八工程实现与部署">八、工程实现与部署</a>
+          <ul>
+            <li><a href="#81-芯片与推理框架适配传音机型矩阵">8.1 芯片与推理框架适配（传音机型矩阵）</a></li>
+            <li><a href="#82-分层部署策略">8.2 分层部署策略</a></li>
+            <li><a href="#83-低端机适配策略2gb-ram挑战">8.3 低端机适配策略（2GB RAM挑战）</a></li>
+            <li><a href="#84-功耗与热管理">8.4 功耗与热管理</a></li>
+          </ul>
+        </li>
+        <li><a href="#九关键技术攻关">九、关键技术攻关</a>
+          <ul>
+            <li><a href="#91-攻关1小语种asr准确率从8292">9.1 攻关1：小语种ASR准确率从82%→92%</a></li>
+            <li><a href="#92-攻关2低端机2gb-ram端侧推理延迟从350ms200ms">9.2 攻关2：低端机（2GB RAM）端侧推理延迟从350ms→200ms</a></li>
+            <li><a href="#93-攻关3离线多轮对话100轮无卡顿">9.3 攻关3：离线多轮对话100轮无卡顿</a></li>
+            <li><a href="#94-攻关4ai按键端到端延迟优化500ms200ms">9.4 攻关4：AI按键端到端延迟优化（500ms→200ms）</a></li>
+          </ul>
+        </li>
+        <li><a href="#十未来演进路线">十、未来演进路线</a>
+          <ul>
+            <li><a href="#101-2026ella-agent框架量产">10.1 2026：Ella Agent框架量产</a></li>
+            <li><a href="#102-2027端到端语音大模型">10.2 2027：端到端语音大模型</a></li>
+            <li><a href="#103-2028agent生态与服务分发网络">10.3 2028+：Agent生态与服务分发网络</a></li>
+          </ul>
+        </li>
+        <li><a href="#附录">附录</a>
+          <ul>
+            <li><a href="#a-传音ella语音助手关键术语表">A. 传音Ella语音助手关键术语表</a></li>
+            <li><a href="#b-参考信息">B. 参考信息</a></li>
+            <li><a href="#c-性能测试环境">C. 性能测试环境</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
